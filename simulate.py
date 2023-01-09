@@ -16,8 +16,11 @@ p.setAdditionalSearchPath(pybullet_data.getDataPath())
 p.setGravity(0, 0, -9.8)
 # add a floor
 planeID = p.loadURDF("plane.urdf")
+
+# load robot
+robotID = p.loadURDF("body.urdf")
 # tells pybullet to read in the world described in box.sdf
-p.loadSDF("boxes.sdf")
+p.loadSDF("world.sdf")
 
 
 # run the simulation for 1000 steps
