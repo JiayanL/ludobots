@@ -1,6 +1,8 @@
 import pybullet as p
 import pybullet_data
 import time
+import pyrosim.pyrosim as pyrosim
+import numpy as np
 
 """
 Controlling Virtual Camera
@@ -22,11 +24,21 @@ robotID = p.loadURDF("body.urdf")
 # tells pybullet to read in the world described in box.sdf
 p.loadSDF("world.sdf")
 
+# preparation for simulating sensors
+pyrosim.Prepare_To_Simulate(robotID)
+steps = 100
+backLegSensorValues = np.zeros(steps)
+frontLegSensorValues = np.zeros(steps)
 
 # run the simulation for 1000 steps
-for i in range(1000):
+for i in range(steps):
     # steps inside the physics world for a small amount
     p.stepSimulation()
+    # create sensors
+    backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
+    frontLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link(
+        "FrontLeg")
     time.sleep(1/60)
-    print(i)
 p.disconnect()
+np.save("data/backLegSensorValues.npy", backLegSensorValues)
+np.save("data/frontLegSensorValues.npy", frontLegSensorValues)

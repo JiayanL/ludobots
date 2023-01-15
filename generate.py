@@ -33,19 +33,19 @@ def Create_Link_Joint_Robot():
     pyrosim.Start_URDF("body.urdf")
 
     # create Torso (root link)
-    pyrosim.Send_Cube(name="Torso", pos=[1.5, 0, 1.5], size=[1, 1, 1])
+    pyrosim.Send_Cube(name="Torso", pos=[0, 0, 1.5], size=[1, 1, 1])
 
     # Front Leg
     pyrosim.Send_Joint(name="Torso_FrontLeg", parent="Torso",
-                       child="FrontLeg", type="revolute", position=[2.5, 0, 1])
+                       child="FrontLeg", type="revolute", position=[.5, 0, 1])
 
     # create FrontLeg
-    pyrosim.Send_Cube(name="FrontLeg", pos=[0, 0, -.49], size=[1, 1, 1])
+    pyrosim.Send_Cube(name="FrontLeg", pos=[.5, 0, -.5], size=[1, 1, 1])
 
-    # pyrosim.Send_Joint(name="Torso_BackLeg", parent="Torso",
-    #                    child="BackLeg", type="revolute", position=[-2, 0, 0])
-    # # create BackLeg
-    # pyrosim.Send_Cube(name="BackLeg", pos=[0, 0, -.5], size=[1, 1, 1])
+    pyrosim.Send_Joint(name="Torso_BackLeg", parent="Torso",
+                       child="BackLeg", type="revolute", position=[-.5, 0, 1])
+    # create BackLeg
+    pyrosim.Send_Cube(name="BackLeg", pos=[-.5, 0, -.5], size=[1, 1, 1])
 
     # create joints
     pyrosim.End()
