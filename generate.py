@@ -65,6 +65,7 @@ def Generate_Brain():
     pyrosim.Send_Motor_Neuron(name=4, jointName="Torso_FrontLeg")
     # Connects neuron 0 to 3 with a weight 0 1
     pyrosim.Send_Synapse(sourceNeuronName=0, targetNeuronName=3, weight=1.0)
+    pyrosim.Send_Synapse(sourceNeuronName=1, targetNeuronName=3, weight=1.0)
 
 
 Create_World()
