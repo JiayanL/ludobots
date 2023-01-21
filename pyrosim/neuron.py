@@ -75,6 +75,7 @@ class NEURON:
     def Update_Hidden_Or_Motor_Neuron(self, neurons, synapses):
         self.Set_Value(0)
 
+        # perceptron
         for synapse in synapses.keys():
             # check if incoming synapse is from this neuron
             if synapse[1] == self.Get_Name():
@@ -82,7 +83,8 @@ class NEURON:
                 value = neurons[synapse[0]].Get_Value()
                 self.Allow_Presynaptic_Neuron_To_Influence_Me(
                     weight, value)
-        # self.Set_Value(0)
+        # activation function
+        self.Threshold()
 
     def Allow_Presynaptic_Neuron_To_Influence_Me(self, weight, value):
         self.Add_To_Value(weight * value)
