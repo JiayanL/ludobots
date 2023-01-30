@@ -1,5 +1,9 @@
 import os
+from hillclimber import HILL_ClIMBER
 
-for i in range(5):
-    os.system("python3 generate.py")
-    os.system("python3 simulate.py")
+# for i in range(5):
+#     os.system("python3 generate.py")
+#     os.system("python3 simulate.py")
+
+hc = HILL_ClIMBER()
+hc.Evolve()
