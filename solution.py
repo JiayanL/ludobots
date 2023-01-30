@@ -12,7 +12,7 @@ class SOLUTION():
         # Create robot's world, body, neural network
         # send six weights in this solution when it sends synaptic weights
         self.Create_World()
-        self.Create_Robot()
+        self.Create_Body()
         self.Create_Brain()
         os.system("python3 simulate.py")
 
@@ -35,7 +35,7 @@ class SOLUTION():
         # closes the file
         pyrosim.End()
 
-    def Create_Robot(self):
+    def Create_Body(self):
         pyrosim.Start_URDF("body.urdf")
 
         # create Torso (root link)
