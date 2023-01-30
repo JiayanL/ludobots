@@ -8,27 +8,32 @@ class HILL_ClIMBER():
         self.parent = SOLUTION()
 
     def Evolve(self):
-        self.parent.Evaluate()
+        self.parent.Evaluate("GUI")
 
         # Evolve
-        for currentgeneration in range(c.numberOfGenerations):
+        for currentGeneration in range(c.numberOfGenerations):
             self.Evolve_For_One_Generation()
 
     def Evolve_For_One_Generation(self):
         self.Spawn()
         self.Mutate()
-        self.child.Evaluate()
+        self.child.Evaluate("DIRECT")
+        self.Print()
         self.Select()
-        exit()
+
+    def Show_Best(self):
+        self.parent.Evaluate("GUI")
 
     def Spawn(self):
         self.child = copy.deepcopy(self.parent)
 
     def Mutate(self):
         self.child.Mutate()
-        print(
-            f"parent weights: {self.parent.weights} \n child weights: {self.child.weights}")
-        exit()
 
     def Select(self):
-        pass
+        if (self.parent.fitness < self.child.fitness):
+            self.parent = self.child
+
+    def Print(self):
+        print(
+            f"\n\nPARENT FITNESS: {self.parent.fitness}, CHILD FITNESS: {self.child.fitness}\n")

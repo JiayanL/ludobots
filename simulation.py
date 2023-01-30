@@ -8,9 +8,11 @@ import constants as c
 
 
 class SIMULATION:
-    def __init__(self):
-        self.physicsClient = p.connect(p.GUI)
-
+    def __init__(self, directOrGUI):
+        if directOrGUI == "DIRECT":
+            self.physicsClient = p.connect(p.DIRECT)
+        elif directOrGUI == "GUI":
+            self.physicsClient = p.connect(p.GUI)
         # loads files like plane.urdf
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
