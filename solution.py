@@ -20,7 +20,7 @@ class SOLUTION():
         self.Create_Brain()
 
         os.system("python3 simulate.py " + directOrGUI +
-                  " " + str(self.myID) + " &")
+                  " " + str(self.myID) + " 2&>1 &")
 
         # make sure the simulation has finished and the file is ready to be read in
         fitnessFileName = "fitness" + str(self.myID) + ".txt"
