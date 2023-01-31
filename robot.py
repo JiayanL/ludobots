@@ -4,6 +4,7 @@ from sensor import SENSOR
 from motor import MOTOR
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 import os
+import constants as c
 
 
 class ROBOT():
@@ -39,7 +40,8 @@ class ROBOT():
                 # extract name of joint
                 jointName = self.nn.Get_Motor_Neurons_Joint(
                     neuronName).encode('ASCII')
-                desiredAngle = self.nn.Get_Value_Of(neuronName)
+                desiredAngle = self.nn.Get_Value_Of(
+                    neuronName) * c.motorJointRange
                 self.motors[jointName].Set_Value(self.robotID, desiredAngle)
 
     def Think(self):
