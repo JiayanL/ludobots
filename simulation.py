@@ -8,12 +8,16 @@ import constants as c
 
 
 class SIMULATION:
-    def __init__(self, directOrGUI):
+    def __init__(self, directOrGUI, solutionID):
+
+        # direct or GUI flow
         self.directOrGUI = directOrGUI
+
         if self.directOrGUI == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
         elif self.directOrGUI == "GUI":
             self.physicsClient = p.connect(p.GUI)
+
         # loads files like plane.urdf
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
@@ -21,7 +25,7 @@ class SIMULATION:
         p.setGravity(0, 0, -9.8)
 
         self.world = WORLD()
-        self.robot = ROBOT()
+        self.robot = ROBOT(solutionID)
 
     def Run(self):
         for i in range(c.steps):

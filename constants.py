@@ -1,6 +1,6 @@
 import numpy as np
 # Description: This file contains all the constants used in the simulation
-steps = 500
+steps = 1000
 
 # Backleg target angles
 amplitude = np.pi/4
@@ -13,4 +13,5 @@ FrontLeg_frequency = 5
 FrontLeg_phaseOffset = 0
 
 # Evolution and Hillclimbing
-numberOfGenerations = 30
+numberOfGenerations = 10
+populationSize = 10
