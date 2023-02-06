@@ -19,4 +19,5 @@ populationSize = 15
 # Parameterization
 numSensorNeurons = 4
 numMotorNeurons = 8
+numHiddenNeurons = 1
 motorJointRange = .2

@@ -9,8 +9,18 @@ import constants as c
 class SOLUTION():
     def __init__(self, nextAvailableID):
         self.myID = nextAvailableID
-        self.weights = np.random.rand(c.numSensorNeurons, c.numMotorNeurons)
-        self.weights = self.weights * 2 - 1
+
+        self.sensor_to_hidden_weights = np.random.rand(
+            c.numSensorNeurons, c.numHiddenNeurons)
+        self.sensor_to_hidden_weights = self.sensor_to_hidden_weights * 2 - 1
+
+        self.recurrent_weights = np.random.rand(
+            c.numHiddenNeurons, c.numHiddenNeurons)
+        self.recurrent_weights = self.recurrent_weights * 2 - 1
+
+        self.hidden_to_motor_weights = np.random.rand(
+            c.numHiddenNeurons, c.numMotorNeurons)
+        self.hidden_to_motor_weights = self.hidden_to_motor_weights * 2 - 1
 
     def Set_ID(self, nextAvailableID):
         self.myID = nextAvailableID
@@ -55,9 +65,15 @@ class SOLUTION():
         os.system(f"rm {fitnessFileName}")
 
     def Mutate(self):
-        row = random.randint(0, 2)
-        column = random.randint(0, 1)
-        self.weights[row][column] = random.random()*2-1
+        # update first layer
+        row = random.randint(0, c.numSensorNeurons-1)
+        column = random.randint(0, c.numHiddenNeurons-1)
+        self.sensor_to_hidden_weights[row][column] = random.random()*2-1
+
+        # update second layer
+        row = random.randint(0, c.numHiddenNeurons-1)
+        column = random.randint(0, c.numMotorNeurons-1)
+        self.hidden_to_motor_weights[row][column] = random.random()*2-1
 
     def Create_World(self):
         # use pyrosim to Create a link
@@ -119,18 +135,25 @@ class SOLUTION():
         pyrosim.Send_Sensor_Neuron(name=2, linkName="LeftLowerLeg")
         pyrosim.Send_Sensor_Neuron(name=3, linkName="RightLowerLeg")
 
-        pyrosim.Send_Motor_Neuron(name=4, jointName="Torso_BackLeg")
-        pyrosim.Send_Motor_Neuron(name=5, jointName="Torso_FrontLeg")
-        pyrosim.Send_Motor_Neuron(name=6, jointName="Torso_LeftLeg")
-        pyrosim.Send_Motor_Neuron(name=7, jointName="Torso_RightLeg")
-        pyrosim.Send_Motor_Neuron(name=8, jointName="FrontLeg_FrontLowerLeg")
-        pyrosim.Send_Motor_Neuron(name=9, jointName="BackLeg_BackLowerLeg")
-        pyrosim.Send_Motor_Neuron(name=10, jointName="LeftLeg_LeftLowerLeg")
-        pyrosim.Send_Motor_Neuron(name=11, jointName="RightLeg_RightLowerLeg")
+        pyrosim.Send_Hidden_Neuron(name=4)
+        pyrosim.Send_Motor_Neuron(name=5, jointName="Torso_BackLeg")
+        pyrosim.Send_Motor_Neuron(name=6, jointName="Torso_FrontLeg")
+        pyrosim.Send_Motor_Neuron(name=7, jointName="Torso_LeftLeg")
+        pyrosim.Send_Motor_Neuron(name=8, jointName="Torso_RightLeg")
+        pyrosim.Send_Motor_Neuron(name=9, jointName="FrontLeg_FrontLowerLeg")
+        pyrosim.Send_Motor_Neuron(name=10, jointName="BackLeg_BackLowerLeg")
+        pyrosim.Send_Motor_Neuron(name=11, jointName="LeftLeg_LeftLowerLeg")
+        pyrosim.Send_Motor_Neuron(name=12, jointName="RightLeg_RightLowerLeg")
 
+        # connect sensors to hidden layer
         for currentRow in range(c.numSensorNeurons):
-            for currentColumn in range(c.numMotorNeurons):
+            for currentColumn in range(c.numHiddenNeurons):
                 pyrosim.Send_Synapse(sourceNeuronName=currentRow,
-                                     targetNeuronName=currentColumn + c.numSensorNeurons, weight=self.weights[currentRow][currentColumn])
+                                     targetNeuronName=currentColumn + c.numSensorNeurons, weight=self.sensor_to_hidden_weights[currentRow][currentColumn])
+        # connect hidden layer to motors
+        for currentRow in range(c.numHiddenNeurons):
+            for currentColumn in range(c.numMotorNeurons):
+                pyrosim.Send_Synapse(sourceNeuronName=currentRow + c.numSensorNeurons,
+                                     targetNeuronName=currentColumn + c.numSensorNeurons + c.numHiddenNeurons, weight=self.hidden_to_motor_weights[currentRow][currentColumn])
         # End pyrosim
         pyrosim.End()
