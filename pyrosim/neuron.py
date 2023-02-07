@@ -74,7 +74,6 @@ class NEURON:
 
     def Update_Hidden_Or_Motor_Neuron(self, neurons, synapses):
         self.Set_Value(0)
-
         # perceptron
         for synapse in synapses.keys():
             # check if incoming synapse is from this neuron

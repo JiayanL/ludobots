@@ -13,11 +13,11 @@ FrontLeg_frequency = 5
 FrontLeg_phaseOffset = 0
 
 # Evolution and Hillclimbing
-numberOfGenerations = 20
-populationSize = 15
+numberOfGenerations = 10
+populationSize = 10
 
 # Parameterization
-numSensorNeurons = 4
-numMotorNeurons = 8
+numSensorNeurons = 3
+numMotorNeurons = 7
 numHiddenNeurons = 4
 motorJointRange = .2

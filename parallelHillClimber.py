@@ -47,7 +47,8 @@ class PARALLEL_HILL_ClIMBER():
             if (parent.fitness < best_fitness):
                 best_parent = parent
 
-        parent.Start_Simulation("GUI")
+        # changed this to best parent
+        best_parent.Start_Simulation("GUI")
         # self.parent.Evaluate("GUI")
 
     def Spawn(self):
