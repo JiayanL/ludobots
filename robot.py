@@ -53,6 +53,12 @@ class ROBOT():
             self.robotID)
         basePosition = basePositionAndOrientation[0]
         yPosition = basePosition[1]
+        zPosition = basePosition[2]
+
+        hipPosition = basePositionAndOrientation[1]
+        hipHeight = hipPosition[2]
+
+        fitness = yPosition + zPosition + hipHeight
 
         # stateOfLinkZero = p.getLinkState(self.robotID, 0)[0]
         # xCoordinateofLinkZero = stateOfLinkZero[0]
@@ -61,7 +67,7 @@ class ROBOT():
         # first temporarily
         tmp_file = "tmp" + str(self.solutionID) + ".txt"
         f = open(tmp_file, "w")
-        f.write(str(yPosition))
+        f.write(str(fitness))
         f.close()
 
         # then rename

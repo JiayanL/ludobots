@@ -1,7 +1,7 @@
 <sdf>
-    <model name="Box">
-        <pose>3 4 0.5 0 0 0 </pose>
-        <link name="Box">
+    <model name="Stairs">
+        <pose>0 0.2 0.1 0 0 0 </pose>
+        <link name="Stairs">
             <inertial>
                 <mass>1.0</mass>
                 <inertia>
@@ -16,14 +16,74 @@
             <collision>
                 <geometry>
                    <box>
-                      <size>1 1 1</size>
+                      <size>0.2 0.2 0.2</size>
                    </box>
                 </geometry>
             </collision>
             <visual>
                 <geometry>
                    <box>
-                      <size>1 1 1</size>
+                      <size>0.2 0.2 0.2</size>
+                   </box>
+                </geometry>
+            </visual>
+        </link>
+    </model>
+    <model name="Stairs2">
+        <pose>0 0.3 0.2 0 0 0 </pose>
+        <link name="Stairs2">
+            <inertial>
+                <mass>1.0</mass>
+                <inertia>
+                    <ixx>0.083</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>0.083</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>0.083</izz>
+                </inertia>
+            </inertial>
+            <collision>
+                <geometry>
+                   <box>
+                      <size>0.2 0.2 0.4</size>
+                   </box>
+                </geometry>
+            </collision>
+            <visual>
+                <geometry>
+                   <box>
+                      <size>0.2 0.2 0.4</size>
+                   </box>
+                </geometry>
+            </visual>
+        </link>
+    </model>
+    <model name="Stairs3">
+        <pose>0 0.4 0.3 0 0 0 </pose>
+        <link name="Stairs3">
+            <inertial>
+                <mass>1.0</mass>
+                <inertia>
+                    <ixx>0.083</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>0.083</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>0.083</izz>
+                </inertia>
+            </inertial>
+            <collision>
+                <geometry>
+                   <box>
+                      <size>0.2 0.2 0.6</size>
+                   </box>
+                </geometry>
+            </collision>
+            <visual>
+                <geometry>
+                   <box>
+                      <size>0.2 0.2 0.6</size>
                    </box>
                 </geometry>
             </visual>
