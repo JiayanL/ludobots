@@ -2,7 +2,7 @@
 Assignment 5:
 
 # Button
-Run search.py to run the evolutions and see the evolved robot.
+Run search.py to run the evolutions and see the evolved robot. Or you can run button.py
 Example: >python3 search.py
 
 # What I did
