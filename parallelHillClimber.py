@@ -40,12 +40,13 @@ class PARALLEL_HILL_ClIMBER():
             parent.Wait_For_Simulation_To_End()
 
     def Show_Best(self):
-        best_fitness = float('inf')
+        best_fitness = float('-inf')
 
         for key in self.parents.keys():
             parent = self.parents[key]
-            if (parent.fitness < best_fitness):
+            if (parent.fitness > best_fitness):
                 best_parent = parent
+                best_fitness = parent.fitness
 
         # changed this to best parent
         best_parent.Start_Simulation("GUI")

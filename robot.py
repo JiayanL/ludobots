@@ -5,6 +5,7 @@ from motor import MOTOR
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 import os
 import constants as c
+import math
 
 
 class ROBOT():
@@ -49,17 +50,24 @@ class ROBOT():
         # self.nn.Print()
 
     def Get_Fitness(self):
-        basePositionAndOrientation = p.getBasePositionAndOrientation(
+        positionAndOrientation = p.getBasePositionAndOrientation(
             self.robotID)
-        basePosition = basePositionAndOrientation[0]
-        yPosition = basePosition[1]
-        zPosition = basePosition[2]
 
-        hipPosition = basePositionAndOrientation[1]
-        hipHeight = hipPosition[2]
+        torsoPosition = positionAndOrientation[0]
+        torsoX = torsoPosition[0]
+        torsoY = torsoPosition[1]
+        torsoZ = torsoPosition[2]
 
-        fitness = yPosition + zPosition + hipHeight
+        """
+        leftFoot = positionAndOrientation[4]
+        rightFoot = positionAndOrientation[7]
 
+        averageX = (leftFoot[0] + rightFoot[0] + torsoX) / 2
+        """
+        fitness = torsoX + torsoZ ** 3
+
+        if torsoZ <= 1:
+            fitness -= 3
         # stateOfLinkZero = p.getLinkState(self.robotID, 0)[0]
         # xCoordinateofLinkZero = stateOfLinkZero[0]
 

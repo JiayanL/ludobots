@@ -1,9 +1,9 @@
 <sdf>
-    <model name="Stairs">
-        <pose>0 0.2 0.1 0 0 0 </pose>
-        <link name="Stairs">
+    <model name="Runway">
+        <pose>0 0 0.5 0 0 0 </pose>
+        <link name="Runway">
             <inertial>
-                <mass>1.0</mass>
+                <mass>1000</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -16,24 +16,24 @@
             <collision>
                 <geometry>
                    <box>
-                      <size>0.2 0.2 0.2</size>
+                      <size>4 3 1</size>
                    </box>
                 </geometry>
             </collision>
             <visual>
                 <geometry>
                    <box>
-                      <size>0.2 0.2 0.2</size>
+                      <size>4 3 1</size>
                    </box>
                 </geometry>
             </visual>
         </link>
     </model>
-    <model name="Stairs2">
-        <pose>0 0.3 0.2 0 0 0 </pose>
-        <link name="Stairs2">
+    <model name="Runway2">
+        <pose>4 0 0.5 0 0 0 </pose>
+        <link name="Runway2">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -46,24 +46,24 @@
             <collision>
                 <geometry>
                    <box>
-                      <size>0.2 0.2 0.4</size>
+                      <size>4 3 1</size>
                    </box>
                 </geometry>
             </collision>
             <visual>
                 <geometry>
                    <box>
-                      <size>0.2 0.2 0.4</size>
+                      <size>4 3 1</size>
                    </box>
                 </geometry>
             </visual>
         </link>
     </model>
-    <model name="Stairs3">
-        <pose>0 0.4 0.3 0 0 0 </pose>
-        <link name="Stairs3">
+    <model name="Runway3">
+        <pose>8 0 0.5 0 0 0 </pose>
+        <link name="Runway3">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -76,14 +76,14 @@
             <collision>
                 <geometry>
                    <box>
-                      <size>0.2 0.2 0.6</size>
+                      <size>4 3 1</size>
                    </box>
                 </geometry>
             </collision>
             <visual>
                 <geometry>
                    <box>
-                      <size>0.2 0.2 0.6</size>
+                      <size>4 3 1</size>
                    </box>
                 </geometry>
             </visual>

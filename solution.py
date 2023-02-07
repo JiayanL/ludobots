@@ -84,10 +84,21 @@ class SOLUTION():
         # tells pyrosim the name of the file where information about the world should be stored
         pyrosim.Start_SDF("world.sdf")
 
-        # Make stairs or runway
-        pyrosim.Send_Cube(name="Stairs", pos=[0, .2, .1], size=[.2, .2, .2])
-        pyrosim.Send_Cube(name="Stairs2", pos=[0, .3, .2], size=[.2, .2, .4])
-        pyrosim.Send_Cube(name="Stairs3", pos=[0, .4, .3], size=[.2, .2, .6])
+        # # Make stairs or runway
+        # pyrosim.Send_Cube(name="Stairs", pos=[
+        #                   .75, 0, .125], size=[.5, 2, .25], mass=100)
+        # pyrosim.Send_Cube(name="Stairs2", pos=[
+        #                   1.25, 0, .25], size=[.5, 2, .5], mass=100)
+        # pyrosim.Send_Cube(name="Stairs3", pos=[
+        #                   1.75, 0, .375], size=[.5, 2, .75], mass=100)
+
+        pyrosim.Send_Cube(name="Runway", pos=[
+                          0, 0, .5], size=[4, 3, 1], mass=1000)
+        pyrosim.Send_Cube(
+            name="Runway2", pos=[4, 0, .5], size=[4, 3, 1], mass=100)
+        pyrosim.Send_Cube(name="Runway3", pos=[
+                          8, 0, .5], size=[4, 3, 1], mass=100)
+
         # closes the file
         pyrosim.End()
 
@@ -95,11 +106,11 @@ class SOLUTION():
         pyrosim.Start_URDF("body.urdf")
 
         # create Torso (root link)
-        pyrosim.Send_Cube(name="Torso", pos=[0, 0, 2], size=[.5, .5, 1])
+        pyrosim.Send_Cube(name="Torso", pos=[0, 0, 2.75], size=[.25, .25, .5])
 
         # Create Left Leg
         pyrosim.Send_Joint(name="Torso_Hip", parent="Torso", child="Hip",
-                           type="revolute", position=[0, 0, 1.5], jointAxis="0 0 1")
+                           type="revolute", position=[0, 0, 2.5], jointAxis="0 0 1")
         pyrosim.Send_Cube(name="Hip", pos=[0, 0, 0], size=[.5, 1, .2])
 
         # Create left leg and foot
