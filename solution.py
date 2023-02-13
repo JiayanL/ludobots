@@ -84,20 +84,8 @@ class SOLUTION():
         # tells pyrosim the name of the file where information about the world should be stored
         pyrosim.Start_SDF("world.sdf")
 
-        # # Make stairs or runway
-        # pyrosim.Send_Cube(name="Stairs", pos=[
-        #                   .75, 0, .125], size=[.5, 2, .25], mass=100)
-        # pyrosim.Send_Cube(name="Stairs2", pos=[
-        #                   1.25, 0, .25], size=[.5, 2, .5], mass=100)
-        # pyrosim.Send_Cube(name="Stairs3", pos=[
-        #                   1.75, 0, .375], size=[.5, 2, .75], mass=100)
-
-        pyrosim.Send_Cube(name="Runway", pos=[
-                          0, 0, .5], size=[4, 3, 1], mass=1000)
-        pyrosim.Send_Cube(
-            name="Runway2", pos=[4, 0, .5], size=[4, 3, 1], mass=100)
-        pyrosim.Send_Cube(name="Runway3", pos=[
-                          8, 0, .5], size=[4, 3, 1], mass=100)
+        pyrosim.Send_Cube(name="Block", pos=[
+                          0, 20, 1], size=[4, 3, 1], mass=1000)
 
         # closes the file
         pyrosim.End()
@@ -105,65 +93,61 @@ class SOLUTION():
     def Create_Body(self):
         pyrosim.Start_URDF("body.urdf")
 
-        # create Torso (root link)
-        pyrosim.Send_Cube(name="Torso", pos=[0, 0, 2.75], size=[.25, .25, .5])
+        self.Randomize()
 
-        # Create Left Leg
-        pyrosim.Send_Joint(name="Torso_Hip", parent="Torso", child="Hip",
-                           type="revolute", position=[0, 0, 2.5], jointAxis="0 0 1")
-        pyrosim.Send_Cube(name="Hip", pos=[0, 0, 0], size=[.5, 1, .2])
+        x, y = 0, 0
 
-        # Create left leg and foot
-        pyrosim.Send_Joint(name="Hip_LeftFemur", parent="Hip", child="LeftFemur",
-                           type="revolute", position=[0, -.5, 0], jointAxis="0 1 0")
-        pyrosim.Send_Cube(name="LeftFemur", pos=[
-                          0, 0, -.4], size=[.2, .2, .8])
+        for link in range(0, self.link_count):
+            length = random.uniform(.1, 1)
+            width = random.uniform(.1, .5)
+            height = random.uniform(.1, .5)
+            z = height/2
 
-        pyrosim.Send_Joint(name="LeftFemur_LeftTibia", parent="LeftFemur",
-                           child="LeftTibia", type="revolute", position=[0, 0, -.8], jointAxis="0 1 0")
-        pyrosim.Send_Cube(name="LeftTibia", pos=[0, 0, -.3], size=[.2, .2, .6])
+            if link > 0:
+                x += length/2
+                z = 0
 
-        pyrosim.Send_Joint(name="LeftTibia_LeftFoot", parent="LeftTibia",
-                           child="LeftFoot", type="revolute", position=[0, 0, -.6], jointAxis="0 1 0")
-        pyrosim.Send_Cube(name="LeftFoot", pos=[
-                          0, 0, 0], size=[.4, .4, .2])
+            parent = "Body" + str(link)
+            child = "Body" + str(link+1)
 
-        # Create Right Leg
-        pyrosim.Send_Joint(name="Hip_RightFemur", parent="Hip", child="RightFemur",
-                           type="revolute", position=[0, .5, 0], jointAxis="0 1 0 ")
-        pyrosim.Send_Cube(name="RightFemur", pos=[
-                          0, 0, -.4], size=[.2, .2, .8])
+            pyrosim.Send_Cube(name=parent, pos=[x, y, z], size=[length, width, height])
 
-        pyrosim.Send_Joint(name="RightFemur_RightTibia", parent="RightFemur",
-                           child="RightTibia", type="revolute", position=[0, 0, -.8], jointAxis="0 1 0")
-        pyrosim.Send_Cube(name="RightTibia", pos=[
-                          0, 0, -.3], size=[.2, .2, .6])
-
-        pyrosim.Send_Joint(name="RightTibia_RightFoot", parent="RightTibia",
-                           child="RightFoot", type="revolute", position=[0, 0, -.6], jointAxis="0 1 0")
-        pyrosim.Send_Cube(name="RightFoot", pos=[0, 0, 0], size=[.4, .4, .2])
-
+            if link == 0:
+                # absolute position
+                pyrosim.Send_Joint(name=parent+"_"+child, parent=parent, child=child, type="revolute", position=[length / 2, 0, height / 2], jointAxis="0 0 1")
+            elif link < self.link_count - 1:
+                # relative position
+                pyrosim.Send_Joint(name=parent+"_"+child, parent=parent, child=child, type="revolute", position=[length/2, 0, 0], jointAxis="0 0 1")
         pyrosim.End()
+
+    def Randomize(self):
+        self.link_count = random.randint(0, 15)
+
+        percent = random.randint(0, self.link_count)
+        nums = percent * [1] + (100 - percent) * [0]
+        random.shuffle(nums)
+
+        self.sensor_list = nums
 
     def Create_Brain(self):
         pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
 
-        pyrosim.Send_Sensor_Neuron(name=0, linkName="LeftFoot")
-        pyrosim.Send_Sensor_Neuron(name=1, linkName="RightFoot")
-        pyrosim.Send_Sensor_Neuron(name=2, linkName="Torso")
+        # pyrosim.Send_Sensor_Neuron(name=0, linkName="LeftFoot")
+        # pyrosim.Send_Sensor_Neuron(name=1, linkName="RightFoot")
+        # pyrosim.Send_Sensor_Neuron(name=2, linkName="Torso")
 
-        pyrosim.Send_Hidden_Neuron(name=3)
-        pyrosim.Send_Hidden_Neuron(name=4)
-        pyrosim.Send_Hidden_Neuron(name=5)
-        pyrosim.Send_Hidden_Neuron(name=6)
+        # pyrosim.Send_Hidden_Neuron(name=3)
+        # pyrosim.Send_Hidden_Neuron(name=4)
+        # pyrosim.Send_Hidden_Neuron(name=5)
+        # pyrosim.Send_Hidden_Neuron(name=6)
 
-        pyrosim.Send_Motor_Neuron(name=7, jointName="Torso_Hip")
-        pyrosim.Send_Motor_Neuron(name=8, jointName="Hip_LeftFemur")
-        pyrosim.Send_Motor_Neuron(name=9, jointName="Hip_RightFemur")
-        pyrosim.Send_Motor_Neuron(name=10, jointName="LeftFemur_LeftTibia")
-        pyrosim.Send_Motor_Neuron(name=11, jointName="RightFemur_RightTibia")
-        pyrosim.Send_Motor_Neuron(name=12, jointName="LeftTibia_LeftFoot")
-        pyrosim.Send_Motor_Neuron(name=13, jointName="RightTibia_RightFoot")
+        # pyrosim.Send_Motor_Neuron(name=7, jointName="Torso_Hip")
+        # pyrosim.Send_Motor_Neuron(name=8, jointName="Hip_LeftFemur")
+        # pyrosim.Send_Motor_Neuron(name=9, jointName="Hip_RightFemur")
+        # pyrosim.Send_Motor_Neuron(name=10, jointName="LeftFemur_LeftTibia")
+        # pyrosim.Send_Motor_Neuron(name=11, jointName="RightFemur_RightTibia")
+        # pyrosim.Send_Motor_Neuron(name=12, jointName="LeftTibia_LeftFoot")
+        # pyrosim.Send_Motor_Neuron(name=13, jointName="RightTibia_RightFoot")
 
         # pyrosim.Send_Motor_Neuron(name=3, jointName="Torso_Hip")
         # pyrosim.Send_Motor_Neuron(name=4, jointName="Hip_LeftFemur")
@@ -173,17 +157,17 @@ class SOLUTION():
         # pyrosim.Send_Motor_Neuron(name=8, jointName="LeftTibia_LeftFoot")
         # pyrosim.Send_Motor_Neuron(name=9, jointName="RightTibia_RightFoot")
 
-        # connect sensors to hidden layer
-        for currentRow in range(c.numSensorNeurons):
-            for currentColumn in range(c.numHiddenNeurons):
-                pyrosim.Send_Synapse(sourceNeuronName=currentRow,
-                                     targetNeuronName=currentColumn + c.numSensorNeurons, weight=self.sensor_to_hidden_weights[currentRow][currentColumn])
+        # # connect sensors to hidden layer
+        # for currentRow in range(c.numSensorNeurons):
+        #     for currentColumn in range(c.numHiddenNeurons):
+        #         pyrosim.Send_Synapse(sourceNeuronName=currentRow,
+        #                              targetNeuronName=currentColumn + c.numSensorNeurons, weight=self.sensor_to_hidden_weights[currentRow][currentColumn])
 
-        # connect hidden layer to motors
-        for currentRow in range(c.numHiddenNeurons):
-            for currentColumn in range(c.numMotorNeurons):
-                pyrosim.Send_Synapse(sourceNeuronName=currentRow + c.numSensorNeurons,
-                                     targetNeuronName=currentColumn + c.numSensorNeurons + c.numHiddenNeurons, weight=self.hidden_to_motor_weights[currentRow][currentColumn])
+        # # connect hidden layer to motors
+        # for currentRow in range(c.numHiddenNeurons):
+        #     for currentColumn in range(c.numMotorNeurons):
+        #         pyrosim.Send_Synapse(sourceNeuronName=currentRow + c.numSensorNeurons,
+        #                              targetNeuronName=currentColumn + c.numSensorNeurons + c.numHiddenNeurons, weight=self.hidden_to_motor_weights[currentRow][currentColumn])
 
         # for currentRow in range(c.numSensorNeurons):
         #     for currentColumn in range(c.numMotorNeurons):
