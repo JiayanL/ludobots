@@ -1,11 +1,16 @@
-# ludobots
-Assignment 5:
+# ludobots - Assignment 6
 
 # Button
 Run search.py to run the evolutions and see the evolved robot. Or you can run button.py
 Example: >python3 search.py
 
 # What I did
+Assignment 6:
+Created a random number of links with random sizes
+Added an array storing my sensor bodies in the constructor
+Created a brain that connected selected sensors with all motors
+
+Assigment 5:
 I did three things in the assignment.
 
 First, I implemented braniac and connected 4 hidden layers between my sensor neurons (feet and torso) and motor neurons. I created two sets of matrices that I updated everytime in self.mutate().
