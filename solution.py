@@ -104,7 +104,7 @@ class SOLUTION():
 
         x, y = 0, 0
 
-        ### Snake Study
+        # Snake Study
         # pyrosim.Send_Cube(name="Body0", pos=[0, 0, .5], size=[
         #                   1, 1, 1], colorString="1.0 0 0 1.0", colorName="Red")
         # pyrosim.Send_Joint(name="Body0_Body1", parent="Body0", child="Body1", type="revolute", position=[.5, 0, .5], jointAxis="0 0 1")
@@ -137,18 +137,21 @@ class SOLUTION():
                 colorName = "Green"
             else:
                 colorString = "0 0 1.0 1.0"
-                colorName="Blue"
+                colorName = "Blue"
 
-            pyrosim.Send_Cube(name=parent, pos=[x,y,z], size=[length, width, height], colorString=colorString, colorName=colorName)
+            pyrosim.Send_Cube(name=parent, pos=[x, y, z], size=[
+                              length, width, height], colorString=colorString, colorName=colorName)
 
             if link == 0:
                 # absolute position
                 print("absolute")
-                pyrosim.Send_Joint(name=parent+"_"+child, parent=parent, child=child, type="revolute", position=[length / 2, 0, height / 2], jointAxis="0 0 1")
+                pyrosim.Send_Joint(name=parent+"_"+child, parent=parent, child=child,
+                                   type="revolute", position=[length / 2, 0, height / 2], jointAxis="0 0 1")
             elif link < self.link_count - 1:
                 # relative position
                 print("relative")
-                pyrosim.Send_Joint(name=parent+"_"+child, parent=parent, child=child, type="revolute", position=[length, 0, 0], jointAxis="0 0 1")
+                pyrosim.Send_Joint(name=parent+"_"+child, parent=parent, child=child,
+                                   type="revolute", position=[length, 0, 0], jointAxis="0 0 1")
 
         pyrosim.End()
 
@@ -158,21 +161,24 @@ class SOLUTION():
         sensor_count = 0
         for link in range(0, self.link_count):
             if self.sensor_list[link] == 1:
-                pyrosim.Send_Sensor_Neuron(name=sensor_count, linkName="Body" + str(link))
+                pyrosim.Send_Sensor_Neuron(
+                    name=sensor_count, linkName="Body" + str(link))
                 sensor_count += 1
-        
+
         motor_count = 0
         for link in range(0, self.link_count):
             if link < self.link_count - 1:
-                pyrosim.Send_Motor_Neuron(name=sensor_count + motor_count, jointName="Body" + str(link) + "_Body" + str(link+1))
+                pyrosim.Send_Motor_Neuron(
+                    name=sensor_count + motor_count, jointName="Body" + str(link) + "_Body" + str(link+1))
                 motor_count += 1
 
         print(sensor_count)
         print(motor_count)
-      
+
         # connect sensors to motors
         for sensor in range(0, sensor_count):
             for motor in range(0, motor_count):
-                pyrosim.Send_Synapse(sourceNeuronName=sensor, targetNeuronName=motor + sensor_count, weight=1)
+                pyrosim.Send_Synapse(
+                    sourceNeuronName=sensor, targetNeuronName=motor + sensor_count, weight=random.uniform(-1, 1))
 
         pyrosim.End()
