@@ -1,69 +1,9 @@
 <sdf>
-    <model name="Runway">
-        <pose>0 0 0.5 0 0 0 </pose>
-        <link name="Runway">
+    <model name="Block">
+        <pose>0 20 1 0 0 0 </pose>
+        <link name="Block">
             <inertial>
                 <mass>1000</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>4 3 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>4 3 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Runway2">
-        <pose>4 0 0.5 0 0 0 </pose>
-        <link name="Runway2">
-            <inertial>
-                <mass>100</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>4 3 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>4 3 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Runway3">
-        <pose>8 0 0.5 0 0 0 </pose>
-        <link name="Runway3">
-            <inertial>
-                <mass>100</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>

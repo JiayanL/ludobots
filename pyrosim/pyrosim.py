@@ -51,7 +51,9 @@ def Get_Touch_Sensor_Value_For_Link(linkName):
 
     desiredLinkIndex = linkNamesToIndices[linkName]
 
-    pts = p.getContactPoints()
+    pts = None
+    while pts is None:
+        pts = p.getContactPoints()
 
     for pt in pts:
 
@@ -113,7 +115,7 @@ def Prepare_To_Simulate(bodyID):
     Prepare_Joint_Dictionary(bodyID)
 
 
-def Send_Cube(name="default", pos=[0, 0, 0], size=[1, 1, 1], mass=1.0):
+def Send_Cube(name="default", pos=[0, 0, 0], size=[1, 1, 1], mass=1.0, colorString="0 1.0 1.0 1.0", colorName="Cyan"):
 
     global availableLinkIndex
 
@@ -127,7 +129,7 @@ def Send_Cube(name="default", pos=[0, 0, 0], size=[1, 1, 1], mass=1.0):
 
         links.append(link)
     else:
-        link = LINK_URDF(name, pos, size)
+        link = LINK_URDF(name, pos, size, colorString, colorName)
 
         links.append(link)
 
