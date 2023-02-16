@@ -13,6 +13,7 @@ Example:
 
 # Documentation
 ## Robot Structure
+<img width="637" alt="Screen Shot 2023-02-15 at 8 55 17 PM" src="https://user-images.githubusercontent.com/76187440/219256373-220d5a48-6f33-4c95-a6c1-6261e75091a6.png">
 
 ## Link
 
