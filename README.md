@@ -1,12 +1,25 @@
 # ludobots - Assignment 6
 
 # Button
-Run search.py to run the evolutions and see the evolved robot. Or you can run button.py
+Run search.py to run the evolutions and see the evolved robot. 
+
+Or you can run button.py
+
 Example: 
 
 ```python3 search.py```
 
 ```python3 button.py ```
+
+# Documentation
+## Robot Structure
+
+## Link
+
+## Joints
+
+## Synapses
+
 
 # What I did
 
