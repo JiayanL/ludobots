@@ -144,7 +144,7 @@ def Send_Cube(name="default", pos=[0, 0, 0], size=[1, 1, 1], mass=1.0, colorStri
     availableLinkIndex = availableLinkIndex + 1
 
 
-def Send_Joint(name, parent, child, type, position, jointAxis, rpy):
+def Send_Joint(name, parent, child, type, position, jointAxis, rpy=0):
 
     joint = JOINT(name, parent, child, type, position, rpy)
 

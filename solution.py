@@ -154,7 +154,7 @@ class SOLUTION():
                                    type=cLink.jointType,
                                    position=[cLink.Size["length"] / 2,
                                              0, cLink.Size["height"] / 2],
-                                   jointAxis=cLink.jointAxis, rpy=2)
+                                   jointAxis=cLink.jointAxis)
 
             # Create second joint
             elif cLink.id < self.linkCount - 1:
@@ -162,7 +162,7 @@ class SOLUTION():
                                    parent=cLink.parent, child=cLink.child,
                                    type=cLink.jointType,
                                    position=[cLink.Size["length"], 0, 0],
-                                   jointAxis=cLink.jointAxis, rpy=2)
+                                   jointAxis=cLink.jointAxis)
 
             if self.legExists[cLink.id] == 1:
                 # Create legs (if they exist)
@@ -172,7 +172,7 @@ class SOLUTION():
                 pyrosim.Send_Joint(name=f"{cLink.parent}_{legName}",
                                    parent=cLink.parent, child=legName,
                                    type=cLink.jointType,
-                                   position=[cLink.Size["length"]/2, cLink.Size["width"]/2, 0], jointAxis=cLink.jointAxis, rpy=2)
+                                   position=[cLink.Size["length"]/2, cLink.Size["width"]/2, 0], jointAxis=cLink.jointAxis)
                 pyrosim.Send_Cube(name=legName,
                                   pos=[0, .5, 0],
                                   size=[random.uniform(
@@ -186,7 +186,7 @@ class SOLUTION():
                 pyrosim.Send_Joint(name=f"{cLink.parent}_{legName}",
                                    parent=cLink.parent, child=legName,
                                    type=cLink.jointType,
-                                   position=[cLink.Size["length"]/2, -cLink.Size["width"]/2, 0], jointAxis=cLink.jointAxis, rpy=2)
+                                   position=[cLink.Size["length"]/2, -cLink.Size["width"]/2, 0], jointAxis=cLink.jointAxis)
                 pyrosim.Send_Cube(name=legName,
                                   pos=[0, -.5, 0],
                                   size=[random.uniform(
