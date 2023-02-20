@@ -11,15 +11,18 @@ class SOLUTION():
     def __init__(self, nextAvailableID):
         self.myID = nextAvailableID
 
-        # random sensors
-        self.link_count = random.randint(1, 15)
+        # ------------------------- Attributes of Snake Size ------------------------- #
+        self.linkCount = random.randint(1, 15)
+        # self.legCount, self.legExists, self.dimension = self.Set_Legs(self.linkCount)
+        self.legExists = self.Set_Legs()
 
-        percent = random.randint(1, self.link_count)
-        nums = percent * [1] + (self.link_count - percent) * [0]
+        # place my sensors
+        percent = random.randint(1, self.linkCount)
+        nums = percent * [1] + (self.linkCount - percent) * [0]
         random.shuffle(nums)
         self.sensor_list = nums
 
-        self.sensor_list = nums
+        # ---------------------------------- Weights --------------------------------- #
         self.sensor_to_hidden_weights = np.random.rand(
             c.numSensorNeurons, c.numHiddenNeurons)
         self.sensor_to_hidden_weights = self.sensor_to_hidden_weights * 2 - 1
@@ -30,6 +33,12 @@ class SOLUTION():
 
         self.weights = np.random.rand(c.numHiddenNeurons, c.numMotorNeurons)
         self.weights = self.weights * 2 - 1
+
+    def Set_Legs(self):
+        legCount = random.randint(0, self.linkCount)
+        legExists = legCount * [1] + (self.linkCount - legCount) * [0]
+        random.shuffle(legExists)
+        return legExists
 
     def Set_ID(self, nextAvailableID):
         self.myID = nextAvailableID
@@ -116,10 +125,10 @@ class SOLUTION():
         return
         """
         dimension = random.randint(2, 3)
-
+        legCount = 0
         pyrosim.Start_URDF("body.urdf")
 
-        for link in range(0, self.link_count):
+        for link in range(0, self.linkCount):
             cLink = LINK(link, dimension)
 
             if self.sensor_list[cLink.id] == 1:
@@ -148,38 +157,69 @@ class SOLUTION():
                                    jointAxis=cLink.jointAxis)
 
             # Create second joint
-            elif cLink.id < self.link_count - 1:
+            elif cLink.id < self.linkCount - 1:
                 pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
                                    parent=cLink.parent, child=cLink.child,
                                    type=cLink.jointType,
                                    position=[cLink.Size["length"], 0, 0],
                                    jointAxis=cLink.jointAxis)
 
-            # Create legs (if they exist)
+            if self.legExists[cLink.id] == 1:
+                # Create legs (if they exist)
+                # Left leg
+                legID = self.linkCount + legCount
+                legName = f"Body{legID}"
+                pyrosim.Send_Joint(name=f"{cLink.parent}_{legName}",
+                                   parent=cLink.parent, child=legName,
+                                   type=cLink.jointType,
+                                   position=[cLink.Size["length"]/2, cLink.Size["width"]/2, 0], jointAxis=cLink.jointAxis)
+                pyrosim.Send_Cube(name=legName,
+                                  pos=[0, .5, 0],
+                                  size=[random.uniform(
+                                      0, cLink.Size["length"]), 1, 1],
+                                  colorString=colorString, colorName=colorName)
+                legCount += 1
+
+                # Right leg
+                legId = self.linkCount + legCount
+                legName = f"Body{legId}"
+                pyrosim.Send_Joint(name=f"{cLink.parent}_{legName}",
+                                   parent=cLink.parent, child=legName,
+                                   type=cLink.jointType,
+                                   position=[cLink.Size["length"]/2, -cLink.Size["width"]/2, 0], jointAxis=cLink.jointAxis)
+                pyrosim.Send_Cube(name=legName,
+                                  pos=[0, -.5, 0],
+                                  size=[random.uniform(
+                                      0, cLink.Size["length"]), 1, 1],
+                                  colorString=colorString, colorName=colorName)
+                legCount += 1
+            # legID = self.linkCount + legCount
 
         pyrosim.End()
 
     def Create_Brain(self):
-        pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
+        pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")\
+
+        # Plumbing to test body shape
 
         sensor_count = 0
-        for link in range(0, self.link_count):
+        for link in range(0, self.linkCount):
             if self.sensor_list[link] == 1:
                 pyrosim.Send_Sensor_Neuron(
                     name=sensor_count, linkName="Body" + str(link))
                 sensor_count += 1
 
-        motor_count = 0
-        for link in range(0, self.link_count):
-            if link < self.link_count - 1:
-                pyrosim.Send_Motor_Neuron(
-                    name=sensor_count + motor_count, jointName="Body" + str(link) + "_Body" + str(link+1))
-                motor_count += 1
+        # motor_count = 0
+        # for link in range(0, self.linkCount):
+        #     if link < self.linkCount - 1:
+        #         pyrosim.Send_Motor_Neuron(
+        #             name=sensor_count + motor_count, jointName="Body" + str(link) + "_Body" + str(link+1))
+        #         motor_count += 1
 
-        # connect sensors to motors
-        for sensor in range(0, sensor_count):
-            for motor in range(0, motor_count):
-                pyrosim.Send_Synapse(
-                    sourceNeuronName=sensor, targetNeuronName=motor + sensor_count, weight=random.uniform(-1, 1))
+        # # connect sensors to motors
+        # for sensor in range(0, sensor_count):
+        #     for motor in range(0, motor_count):
+        #         pyrosim.Send_Synapse(
+        #             sourceNeuronName=sensor, targetNeuronName=motor + sensor_count, weight=random.uniform(-1, 1))
 
         pyrosim.End()
