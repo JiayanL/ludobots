@@ -4,6 +4,7 @@ import random
 import os
 import time
 import constants as c
+from link import LINK
 
 
 class SOLUTION():
@@ -100,58 +101,61 @@ class SOLUTION():
         pyrosim.End()
 
     def Create_Body(self):
+        """
+        Snake Study
+        pyrosim.Send_Cube(name="Body0", pos=[0, 0, .5], size=[
+                          1, 1, 1], colorString="1.0 0 0 1.0", colorName="Red")
+        pyrosim.Send_Joint(name="Body0_Body1", parent="Body0", child="Body1", type="revolute", position=[.5, 0, .5], jointAxis="0 0 1")
+
+        pyrosim.Send_Cube(name="Body1", pos=[.5, 0, 0], size=[1, 2, .5], colorString="1.0 0 0 1.0", colorName="Red")
+        pyrosim.Send_Joint(name="Body1_Body2", parent="Body1", child="Body2", type="revolute", position=[1, 0, 0], jointAxis="0 0 1")
+
+        pyrosim.Send_Cube(name="Body2", pos=[1, 0, 0], size=[2, 1, .5], colorString="1.0 0 0 1.0", colorName="Red")
+
+        pyrosim.End()
+        return
+        """
+        dimension = random.randint(2, 3)
+
         pyrosim.Start_URDF("body.urdf")
 
-        x, y = 0, 0
-
-        # Snake Study
-        # pyrosim.Send_Cube(name="Body0", pos=[0, 0, .5], size=[
-        #                   1, 1, 1], colorString="1.0 0 0 1.0", colorName="Red")
-        # pyrosim.Send_Joint(name="Body0_Body1", parent="Body0", child="Body1", type="revolute", position=[.5, 0, .5], jointAxis="0 0 1")
-
-        # pyrosim.Send_Cube(name="Body1", pos=[.5, 0, 0], size=[1, 2, .5], colorString="1.0 0 0 1.0", colorName="Red")
-        # pyrosim.Send_Joint(name="Body1_Body2", parent="Body1", child="Body2", type="revolute", position=[1, 0, 0], jointAxis="0 0 1")
-
-        # pyrosim.Send_Cube(name="Body2", pos=[1, 0, 0], size=[2, 1, .5], colorString="1.0 0 0 1.0", colorName="Red")
-
-        # pyrosim.End()
-        # return
-
         for link in range(0, self.link_count):
-            length = random.uniform(.1, 1)
-            width = random.uniform(.1, .5)
-            height = random.uniform(.1, .5)
+            cLink = LINK(link, dimension)
 
-            if link == 0:
-                z = height / 2
-
-            elif link > 0:
-                x = length / 2
-                z = 0
-
-            parent = "Body" + str(link)
-            child = "Body" + str(link+1)
-
-            if self.sensor_list[link] == 1:
+            if self.sensor_list[cLink.id] == 1:
                 colorString = "0 1.0 0 1.0"
                 colorName = "Green"
             else:
                 colorString = "0 0 1.0 1.0"
                 colorName = "Blue"
 
-            pyrosim.Send_Cube(name=parent, pos=[x, y, z], size=[
-                              length, width, height], colorString=colorString, colorName=colorName)
+            # Create the link
+            pyrosim.Send_Cube(name=cLink.parent,
+                              pos=[cLink.Pos["x"], cLink.Pos["y"], cLink.Pos["z"]],
+                              size=[cLink.Size["length"],
+                                    cLink.Size["width"], cLink.Size["height"]],
+                              colorString=colorString,
+                              colorName=colorName)
 
-            if link == 0:
-                # absolute position
-                print("absolute")
-                pyrosim.Send_Joint(name=parent+"_"+child, parent=parent, child=child,
-                                   type="revolute", position=[length / 2, 0, height / 2], jointAxis="0 0 1")
-            elif link < self.link_count - 1:
-                # relative position
-                print("relative")
-                pyrosim.Send_Joint(name=parent+"_"+child, parent=parent, child=child,
-                                   type="revolute", position=[length, 0, 0], jointAxis="0 0 1")
+            # Create first joint
+            if cLink.id == 0:
+                pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
+                                   parent=cLink.parent,
+                                   child=cLink.child,
+                                   type=cLink.jointType,
+                                   position=[cLink.Size["length"] / 2,
+                                             0, cLink.Size["height"] / 2],
+                                   jointAxis=cLink.jointAxis)
+
+            # Create second joint
+            elif cLink.id < self.link_count - 1:
+                pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
+                                   parent=cLink.parent, child=cLink.child,
+                                   type=cLink.jointType,
+                                   position=[cLink.Size["length"], 0, 0],
+                                   jointAxis=cLink.jointAxis)
+
+            # Create legs (if they exist)
 
         pyrosim.End()
 
@@ -171,9 +175,6 @@ class SOLUTION():
                 pyrosim.Send_Motor_Neuron(
                     name=sensor_count + motor_count, jointName="Body" + str(link) + "_Body" + str(link+1))
                 motor_count += 1
-
-        print(sensor_count)
-        print(motor_count)
 
         # connect sensors to motors
         for sensor in range(0, sensor_count):
