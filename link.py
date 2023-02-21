@@ -58,24 +58,3 @@ class LINK():
         self.legExists = random.choice([True, False])
         self.leftLimbs = random.randint(0, 2)
         self.rightLimbs = random.randint(0, 2)
-
-    def Create_Legs(self, dimension):
-        legs = []
-
-        if dimension == 2:
-            left_leg = LEG(dimension)
-            right_leg = LEG(dimension)
-
-            # 1 block
-            # legs.append()
-            # legs.append()
-
-        if dimension == 3:
-            left_leg = LEG(dimension)
-            right_leg = LEG(dimension)
-
-            # 2 block legs
-            # legs.append()
-            # legs.append()
-
-        return legs

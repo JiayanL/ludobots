@@ -47,10 +47,12 @@ class Leg():
         # Size and Position based on Side
         if side == "left":
             self.CreateLeft()
-        if side == "leftFoot":
+        if side == "left-down":
             self.CreateLeftFoot()
-        # if side == "right":
-        #     pass
+        if side == "right":
+            self.CreateRight()
+        if side == "right-down":
+            self.CreateRightFoot()
 
     def CreateLeft(self):
         # Size
@@ -67,11 +69,32 @@ class Leg():
 
     def CreateLeftFoot(self):
         self.Size = Size(
-            random.uniform(0, self.parent.Size["length"]),
-            random.uniform(0, self.parent.Size["width"]),
-            random.uniform(0, 2 * self.parent.Size["height"])
+            random.uniform(0, self.parent.Size.length),
+            random.uniform(0, self.parent.Size.width),
+            random.uniform(0, 2 * self.parent.Size.height)
         )
 
         self.jointPos = Position(
             0, self.parent.Size.width, -self.parent.Size.height/2)
+        self.linkPos = Position(0, 0, -self.Size.height / 2)
+
+    def CreateRight(self):
+        self.Size = Size(random.uniform(0, self.parent.Size["length"]),
+                         random.uniform(0, self.parent.Size["width"]),
+                         random.uniform(0, self.parent.Size["height"]))
+        self.linkPos = Position(0, -self.Size.width / 2, 0)
+
+        self.jointPos = Position(self.parent.Size["length"] / 2,
+                                 -self.parent.Size["width"] / 2,
+                                 0)
+
+    def CreateRightFoot(self):
+        self.Size = Size(
+            random.uniform(0, self.parent.Size.length),
+            random.uniform(0, self.parent.Size.width),
+            random.uniform(0, 2 * self.parent.Size.height)
+        )
+
+        self.jointPos = Position(
+            0, -self.parent.Size.width, -self.parent.Size.height/2)
         self.linkPos = Position(0, 0, -self.Size.height / 2)
