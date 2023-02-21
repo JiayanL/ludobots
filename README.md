@@ -20,6 +20,7 @@ This is a general diagram of the structure of any robot. Each robot is contained
 
 ### Body Generation
 The backbone of my robot is built with the following code. The accompanying diagram explains its logic. Essentially, the LINK class encapsulates the position and size logic for each part of the backbone. 
+
 **Backbone Construction**
 ![Ass 7](https://user-images.githubusercontent.com/76187440/220262770-e7443a34-a22a-4ad9-a4bb-d77304863f9e.jpeg)
 The x, y, and z positions for each piece of the backbone is randomly generated, and the accompanying joint for the next part of the backbone is placed at the edge of the backbone (x/2, 0, z/2).
@@ -57,7 +58,8 @@ elif cLink.id < self.linkCount - 1:
                        jointAxis=cLink.jointAxis)
 ```
 
-#### Link Class
+
+**Link Class**
 ```python3
 class LINK():
     def __init__(self, id):
