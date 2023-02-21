@@ -13,15 +13,27 @@ Example:
 
 # Documentation
 ## Robot Structure
+This ludobot project expands the morphospace of the 1D creature from assignment 6, allowing it to branch in 3D. Search.py can generate creatures in 1D, 2D, and 3D. Bodies are contiguous, fills in 3D space, and obeys the law of phsyics. 
+ 
 ### Body Generation
-#### Links
-#### Joints
-## Synapses
-### Brain Generation
-### Sensor and Motors
-## Morphospace and Movements
 
-2. a GitHub repository with a main file that others can easily run to reproduce your results. Your repo should contain a README file with instructions for running the main file and a clear description/diagram explaining how* bodies and brains are generated. Define morphospace: What kind of body shapes and movements are possible? What kinds of brains are possible? Can a sensor on one side of the body affect a motor on the other side? Think of this as a blog post or series of tweets describing your work.
+#### Links
+Diagram
+
+#### Joints
+Diagram
+
+## Synapses
+
+### Brain Generation
+Diagram
+
+### Sensor and Motors
+What kind of brains are possible
+Can a sensor on one side of the body affect a motor on the other side?
+
+## Morphospace and Movements
+This project can generate 1D, 2D, and 3D structures that can move in all dimensions due to the variability of joint types and joint axes. 
 
 # Archive
 Assignment 7:
