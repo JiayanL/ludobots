@@ -123,7 +123,7 @@ class LINK():
 
 ```
 
-**Backbone to Appendage (1D to 2D) **
+**Backbone to Appendage - 1D to 2D**
 
 Each part of the backbone can be attached to an appendage, called a leg to turn it into 3D. Each leg can be attached by any kind of joint (floating, planar, continous, revolute, prismatic, etc.) and be attached to any joint axis. The legs can be attached to the face and is positioned on the side of each block. The logic for leg is encapsulated in the LEG class. The diagram explaining this logic is below.
 ![Ass 7](https://user-images.githubusercontent.com/76187440/220264584-ade566db-af92-49dc-aa8f-d08d66ccda1e.jpeg)
