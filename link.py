@@ -1,5 +1,5 @@
 import random
-from leg import LEG
+from leg import Leg
 
 
 class LINK():
@@ -55,6 +55,7 @@ class LINK():
             self.colorName = "Blue"
 
         # Appendages
+        self.legExists = random.choice([True, False])
         self.leftLimbs = random.randint(0, 2)
         self.rightLimbs = random.randint(0, 2)
 

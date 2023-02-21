@@ -5,7 +5,7 @@ import os
 import time
 import constants as c
 from link import LINK
-from leg import LEG
+from leg import Leg
 
 
 class SOLUTION():
@@ -147,65 +147,76 @@ class SOLUTION():
                                    jointAxis=cLink.jointAxis)
 
             # ----------------------------------- Legs ----------------------------------- #
-            if cLink.id != 0:
-                legID = self.linkCount + legCount
-                legName = f"Body{legID}"
-                legLength = random.uniform(0, cLink.Size["length"])
-                legWidth = random.uniform(0, 2)
-                legHeight = random.uniform(0, 2)
+            if (cLink.id != 0 and (True or cLink.legExists)):
+                if True or cLink.leftLimbs > 0:
+                    legId = self.linkCount + legCount
+                    leftLeg = Leg(cLink, legId, "left")
+                    # Left leg
 
-                pyrosim.Send_Joint(name=f"{cLink.parent}_{legName}",
-                                   parent=cLink.parent, child=legName,
-                                   type=cLink.jointType,
-                                   position=[cLink.Size["length"]/2, cLink.Size["width"]/2, 0], jointAxis=cLink.jointAxis)
-                pyrosim.Send_Cube(name=legName,
-                                  pos=[0, legWidth/2, 0],
-                                  size=[legLength, legWidth, legHeight],
-                                  colorString=cLink.colorString, colorName=cLink.colorName)
-                legCount += 1
+                    legName = f"Body{legId}"
 
-                # Left foot
-                footID = self.linkCount + legCount
-                footName = f"Body{footID}"
-                footLength = random.uniform(0, cLink.Size["length"])
-                pyrosim.Send_Joint(name=f"{legName}_{footName}",
-                                   parent=legName, child=footName,
-                                        type=cLink.jointType,
-                                        position=[0, legWidth, -legHeight/2], jointAxis=cLink.jointAxis)
-                pyrosim.Send_Cube(name=footName,
-                                  pos=[0, 0, -.5],
-                                  size=[footLength, 1, 1],
-                                  colorString=cLink.colorString, colorName=cLink.colorName)
-                legCount += 1
+                    legLength = random.uniform(0, cLink.Size["length"])
+                    legWidth = random.uniform(0, 2)
+                    legHeight = random.uniform(0, 2)
+
+                    pyrosim.Send_Joint(name=f"{cLink.parent}_{leftLeg.name}",
+                                       parent=cLink.parent, child=leftLeg.name,
+                                       type=leftLeg.jointType,
+                                       position=[leftLeg.jointPos.x, leftLeg.jointPos.y, leftLeg.jointPos.z], jointAxis=leftLeg.jointAxis)
+
+                    pyrosim.Send_Cube(name=leftLeg.name,
+                                      pos=[leftLeg.linkPos.x,
+                                           leftLeg.linkPos.y, leftLeg.linkPos.z],
+                                      size=[
+                                          leftLeg.Size.length, leftLeg.Size.width, leftLeg.Size.height],
+                                      colorString=leftLeg.colorString, colorName=leftLeg.colorName)
+                    legCount += 1
+
+                    # Left foot
+                    if True or cLink.leftLimbs == 2:
+                        footID = self.linkCount + legCount
+                        footName = f"Body{footID}"
+                        footLength = random.uniform(0, cLink.Size["length"])
+                        pyrosim.Send_Joint(name=f"{leftLeg.name}_{footName}",
+                                           parent=leftLeg.name, child=footName,
+                                                type=cLink.jointType,
+                                                position=[0, leftLeg.Size.width, -leftLeg.Size.height/2], jointAxis=cLink.jointAxis)
+                        pyrosim.Send_Cube(name=footName,
+                                          pos=[0, 0, -.5],
+                                          size=[footLength, 1, 1],
+                                          colorString=cLink.colorString, colorName=cLink.colorName)
+                        legCount += 1
 
                 # --------------------------------- Right Leg -------------------------------- #
                 # Right Leg
-                legId = self.linkCount + legCount
-                legName = f"Body{legId}"
-                pyrosim.Send_Joint(name=f"{cLink.parent}_{legName}",
-                                   parent=cLink.parent, child=legName,
-                                   type=cLink.jointType,
-                                   position=[cLink.Size["length"]/2, -cLink.Size["width"]/2, 0], jointAxis=cLink.jointAxis)
-                pyrosim.Send_Cube(name=legName,
-                                  pos=[0, -.5, 0],
-                                  size=[random.uniform(
-                                      0, cLink.Size["length"]), 1, 1],
-                                  colorString=cLink.colorString, colorName=cLink.colorName)
-                legCount += 1
+                if cLink.rightLimbs > 0:
+                    legId = self.linkCount + legCount
+                    legName = f"Body{legId}"
+                    pyrosim.Send_Joint(name=f"{cLink.parent}_{legName}",
+                                       parent=cLink.parent, child=legName,
+                                       type=cLink.jointType,
+                                       position=[cLink.Size["length"]/2, -cLink.Size["width"]/2, 0], jointAxis=cLink.jointAxis)
+                    pyrosim.Send_Cube(name=legName,
+                                      pos=[0, -.5, 0],
+                                      size=[random.uniform(
+                                          0, cLink.Size["length"]), 1, 1],
+                                      colorString=cLink.colorString, colorName=cLink.colorName)
+                    legCount += 1
 
-                # Right Foot
-                footId = self.linkCount + legCount
-                footName = f"Body{footId}"
-                pyrosim.Send_Joint(name=f"{legName}_{footName}",
-                                   parent=legName, child=footName,
-                                        type=cLink.jointType,
-                                        position=[0, -1, -.5], jointAxis=cLink.jointAxis)
-                pyrosim.Send_Cube(name=footName,
-                                  pos=[0, 0, -.5],
-                                  size=[random.uniform(
-                                      0, cLink.Size["length"]), 1, 1],
-                                  colorString=cLink.colorString, colorName=cLink.colorName)
-                legCount += 1
+                    # Right Foot
+                    if cLink.rightLimbs == 2:
+                        footId = self.linkCount + legCount
+                        footName = f"Body{footId}"
+                        pyrosim.Send_Joint(name=f"{legName}_{footName}",
+                                           parent=legName, child=footName,
+                                                type=cLink.jointType,
+                                                position=[0, -1, -.5], jointAxis=cLink.jointAxis)
+                        pyrosim.Send_Cube(name=footName,
+                                          pos=[0, 0, -.5],
+                                          size=[random.uniform(
+                                              0, cLink.Size["length"]), 1, 1],
+                                          colorString=cLink.colorString, colorName=cLink.colorName)
+                        legCount += 1
 
         pyrosim.End()
 
