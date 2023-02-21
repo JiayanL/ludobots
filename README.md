@@ -60,6 +60,7 @@ elif cLink.id < self.linkCount - 1:
 
 
 **Link Class**
+
 This class abstracts a lot of the logic for positioning and arranging each part of the backbone. It stores the parent and child for each block, the size, the position, the joint axis (which can be "0 0 1", "0 1 0", "1 0 0"), the joint type, whether or not each backbone is attached to a limb, and whether or not each part of the backbone has sensors.
 
 ```python3
@@ -121,10 +122,13 @@ class LINK():
         self.rightLimbs = random.randint(0, 2)
 
 ```
-#### Links
-**Link to Link**
-**Link to Appendage**
-**Appendage to Foot**
+
+**Backbone to Appendage (1D to 2D) **
+
+Each part of the backbone can be attached to an appendage, called a leg to turn it into 3D. Each leg can be attached by any kind of joint (floating, planar, continous, revolute, prismatic, etc.) and be attached to any joint axis. The legs can be attached to the face and is positioned on the side of each block. The logic for leg is encapsulated in the LEG class. The diagram explaining this logic is below.
+![Ass 7](https://user-images.githubusercontent.com/76187440/220264584-ade566db-af92-49dc-aa8f-d08d66ccda1e.jpeg)
+
+**Appendage to Foot (3D to 2D)**
 
 #### Joints
 Diagram
