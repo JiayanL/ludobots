@@ -148,16 +148,13 @@ class SOLUTION():
 
             # ----------------------------------- Legs ----------------------------------- #
             if (cLink.id != 0 and (True or cLink.legExists)):
+                # Left Side - Leg
                 if True or cLink.leftLimbs > 0:
                     legId = self.linkCount + legCount
                     leftLeg = Leg(cLink, legId, "left")
-                    # Left leg
+                    self.idToLink[leftLeg.id] = leftLeg
 
                     legName = f"Body{legId}"
-
-                    legLength = random.uniform(0, cLink.Size["length"])
-                    legWidth = random.uniform(0, 2)
-                    legHeight = random.uniform(0, 2)
 
                     pyrosim.Send_Joint(name=f"{cLink.parent}_{leftLeg.name}",
                                        parent=cLink.parent, child=leftLeg.name,
@@ -172,7 +169,7 @@ class SOLUTION():
                                       colorString=leftLeg.colorString, colorName=leftLeg.colorName)
                     legCount += 1
 
-                    # Left foot
+                    # Left Side - Foot
                     if True or cLink.leftLimbs == 2:
                         footID = self.linkCount + legCount
                         footName = f"Body{footID}"

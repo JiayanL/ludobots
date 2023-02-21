@@ -47,6 +47,8 @@ class Leg():
         # Size and Position based on Side
         if side == "left":
             self.CreateLeft()
+        if side == "leftFoot":
+            self.CreateLeftFoot()
         # if side == "right":
         #     pass
 
@@ -62,3 +64,14 @@ class Leg():
                                  0)
 
         self.linkPos = Position(0, self.Size.width / 2, 0)
+
+    def CreateLeftFoot(self):
+        self.Size = Size(
+            random.uniform(0, self.parent.Size["length"]),
+            random.uniform(0, self.parent.Size["width"]),
+            random.uniform(0, 2 * self.parent.Size["height"])
+        )
+
+        self.jointPos = Position(
+            0, self.parent.Size.width, -self.parent.Size.height/2)
+        self.linkPos = Position(0, 0, -self.Size.height / 2)
