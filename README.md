@@ -137,7 +137,7 @@ Each leg can be extended into 3D by attaching a foot to each appendage. In the L
 Joints are built pretty logically and the logic for each joint is established in specific classes - Link and Leg. The logic for each link is that it takes the full length/width/height along the axis that I want to move it and either move it all the way to the end or halfway.
 
 ## Synapses
-The code for synapses and brain generation is as follows. 
+The code for synapses and brain generation is as follows. Synapses and the brain is generated bottom-up. At each link and leg level, there's a 50% chance whether or not a synapse will be placed at that location. Sensors are placed on those points and connected to motor neurons - which every link in the robot contains.
 
 ```
 # Plumbing to test body shape
@@ -179,11 +179,14 @@ for sensor in range(0, sensor_count):
 ```
 
 ### Brain Generation
-Diagram
+Following is a diagram of how sensors and motors are generated.
+![Ass 7](https://user-images.githubusercontent.com/76187440/220268122-99ad40de-f6a0-4e4e-a191-f9f08a161395.jpeg)
+
+Here is a logic connecting sensors (active and inactive to motors)
+![Ass 7](https://user-images.githubusercontent.com/76187440/220268887-d5888829-719b-4883-9471-3586055f9667.jpeg)
 
 ### Sensor and Motors
-What kind of brains are possible
-Can a sensor on one side of the body affect a motor on the other side?
+Every kind of brain is possible. Sensors are fully connected with motors with the potential for hidden layers. Every sensor can affect every motor.
 
 ## Morphospace and Movements
 This project can generate 1D, 2D, and 3D structures that can move in all dimensions due to the variability of joint types and joint axes. 
