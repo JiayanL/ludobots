@@ -60,6 +60,8 @@ elif cLink.id < self.linkCount - 1:
 
 
 **Link Class**
+This class abstracts a lot of the logic for positioning and arranging each part of the backbone. It stores the parent and child for each block, the size, the position, the joint axis (which can be "0 0 1", "0 1 0", "1 0 0"), the joint type, whether or not each backbone is attached to a limb, and whether or not each part of the backbone has sensors.
+
 ```python3
 class LINK():
     def __init__(self, id):
