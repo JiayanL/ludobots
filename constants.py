@@ -21,3 +21,6 @@ numSensorNeurons = 3
 numMotorNeurons = 7
 numHiddenNeurons = 4
 motorJointRange = 1
+
+# Snake
+maxLinks = 6

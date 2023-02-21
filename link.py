@@ -3,7 +3,7 @@ from leg import LEG
 
 
 class LINK():
-    def __init__(self, id, dimension):
+    def __init__(self, id):
         self.id = id
         # Link Info
 
@@ -15,23 +15,9 @@ class LINK():
 
         self.Pos = {
             "y": 0,
-            "z": 0 if id > 0 else self.Size["height"] / 2,
+            "z": 0 if id > 0 else self.Size["height"] / 2 + 2,
             "x": 0 if id == 0 else self.Size["length"] / 2,
         }
-        # # Generate Size
-        # self.length = random.uniform(.1, 1)
-        # self.width = random.uniform(.1, 1)
-        # self.height = random.uniform(.1, 1)
-
-        # # Generate Position
-        # self.y = 0
-        # if id == 0:
-        #     self.z = self.height / 2
-        #     self.x = 0
-
-        # elif id > 0:
-        #     self.x = self.length / 2
-        #     self.z = 0
 
         # Generate Names for Joints
         self.parent = f"Body{str(id)}"
@@ -56,7 +42,21 @@ class LINK():
         self.legs = []
         self.legExists = random.randint(0, 1)
         if self.legExists == 1:
-            self.legs = self.Create_Legs(dimension)
+            pass
+            # self.legs = self.Create_Legs(dimension)
+
+        # Sensor and Color
+        self.sensorExists = random.randint(0, 1)
+        if self.sensorExists == 1:
+            self.colorString = "0 1.0 0 1.0"
+            self.colorName = "Green"
+        if self.sensorExists == 0:
+            self.colorString = "0 0 1.0 1.0"
+            self.colorName = "Blue"
+
+        # Appendages
+        self.leftLimbs = random.randint(0, 2)
+        self.rightLimbs = random.randint(0, 2)
 
     def Create_Legs(self, dimension):
         legs = []
