@@ -13,6 +13,20 @@ Example:
 
 # Documentation
 ## Robot Structure
+### Body Generation
+#### Links
+#### Joints
+## Synapses
+### Brain Generation
+### Sensor and Motors
+## Morphospace and Movements
+
+2. a GitHub repository with a main file that others can easily run to reproduce your results. Your repo should contain a README file with instructions for running the main file and a clear description/diagram explaining how* bodies and brains are generated. Define morphospace: What kind of body shapes and movements are possible? What kinds of brains are possible? Can a sensor on one side of the body affect a motor on the other side? Think of this as a blog post or series of tweets describing your work.
+
+# Archive
+Assignment 7:
+
+## Robot Structure
 <img width="637" alt="Screen Shot 2023-02-15 at 8 55 17 PM" src="https://user-images.githubusercontent.com/76187440/219256373-220d5a48-6f33-4c95-a6c1-6261e75091a6.png">
 
 ## Links and Joints
@@ -84,8 +98,6 @@ pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
                 pyrosim.Send_Synapse(
                     sourceNeuronName=sensor, targetNeuronName=motor + sensor_count, weight=random.uniform(-1, 1))
 ```
-
-# What I did
 
 Assignment 6:
 
