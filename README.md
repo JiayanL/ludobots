@@ -129,9 +129,12 @@ Each part of the backbone can be attached to an appendage, called a leg to turn 
 ![Ass 7](https://user-images.githubusercontent.com/76187440/220264584-ade566db-af92-49dc-aa8f-d08d66ccda1e.jpeg)
 
 **Appendage to Foot (3D to 2D)**
+Each leg can be extended into 3D by attaching a foot to each appendage. In the Link class, it is determined how many appendages each side of the backbone cube should have. The calculations and diagram is demonstrated as follows. Similar to the appendage, each foot can be attached by any kind of joint (revolute, continuous, planar, prismatic, etc.) and by any joint axis to enable good movement.
+![Ass 7](https://user-images.githubusercontent.com/76187440/220265724-45d048db-04a3-4e5c-86c1-621979cad332.jpeg)
+
 
 #### Joints
-Diagram
+Joints are built pretty logically and the logic for each joint is established in specific classes - Link and Leg. The logic for each link is that it takes the full length/width/height along the axis that I want to move it and either move it all the way to the end or halfway.
 
 ## Synapses
 
