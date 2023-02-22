@@ -1,4 +1,5 @@
-# ludobots - Assignment 6
+# ludobots - Assignment 7
+Citation: This project was built on top of information from r/ludobots and pyrosim.
 
 # Button
 Run search.py to run the evolutions and see the evolved robot. 
