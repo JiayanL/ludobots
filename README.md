@@ -26,103 +26,9 @@ The backbone of my robot is built with the following code. The accompanying diag
 ![Ass 7](https://user-images.githubusercontent.com/76187440/220262770-e7443a34-a22a-4ad9-a4bb-d77304863f9e.jpeg)
 The x, y, and z positions for each piece of the backbone is randomly generated, and the accompanying joint for the next part of the backbone is placed at the edge of the backbone (x/2, 0, z/2).
 
-**Code**
-```python3
-cLink = LINK(link)
-self.idToLink[cLink.id] = cLink
-
-# ----------------------------------- Body ----------------------------------- #
-# Link
-pyrosim.Send_Cube(name=cLink.parent,
-                  pos=[cLink.Pos["x"], cLink.Pos["y"], cLink.Pos["z"]],
-                  size=[cLink.Size["length"],
-                        cLink.Size["width"], cLink.Size["height"]],
-                  colorString=cLink.colorString,
-                  colorName=cLink.colorName)
-
-# First joint (Absolute)
-if cLink.id == 0 and self.linkCount > 1:
-    pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
-                       parent=cLink.parent,
-                       child=cLink.child,
-                       type=cLink.jointType,
-                       position=[cLink.Size["length"] / 2,
-                                 0, cLink.Size["height"] / 2 + 2],
-                       jointAxis=cLink.jointAxis)
-
-# All other joints (Relative)
-elif cLink.id < self.linkCount - 1:
-    pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
-                       parent=cLink.parent, child=cLink.child,
-                       type=cLink.jointType,
-                       position=[cLink.Size["length"], 0, 0],
-                       jointAxis=cLink.jointAxis)
-```
-
-
 **Link Class**
 
 This class abstracts a lot of the logic for positioning and arranging each part of the backbone. It stores the parent and child for each block, the size, the position, the joint axis (which can be "0 0 1", "0 1 0", "1 0 0"), the joint type, whether or not each backbone is attached to a limb, and whether or not each part of the backbone has sensors.
-
-```python3
-class LINK():
-    def __init__(self, id):
-        self.id = id
-        # Link Info
-
-        self.Size = {
-            "length": random.uniform(.1, 1),
-            "width": random.uniform(.1, 1),
-            "height": random.uniform(.1, 1),
-        }
-
-        self.Pos = {
-            "y": 0,
-            "z": 0 if id > 0 else self.Size["height"] / 2 + 2,
-            "x": 0 if id == 0 else self.Size["length"] / 2,
-        }
-
-        # Generate Names for Joints
-        self.parent = f"Body{str(id)}"
-        self.child = f"Body{str(id+1)}"
-
-        # Joint Axis
-        jointAxisType = random.randint(0, 2)
-        if jointAxisType == 0:
-            self.jointAxis = "0 0 1"
-        if jointAxisType == 1:
-            self.jointAxis = "0 1 0"
-        if jointAxisType == 2:
-            self.jointAxis = "1 0 0"
-
-        # Joint Type
-        jointTypes = ["revolute", "floating",
-                      "continuous", "planar"]
-        self.jointType = jointTypes[random.randint(0, 3)]
-        self.jointType = "revolute"
-
-        # Create children
-        self.legs = []
-        self.legExists = random.randint(0, 1)
-        if self.legExists == 1:
-            pass
-            # self.legs = self.Create_Legs(dimension)
-
-        # Sensor and Color
-        self.sensorExists = random.randint(0, 1)
-        if self.sensorExists == 1:
-            self.colorString = "0 1.0 0 1.0"
-            self.colorName = "Green"
-        if self.sensorExists == 0:
-            self.colorString = "0 0 1.0 1.0"
-            self.colorName = "Blue"
-
-        # Appendages
-        self.legExists = random.choice([True, False])
-        self.leftLimbs = random.randint(0, 2)
-        self.rightLimbs = random.randint(0, 2)
-
-```
 
 **Backbone to Appendage - 1D to 2D**
 
@@ -139,45 +45,6 @@ Joints are built pretty logically and the logic for each joint is established in
 
 ## Synapses
 The code for synapses and brain generation is as follows. Synapses and the brain is generated bottom-up. At each link and leg level, there's a 50% chance whether or not a synapse will be placed at that location. Sensors are placed on those points and connected to motor neurons - which every link in the robot contains.
-
-```
-# Plumbing to test body shape
-totalLinks = self.linkCount + self.legCount
-sensor_count = 0
-
-for link in range(0, totalLinks):
-    currLink = self.idToLink[link]
-    if currLink.sensorExists == 1:
-        pyrosim.Send_Sensor_Neuron(
-            name=sensor_count, linkName="Body" + str(currLink.id))
-        sensor_count += 1
-
-motor_count = 0
-# start by connecting body
-for link in range(0, self.linkCount):
-    if link < self.linkCount - 1:
-        pyrosim.Send_Motor_Neuron(
-            name=sensor_count + motor_count, jointName="Body" + str(link) + "_Body" + str(link+1))
-        motor_count += 1
-
-# then go for the legs
-for link in range(self.linkCount, totalLinks):
-    currLink = self.idToLink[link]
-    if isinstance(currLink.parent.parent, str):
-        parent = currLink.parent.parent
-    else:
-        parent = currLink.parent.name
-
-    pyrosim.Send_Motor_Neuron(
-        name=sensor_count+motor_count, jointName=f"{parent}_{currLink.name}")
-    motor_count += 1
-
-# connect sensors to motors
-for sensor in range(0, sensor_count):
-    for motor in range(0, motor_count):
-        pyrosim.Send_Synapse(
-            sourceNeuronName=sensor, targetNeuronName=motor + sensor_count, weight=random.uniform(-1, 1))
-```
 
 ### Brain Generation
 Following is a diagram of how sensors and motors are generated.
@@ -200,71 +67,6 @@ Assignment 7:
 
 ## Links and Joints
 Links and Joints are generated by the following code. ```self.link_count``` is generated in the constructor and is a random number between 1 and 15. The length, width, and height are randomly generated at each step. The first link is positioned at (0, 0, height/2) with the length, width, and height. Each subsequent link is positioned length/2 away on the x-axis and positioned along the middle of the first link's height. Joints are positioned length away from the previous link with the first link absolutely positioned at the edge of the first link.
-
-```python3
- for link in range(0, self.link_count):
-            length = random.uniform(.1, 1)
-            width = random.uniform(.1, .5)
-            height = random.uniform(.1, .5)
-
-            if link == 0:
-                z = height / 2
-
-            elif link > 0:
-                x = length / 2
-                z = 0
-
-            parent = "Body" + str(link)
-            child = "Body" + str(link+1)
-
-            if self.sensor_list[link] == 1:
-                colorString = "0 1.0 0 1.0"
-                colorName = "Green"
-            else:
-                colorString = "0 0 1.0 1.0"
-                colorName = "Blue"
-
-            pyrosim.Send_Cube(name=parent, pos=[x, y, z], size=[
-                              length, width, height], colorString=colorString, colorName=colorName)
-
-            if link == 0:
-                # absolute position
-                print("absolute")
-                pyrosim.Send_Joint(name=parent+"_"+child, parent=parent, child=child,
-                                   type="revolute", position=[length / 2, 0, height / 2], jointAxis="0 0 1")
-            elif link < self.link_count - 1:
-                # relative position
-                print("relative")
-                pyrosim.Send_Joint(name=parent+"_"+child, parent=parent, child=child,
-                                   type="revolute", position=[length, 0, 0], jointAxis="0 0 1")
-```
-e
-```python3
-pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
-
-        sensor_count = 0
-        for link in range(0, self.link_count):
-            if self.sensor_list[link] == 1:
-                pyrosim.Send_Sensor_Neuron(
-                    name=sensor_count, linkName="Body" + str(link))
-                sensor_count += 1
-
-        motor_count = 0
-        for link in range(0, self.link_count):
-            if link < self.link_count - 1:
-                pyrosim.Send_Motor_Neuron(
-                    name=sensor_count + motor_count, jointName="Body" + str(link) + "_Body" + str(link+1))
-                motor_count += 1
-
-        print(sensor_count)
-        print(motor_count)
-
-        # connect sensors to motors
-        for sensor in range(0, sensor_count):
-            for motor in range(0, motor_count):
-                pyrosim.Send_Synapse(
-                    sourceNeuronName=sensor, targetNeuronName=motor + sensor_count, weight=random.uniform(-1, 1))
-```
 
 Assignment 6:
 
