@@ -13,7 +13,7 @@ class SOLUTION():
         self.myID = nextAvailableID
         self.idToLink = {}
 
-        # ------------------------- Attributes of Snake Size ------------------------- #
+        # ---------------------------- Creature Attributes --------------------------- #
         self.linkCount = random.randint(c.minLinks, c.maxLinks)
         self.legCount = 0
         # self.legCount, self.legExists, self.dimension = self.Set_Legs(self.linkCount)
@@ -24,6 +24,8 @@ class SOLUTION():
         nums = percent * [1] + (self.linkCount - percent) * [0]
         random.shuffle(nums)
         self.sensor_list = nums
+
+        # -------------------------- Generate Creature Body -------------------------- #
 
         # ---------------------------------- Weights --------------------------------- #
         self.sensor_to_hidden_weights = np.random.rand(

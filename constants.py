@@ -23,8 +23,8 @@ numHiddenNeurons = 4
 motorJointRange = 1
 
 # Snake
-maxLinks = 6
-minLinks = 1
+maxLinks = 3
+minLinks = 2
 
 # Testing
 testBody = True
