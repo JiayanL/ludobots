@@ -19,15 +19,12 @@ The robot can be seeded to reproduce random results. To do so, run ```python3 se
 This ludobot project expands the morphospace of the 1D creature from assignment 6, allowing it to branch in 3D. Search.py can generate creatures in 1D, 2D, and 3D. Bodies are contiguous, fills in 3D space, and obeys the law of physics.
 
 This is a general diagram of the structure of any robot. Each robot is contained of an initial backbone based on the structure of the snake from assignment 6. Each component of the backbone can then be extended into 1D, 2D, or 3D based on the number of appendages attached to each component of the backbone.
-<p align="center">
-<img src="https://user-images.githubusercontent.com/76187440/220261061-c3e776f3-330c-4159-8611-5fb4f549eaf0.jpeg" height="250" width="250">
-</p>
+
 ### Seeding the robot
 ### Body Generation
 The backbone of my robot is built with the following code. The accompanying diagram explains its logic. Essentially, the LINK class encapsulates the position and size logic for each part of the backbone. 
 
 **Backbone Construction**
-![Ass 7](https://user-images.githubusercontent.com/76187440/220262770-e7443a34-a22a-4ad9-a4bb-d77304863f9e.jpeg)
 The x, y, and z positions for each piece of the backbone is randomly generated, and the accompanying joint for the next part of the backbone is placed at the edge of the backbone (x/2, 0, z/2).
 
 **Link Class**
@@ -41,8 +38,6 @@ Each part of the backbone can be attached to an appendage, called a leg to turn 
 
 **Appendage to Foot (3D to 2D)**
 Each leg can be extended into 3D by attaching a foot to each appendage. In the Link class, it is determined how many appendages each side of the backbone cube should have. The calculations and diagram is demonstrated as follows. Similar to the appendage, each foot can be attached by any kind of joint (revolute, continuous, planar, prismatic, etc.) and by any joint axis to enable good movement.
-![Ass 7](https://user-images.githubusercontent.com/76187440/220265724-45d048db-04a3-4e5c-86c1-621979cad332.jpeg)
-
 
 #### Joints
 Joints are built pretty logically and the logic for each joint is established in specific classes - Link and Leg. The logic for each link is that it takes the full length/width/height along the axis that I want to move it and either move it all the way to the end or halfway.
@@ -52,11 +47,8 @@ The code for synapses and brain generation is as follows. Synapses and the brain
 
 ### Brain Generation
 Following is a diagram of how sensors and motors are generated.
-![Ass 7](https://user-images.githubusercontent.com/76187440/220268122-99ad40de-f6a0-4e4e-a191-f9f08a161395.jpeg)
-
 Here is a logic connecting sensors (active and inactive to motors)
-![Ass 7](https://user-images.githubusercontent.com/76187440/220268887-d5888829-719b-4883-9471-3586055f9667.jpeg)
-
+                                                                                                                                        
 ### Sensor and Motors
 Every kind of brain is possible. Sensors are fully connected with motors with the potential for hidden layers. Every sensor can affect every motor.
 
