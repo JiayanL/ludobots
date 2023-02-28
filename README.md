@@ -39,8 +39,15 @@ There are three kinds of links that extend the design of each creature from 1D t
 
 **Leg.** Legs protrude from spines in. The logic for the positioning, size, and joint position for each leg is encapsulated in the ```leg``` class.
 
+<p align="center">
+<img src="https://user-images.githubusercontent.com/76187440/221812985-2e52131c-6a55-48e5-bae7-4604d41f67a0.jpg" height="250" width="500">
+</p>
 
 **Foot**
+
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/76187440/221813248-b9c74606-8dc3-4ad1-ad63-6b88fd1f316f.jpg" height="250" width="500">
+ </p>
 
 As a result of the architectural decisions, this project can generate 1D, 2D, and 3D structures that can move in all dimensions due to the variability of joint types and joint axes.
 
