@@ -142,20 +142,16 @@ class SOLUTION():
         os.system(f"rm {fitnessFileName}")
 
     def Mutate(self):
-        # update first layer
+        # 3 options -> weight, mutate, or sensor
+
+        # update weights
         row = random.randint(0, self.sensorCount - 1)
         column = random.randint(0, self.totalLinks - 1)
         self.sensor_to_motor_weights[row][column] = random.random()*2-1
 
-        # # update second layer
-        # row = random.randint(0, c.numHiddenNeurons-1)
-        # column = random.randint(0, c.numMotorNeurons-1)
-        # self.hidden_to_motor_weights[row][column] = random.random()*2-1
-
-        # # update test weights
-        # row = random.randint(0, c.numSensorNeurons-1)
-        # column = random.randint(0, c.numMotorNeurons - 1)
-        # self.weights[row][column] = random.random()*2-1
+        # mutate body
+        link = random.randint(0, self.spineCount-1)
+        randomLimbs = random.randint(0, 2)
 
     def Create_World(self):
         # use pyrosim to Create a link
@@ -169,7 +165,7 @@ class SOLUTION():
         pyrosim.End()
 
     def Create_Body(self):
-        pyrosim.Start_URDF(f"body.urdf")
+        pyrosim.Start_URDF("body" + str(self.myID) + ".urdf")
 
         legCount = 0
         for link in range(0, self.spineCount):

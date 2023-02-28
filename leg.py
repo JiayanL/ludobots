@@ -35,7 +35,7 @@ class Leg():
             self.jointAxis = "0 1 0"
         if jointAxisType == 2:
             self.jointAxis = "1 0 0"
-
+        self.jointAxis = "0 0 1"
         # Sensor and Color
         self.sensorExists = sensorExists
         if self.sensorExists == 1:

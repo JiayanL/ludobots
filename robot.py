@@ -10,11 +10,16 @@ import math
 
 class ROBOT():
     def __init__(self, solutionID):
-        self.robotID = p.loadURDF("body.urdf")
         self.solutionID = solutionID
+
+        body_file = "body" + str(self.solutionID) + ".urdf"
+        self.robotID = p.loadURDF(body_file)
+        os.system("rm " + body_file)
+
         # creates neural network and adds neurons and synapses from brain.nndf
-        brain_file = "brain" + str(solutionID) + ".nndf"
+        brain_file = "brain" + str(self.solutionID) + ".nndf"
         self.nn = NEURAL_NETWORK(brain_file)
+
         os.system("rm " + brain_file)
         # preparation for simulating sensors
         pyrosim.Prepare_To_Simulate(self.robotID)
@@ -64,18 +69,7 @@ class ROBOT():
         # torsoY = torsoPosition[1]
         # torsoZ = torsoPosition[2]
 
-        """
-        leftFoot = positionAndOrientation[4]
-        rightFoot = positionAndOrientation[7]
-
-        averageX = (leftFoot[0] + rightFoot[0] + torsoX) / 2
-        """
         fitness = torsoX
-
-        # if torsoZ <= 1:
-        #     fitness -= 3
-        # stateOfLinkZero = p.getLinkState(self.robotID, 0)[0]
-        # xCoordinateofLinkZero = stateOfLinkZero[0]
 
         # write file
         # first temporarily

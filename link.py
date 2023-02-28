@@ -33,6 +33,8 @@ class LINK():
         if jointAxisType == 2:
             self.jointAxis = "1 0 0"
 
+        self.jointAxis = "0 0 1"
+
         # Joint Type
         jointTypes = ["revolute", "floating",
                       "continuous", "planar"]

@@ -7,6 +7,7 @@ import os
 class PARALLEL_HILL_ClIMBER():
     def __init__(self):
         # remove files we no longer need
+        os.system("rm body*.urdf")
         os.system("rm brain*.nndf")
         os.system("rm fitness*.txt")
 
