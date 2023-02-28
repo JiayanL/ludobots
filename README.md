@@ -40,8 +40,12 @@ There are three kinds of links that extend the design of each creature from 1D t
 **Leg**
 **Foot**
 
+As a result of the architectural decisions, this project can generate 1D, 2D, and 3D structures that can move in all dimensions due to the variability of joint types and joint axes.
+
 **Synapses**
 The code for synapses and brain generation is as follows. Synapses and the brain is generated bottom-up. At each link and leg level, there's a 50% chance whether or not a synapse will be placed at that location. Sensors are placed on those points and connected to motor neurons - which every link in the robot contains.
+
+**Every kind of brain is possible**. Sensors are fully connected with motors with the potential for hidden layers, so that every sensor can affect every motor. Introducing hidden layers down the line would be a trivial task and allow for the robot to learn even more complex behavior. The 
 
 **Evolution**
 
@@ -51,9 +55,4 @@ Evolution of each creature during the mutate stage can be occur in 4 distinct wa
 2.  Link Subtraction
 3.  Link Modification
 4.  Update Weights (Brain)
-                                                                                                                                        
-**Sensor and Motors**
-Every kind of brain is possible. Sensors are fully connected with motors with the potential for hidden layers. Every sensor can affect every motor.
-
-**Morphospace and Movements**
-This project can generate 1D, 2D, and 3D structures that can move in all dimensions due to the variability of joint types and joint axes. 
+                                                                                                                                       
