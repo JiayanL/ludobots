@@ -14,3 +14,4 @@ from parallelHillClimber import PARALLEL_HILL_ClIMBER
 phc = PARALLEL_HILL_ClIMBER()
 phc.Evolve()
 phc.Show_Best()
+phc.Plot()

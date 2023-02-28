@@ -2,6 +2,8 @@ from solution import SOLUTION
 import constants as c
 import copy
 import os
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 class PARALLEL_HILL_ClIMBER():
@@ -17,12 +19,30 @@ class PARALLEL_HILL_ClIMBER():
             self.parents[i] = SOLUTION(self.nextAvailableID)
             self.nextAvailableID += 1
 
+        self.fitnessCurves = np.zeros(c.numberOfGenerations)
+
+    def Log_Best(self, currentGeneration):
+        best_fitness = float('-inf')
+        for key in self.parents.keys():
+            parent = self.parents[key]
+            if (parent.fitness > best_fitness):
+                best_fitness = parent.fitness
+
+        self.fitnessCurves[currentGeneration] = best_fitness
+
+    def Plot(self):
+        plt.plot(self.fitnessCurves, label="Fitness Curve", linewidth=4)
+        plt.xlabel("Generation")
+        plt.ylabel("Fitness")
+        plt.show()
+
     def Evolve(self):
         self.Evaluate(self.parents)
 
         # # Evolve
         for currentGeneration in range(c.numberOfGenerations):
             self.Evolve_For_One_Generation()
+            self.Log_Best(currentGeneration)
 
     def Evolve_For_One_Generation(self):
         self.Spawn()
