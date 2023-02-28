@@ -13,7 +13,7 @@ FrontLeg_frequency = 5
 FrontLeg_phaseOffset = 0
 
 # Evolution and Hillclimbing
-numberOfGenerations = 10
+numberOfGenerations = 50
 populationSize = 10
 
 # Parameterization
@@ -23,8 +23,8 @@ numHiddenNeurons = 4
 motorJointRange = 1.2
 
 # Snake
-maxLinks = 3
-minLinks = 2
+maxLinks = 6
+minLinks = 3
 
 # Testing
 testBody = True

@@ -25,7 +25,7 @@ class LINK():
         self.child = f"Body{str(id+1)}"
 
         # Joint Axis
-        jointAxisType = random.randint(0, 2)
+        jointAxisType = random.randint(1, 2)
         if jointAxisType == 0:
             self.jointAxis = "0 0 1"
         if jointAxisType == 1:
@@ -33,12 +33,10 @@ class LINK():
         if jointAxisType == 2:
             self.jointAxis = "1 0 0"
 
-        self.jointAxis = "0 0 1"
-
         # Joint Type
         jointTypes = ["revolute", "floating",
-                      "continuous", "planar"]
-        self.jointType = jointTypes[random.randint(0, 3)]
+                      "planar"]
+        self.jointType = jointTypes[random.randint(0, 2)]
         self.jointType = "revolute"
 
         # Create children
