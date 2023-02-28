@@ -142,6 +142,7 @@ class SOLUTION():
         os.system(f"rm {fitnessFileName}")
 
     def Mutate(self):
+        mutation_rate = 0.5
         # 3 options -> weight, mutate, or sensor
 
         # update weights
@@ -150,8 +151,74 @@ class SOLUTION():
         self.sensor_to_motor_weights[row][column] = random.random()*2-1
 
         # mutate body
-        link = random.randint(0, self.spineCount-1)
-        randomLimbs = random.randint(0, 2)
+        # change the shape of existing limbs
+        for link in self.idToLink.values():
+            if random.random() < mutation_rate:
+                if isinstance(link, Leg):
+                    # change the type of the leg (left/right)
+                    link.side = "left" if link.side == "right" else "right"
+                elif isinstance(link, LINK):
+                    # convert the link to a leg
+                    link_id = link.id
+                    parent = link.parent
+                    sensor_id = link.sensor_id
+                    side = "left" if random.random() < 0.5 else "right"
+                    leg = Leg(parent, link_id, sensor_id, side)
+                    self.idToLink[link_id] = leg
+                    self.legCount += 1
+
+        # add new limbs
+        for id in range(self.spineCount):
+            if random.random() < mutation_rate:
+                if self.left_legs[id] == 0:
+                    # add a left leg
+                    self.left_legs[id] = 1
+                    legId = self.spineCount + self.legCount
+                    leg = Leg(self.idToLink[id], legId,
+                              self.sensor_list[legId], "left")
+                    self.idToLink[legId] = leg
+                    self.legCount += 1
+                elif self.left_legs[id] == 1 and random.random() < 0.5:
+                    # add a left foot
+                    self.left_legs[id] = 2
+                    footId = self.spineCount + self.legCount
+                    foot = Leg(self.idToLink[legId], footId,
+                               self.sensor_list[footId], "left-down")
+                    self.idToLink[footId] = foot
+                    self.legCount += 1
+                elif self.right_legs[id] == 0:
+                    # add a right leg
+                    self.right_legs[id] = 1
+                    legId = self.spineCount + self.legCount
+                    leg = Leg(self.idToLink[id], legId,
+                              self.sensor_list[legId], "right")
+                    self.idToLink[legId] = leg
+                    self.legCount += 1
+                elif self.right_legs[id] == 1 and random.random() < 0.5:
+                    # add a right foot
+                    self.right_legs[id] = 2
+                    footId = self.spineCount + self.legCount
+                    foot = Leg(self.idToLink[legId], footId,
+                               self.sensor_list[footId], "right-down")
+                    self.idToLink[footId] = foot
+                    self.legCount += 1
+
+        # remove existing limbs
+        for id in range(self.spineCount):
+            if random.random() < mutation_rate:
+                if self.left_legs[id] == 1:
+                    # remove the left leg
+                    self.left_legs[id] = 0
+                    legId = self.spineCount + id
+                    del self.idToLink[legId]
+                    self.legCount -= 1
+                elif self.left_legs[id] == 2:
+                    # remove the left foot
+                    self.left_legs[id] = 1
+                    footId = self.spineCount + id + 1
+                    del self.idToLink[footId]
+                    self.legCount -= 1
+                elif self.right_legs[id] == 1:
 
     def Create_World(self):
         # use pyrosim to Create a link
