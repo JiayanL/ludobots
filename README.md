@@ -2,15 +2,15 @@
 Citation: This project was built on top of information from r/ludobots (https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) and pyrosim (https://github.com/jbongard/pyrosim).
 
 # Button
-Run search.py to run the evolutions and see the evolved robot. 
-
-Or you can run button.py
+Run search.py or button.py to run the evolutions and see the evolved robot. 
 
 Example: 
 
 ```python3 search.py```
 
 ```python3 button.py ```
+**Seeding the Robot**
+The robot can be seeded to reproduce random results. To do so, run ```python3 search.py seed.``` The seed argument is optional and will be set to a default seed if not included.
 
 # Robot Structure
 This ludobot project expands the morphospace of the 1D creature from assignment 6, allowing it to branch in 3D. Search.py can generate creatures in 1D, 2D, and 3D. Bodies are contiguous, fills in 3D space, and obeys the law of physics.
