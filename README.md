@@ -1,6 +1,9 @@
 # Ludobots - Assignment 8
 Citation: This project was built on top of information from r/ludobots (https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) and pyrosim (https://github.com/jbongard/pyrosim).
 
+**Video:**
+**Plots:** https://docs.google.com/document/d/1a9HIz8jEoTmE7Z87z2EdnzLbEKmcnTYJZ8AMKB75wyM/edit
+
 # Button
 Run search.py or button.py to run the evolutions and see the evolved robot. 
 
@@ -59,3 +62,4 @@ Every kind of brain is possible. Sensors are fully connected with motors with th
 ### Morphospace and Movements
 This project can generate 1D, 2D, and 3D structures that can move in all dimensions due to the variability of joint types and joint axes. 
 
+# Evolution
