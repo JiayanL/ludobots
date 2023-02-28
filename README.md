@@ -19,9 +19,9 @@ The robot can be seeded to reproduce random results. To do so, run ```python3 se
 This ludobot project expands the morphospace of the 1D creature from assignment 6, allowing it to branch in 3D. Search.py can generate creatures in 1D, 2D, and 3D. Bodies are contiguous, fills in 3D space, and obeys the law of physics.
 
 This is a general diagram of the structure of any robot. Each robot is contained of an initial backbone based on the structure of the snake from assignment 6. Each component of the backbone can then be extended into 1D, 2D, or 3D based on the number of appendages attached to each component of the backbone.
-
+<p align="center">
 <img src="https://user-images.githubusercontent.com/76187440/220261061-c3e776f3-330c-4159-8611-5fb4f549eaf0.jpeg" height="250" width="250">
-
+</p>
 ### Seeding the robot
 ### Body Generation
 The backbone of my robot is built with the following code. The accompanying diagram explains its logic. Essentially, the LINK class encapsulates the position and size logic for each part of the backbone. 
