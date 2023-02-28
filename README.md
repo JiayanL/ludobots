@@ -7,17 +7,11 @@ Citation: This project was built on top of information from r/ludobots (https://
 
 ## Button
 
-**Seeding the Robot**
-The robot can be seeded to reproduce random results. To do so, run ```python3 search.py seed.``` The seed argument is optional and will be set to a default seed if not included.
+**Seeding the Robot:** The robot can be seeded to reproduce random results. To do so, run ```python3 search.py seed.``` The seed argument is optional and will be set to a default seed if not included.
 
-**Running the Program**
-Run search.py or button.py to run the evolutions and see the evolved robot. 
+**Running the Program:** Run search.py or button.py to run the evolutions and see the evolved robot. 
 
-Example: 
-
-```python3 search.py```
-
-```python3 button.py ```
+Example: ```python3 search.py``` or ```python3 button.py ```
 
 
 ## Robot Structure
