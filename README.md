@@ -12,13 +12,13 @@ Example:
 
 ```python3 button.py ```
 
-# Documentation
-## Robot Structure
+# Robot Structure
 This ludobot project expands the morphospace of the 1D creature from assignment 6, allowing it to branch in 3D. Search.py can generate creatures in 1D, 2D, and 3D. Bodies are contiguous, fills in 3D space, and obeys the law of physics.
 
 This is a general diagram of the structure of any robot. Each robot is contained of an initial backbone based on the structure of the snake from assignment 6. Each component of the backbone can then be extended into 1D, 2D, or 3D based on the number of appendages attached to each component of the backbone.
  ![Ass 7](https://user-images.githubusercontent.com/76187440/220261061-c3e776f3-330c-4159-8611-5fb4f549eaf0.jpeg)
 
+### Seeding the robot
 ### Body Generation
 The backbone of my robot is built with the following code. The accompanying diagram explains its logic. Essentially, the LINK class encapsulates the position and size logic for each part of the backbone. 
 
@@ -56,6 +56,6 @@ Here is a logic connecting sensors (active and inactive to motors)
 ### Sensor and Motors
 Every kind of brain is possible. Sensors are fully connected with motors with the potential for hidden layers. Every sensor can affect every motor.
 
-## Morphospace and Movements
+### Morphospace and Movements
 This project can generate 1D, 2D, and 3D structures that can move in all dimensions due to the variability of joint types and joint axes. 
 
