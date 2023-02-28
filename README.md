@@ -49,7 +49,7 @@ In the constructor, I allocate a certain percentage of the total links generated
 
 **Every kind of brain is possible**. Sensors are fully connected with motors with the potential for hidden layers, so that every sensor can affect every motor. Introducing hidden layers down the line would be a trivial task and allow for the robot to learn even more complex behavior. The 
 
-**Evolution**
+![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png)**Evolution**
 
 Evolution of each creature during the mutate stage can be occur in 4 distinct ways. The workaround to make calculation of morphology mutations during each evolution easier the introduction of a new field to the Spine, Leg, and Foot classes called ```isActive```. In Assignment 7, I generated limbs randomly on the spot - making spontaneous decisions to generate 0-4 limbs at each spine link while after generating the respective spine link. In Assignment 8, to better keep track of my links and neurons, I generate the information for a creature of N spines with 4 limbs (2 legs, 2 feet) at each spine, but mark a certain proportion of the spines to be inactive, which means that they don't appear. This makes the following mutations simpler to execute than doing spontaneous calculations to add, subtract, and modify links.
  
