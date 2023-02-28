@@ -58,11 +58,13 @@ In the constructor, I allocate a certain percentage of the total links generated
 
 ## Evolution
 
-Evolution of each creature during the mutate stage can be occur in 4 distinct ways. The workaround to make calculation of morphology mutations during each evolution easier the introduction of a new field to the Spine, Leg, and Foot classes called ```isActive```. In Assignment 7, I generated limbs randomly on the spot - making spontaneous decisions to generate 0-4 limbs at each spine link while after generating the respective spine link. In Assignment 8, to better keep track of my links and neurons, I generate the information for a creature of N spines with 4 limbs (2 legs, 2 feet) at each spine, but mark a certain proportion of the spines to be inactive, which means that they don't appear. This makes the following mutations simpler to execute than doing spontaneous calculations to add, subtract, and modify links.
+Evolution of each creature during the mutate stage can be occur in 4 distinct ways. The workaround to make calculation of morphology mutations during each evolution easier the introduction of a new field to the Spine, Leg, and Foot classes called ```isActive```. In Assignment 7, I generated limbs randomly on the spot - making spontaneous decisions to generate 0-4 limbs at each spine link while after generating the respective spine link. In Assignment 8, to better keep track of my links and neurons, I generate the information for a creature of N spines with 4 limbs (2 legs, 2 feet) at each spine, but mark a certain proportion of the spines to be inactive, which means that they don't appear. This is a preset figure marked in a similar way to the array that stores whether or not a link contains a sensor. Each spine has corresponding information about whether or not it has legs, and how many. This makes the following mutations simpler to execute than doing spontaneous calculations to add, subtract, and modify links.
  
 **1.  Link Addition**
+
 **2.  Link Subtraction**
 **3.  Link Modification**
+Link modification triggers a recalculation of a link's size and joint positioning. However, this is only performed on legs and feet due to the difficulties associated with adjusting the size of a spinal link. The way this is done is by recalculating the joint and link positions through the Leg constructor. By taking the id of the current link and replacing the reference to it in my link dictionary with a new Leg element, I'm able to swap out a new size constructor, that may also have a different sensor/color value without difficulty because the relative position to the spinal joint as well of the position of the joint to connect the newly sized link are calculated based off of size in the Leg class.
+
 **4.  Update Weights (Brain Evolution)**
-Evolving the brain is done the same way it was done in previous assignments. The mutate function chooses a random row and a random column and assigns it a random value between -1 and 1. 
-                                                                                                                                       
+Evolving the brain is done the same way it was done in previous assignments. The mutate function chooses a random row and a random column and assigns a random value to the corresponding entry in the sensor to motor neuron weights.                                 
