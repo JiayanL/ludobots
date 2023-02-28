@@ -20,7 +20,7 @@ populationSize = 10
 numSensorNeurons = 3
 numMotorNeurons = 7
 numHiddenNeurons = 4
-motorJointRange = 1
+motorJointRange = 1.2
 
 # Snake
 maxLinks = 3
