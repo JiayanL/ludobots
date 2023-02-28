@@ -3,7 +3,8 @@ from leg import Leg
 
 
 class LINK():
-    def __init__(self, id):
+    def __init__(self, id, sensorExists):
+        self.type = "spine"
         self.id = id
         # Link Info
 
@@ -46,7 +47,7 @@ class LINK():
             # self.legs = self.Create_Legs(dimension)
 
         # Sensor and Color
-        self.sensorExists = random.randint(0, 1)
+        self.sensorExists = sensorExists
         if self.sensorExists == 1:
             self.colorString = "0 1.0 0 1.0"
             self.colorName = "Green"

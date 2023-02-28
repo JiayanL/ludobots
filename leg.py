@@ -16,7 +16,8 @@ class Size():
 
 
 class Leg():
-    def __init__(self, currentLink, id, side):
+    def __init__(self, currentLink, id, sensorExists, side):
+        self.type = "leg"
         self.parent = currentLink
         self.id = id
         self.name = f"Body{str(id)}"
@@ -36,7 +37,7 @@ class Leg():
             self.jointAxis = "1 0 0"
 
         # Sensor and Color
-        self.sensorExists = random.randint(0, 1)
+        self.sensorExists = sensorExists
         if self.sensorExists == 1:
             self.colorString = "0 1.0 0 1.0"
             self.colorName = "Green"

@@ -43,7 +43,13 @@ class ROBOT():
                     neuronName).encode('ASCII')
                 desiredAngle = self.nn.Get_Value_Of(
                     neuronName) * c.motorJointRange
-                self.motors[jointName].Set_Value(self.robotID, desiredAngle)
+                try:
+                    self.motors[jointName].Set_Value(
+                        self.robotID, desiredAngle)
+                except:
+                    print(f"\n JOINT {jointName}\n")
+                    print(f"\n {self.motors}\n")
+                    exit()
 
     def Think(self):
         self.nn.Update()
@@ -55,8 +61,8 @@ class ROBOT():
 
         torsoPosition = positionAndOrientation[0]
         torsoX = torsoPosition[0]
-        torsoY = torsoPosition[1]
-        torsoZ = torsoPosition[2]
+        # torsoY = torsoPosition[1]
+        # torsoZ = torsoPosition[2]
 
         """
         leftFoot = positionAndOrientation[4]
@@ -64,10 +70,10 @@ class ROBOT():
 
         averageX = (leftFoot[0] + rightFoot[0] + torsoX) / 2
         """
-        fitness = torsoX + torsoZ ** 3
+        fitness = torsoX
 
-        if torsoZ <= 1:
-            fitness -= 3
+        # if torsoZ <= 1:
+        #     fitness -= 3
         # stateOfLinkZero = p.getLinkState(self.robotID, 0)[0]
         # xCoordinateofLinkZero = stateOfLinkZero[0]
 
