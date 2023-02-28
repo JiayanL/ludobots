@@ -28,3 +28,4 @@ minLinks = 3
 
 # Testing
 testBody = True
+seed = 1
