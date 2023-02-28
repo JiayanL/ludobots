@@ -17,9 +17,14 @@ Example: ```python3 search.py``` or ```python3 button.py ```
 ## Robot Structure
 
 **Solution Class**
+
 The logic of each creature is generated in the solution constructor. The constructor initializes the number of links in the creature, which links have sensors, and which links are connected to which links, and stores this information for future mutation. The constructor leverages the LINK and Leg classes to calculate the joint position, size, and link position of each link, along with additional helpful information for mutation. Each section below dives into implementation on a deeper level.
 
 **Links**
+
+There are three kinds of links that extend the design of each creature from 1D to 2D and 3D. The core structure of each creature is a 1 dimensional chain of links called the spine. Each spine can have 0, 1, or 2 legs attached to its faces, extending its structure into 2D. Each leg, in turn can have an optional foot extended below it, which creates the option for the design to turn into 3D.
+
+
 Spine.
 Spine to Leg
 Leg to foot.
@@ -27,11 +32,15 @@ Leg to foot.
 **Joints**
 
 **Link Evolution**
+1. Addition
+2. Subtraction
+3. Modification
 
 **Synapses**
 The code for synapses and brain generation is as follows. Synapses and the brain is generated bottom-up. At each link and leg level, there's a 50% chance whether or not a synapse will be placed at that location. Sensors are placed on those points and connected to motor neurons - which every link in the robot contains.
 
 **Brain Evolution**
+1. Update Weights
                                                                                                                                         
 **Sensor and Motors**
 Every kind of brain is possible. Sensors are fully connected with motors with the potential for hidden layers. Every sensor can affect every motor.
