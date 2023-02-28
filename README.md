@@ -1,5 +1,5 @@
-# ludobots - Assignment 8
-Citation: This project was built on top of information from r/ludobots and pyrosim.
+# Ludobots - Assignment 8
+Citation: This project was built on top of information from r/ludobots (https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) and pyrosim (https://github.com/jbongard/pyrosim).
 
 # Button
 Run search.py to run the evolutions and see the evolved robot. 
