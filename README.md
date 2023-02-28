@@ -26,7 +26,7 @@ There are three kinds of links that extend the design of each creature from 1D t
 
 
 Spine.
-<img src="https://user-images.githubusercontent.com/76187440/221807087-290633af-40f2-4272-ab6c-527a78138e05.jpeg" height="250" width="250">
+<img src="https://user-images.githubusercontent.com/76187440/221807087-290633af-40f2-4272-ab6c-527a78138e05.jpeg" height="250" width="500">
 
 Spine to Leg
 Leg to foot.
