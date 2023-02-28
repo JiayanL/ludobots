@@ -31,16 +31,17 @@ Leg to foot.
 
 **Joints**
 
-**Link Evolution**
-1. Addition
-2. Subtraction
-3. Modification
-
 **Synapses**
 The code for synapses and brain generation is as follows. Synapses and the brain is generated bottom-up. At each link and leg level, there's a 50% chance whether or not a synapse will be placed at that location. Sensors are placed on those points and connected to motor neurons - which every link in the robot contains.
 
-**Brain Evolution**
-1. Update Weights
+**Evolution**
+
+Evolution of each creature during the mutate stage can be occur in 4 distinct ways. 
+
+1.  Link Addition
+2.  Link Subtraction
+3.  Link Modification
+4.  Update Weights (Brain)
                                                                                                                                         
 **Sensor and Motors**
 Every kind of brain is possible. Sensors are fully connected with motors with the potential for hidden layers. Every sensor can affect every motor.
