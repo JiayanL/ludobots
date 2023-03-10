@@ -13,6 +13,7 @@ import sys
 # hc.Evolve()
 # hc.Show_Best()
 
+# set seed
 if len(sys.argv) > 1:
     random.seed(int(sys.argv[1]))
 else:
