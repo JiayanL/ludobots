@@ -13,12 +13,12 @@ import sys
 # hc.Evolve()
 # hc.Show_Best()
 
-if len(sys.argv) > 1:
-    random.seed(int(sys.argv[1]))
-else:
-    random.seed(c.seed)
+# if len(sys.argv) > 1:
+#     random.seed(int(sys.argv[1]))
+# else:
+#     random.seed(c.seed)
 
 phc = PARALLEL_HILL_ClIMBER()
 phc.Evolve()
 phc.Show_Best()
-phc.Plot()
+# phc.Plot()

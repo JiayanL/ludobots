@@ -35,9 +35,9 @@ class SOLUTION():
         self.right_legs = self.Random_Placement(0, self.spineCount, "legs")
         self.right_legs[0] = 0
 
-        self.totalLinks = self.spineCount + \
-            sum(self.left_legs) + sum(self.right_legs)
-
+        # self.totalLinks = self.spineCount + \
+        #     sum(self.left_legs) + sum(self.right_legs)
+        self.totalLinks = 5 * self.spineCount
         # ----------------------------- Establish Sensors ---------------------------- #
         self.sensor_list = self.Random_Placement(1, self.totalLinks, "sensors")
         self.sensorCount = sum(self.sensor_list)
@@ -46,42 +46,40 @@ class SOLUTION():
             self.sensorCount, self.totalLinks)
         self.sensor_to_motor_weights = self.sensor_to_motor_weights * 2 - 1
 
-        # -------------------------------- Design Body ------------------------------- #
+        # ---------------------- Design Body (Links and Joints) ---------------------- #
         legCount = 0
         for id in range(self.spineCount):
             # body
             cLink = LINK(id, self.sensor_list[id])
             self.idToLink[id] = cLink
 
-            # left leg exists
-            if self.left_legs[id] > 0:
+            # make sure I'm not building at the first one
+            if cLink.id > 0:
+                # create left leg
                 legId = self.spineCount + legCount
                 leftLeg = Leg(cLink, legId, self.sensor_list[legId], "left")
                 self.idToLink[leftLeg.id] = leftLeg
                 legCount += 1
 
-                # left foot exists
-                if self.left_legs[id] == 2:
-                    footId = self.spineCount + legCount
-                    leftFoot = Leg(leftLeg, footId,
-                                   self.sensor_list[footId], "left-down")
-                    self.idToLink[leftFoot.id] = leftFoot
-                    legCount += 1
+                # create right leg
+                footId = self.spineCount + legCount
+                leftFoot = Leg(leftLeg, footId,
+                               self.sensor_list[footId], "left-down")
+                self.idToLink[leftFoot.id] = leftFoot
+                legCount += 1
 
-            # right leg exists
-            if self.right_legs[id] > 0:
+                # create right leg
                 legId = self.spineCount + legCount
                 rightLeg = Leg(cLink, legId, self.sensor_list[legId], "right")
                 self.idToLink[rightLeg.id] = rightLeg
                 legCount += 1
 
-                # right foot exists
-                if self.right_legs[id] == 2:
-                    footId = self.spineCount + legCount
-                    rightFoot = Leg(rightLeg, footId,
-                                    self.sensor_list[footId], "right-down")
-                    self.idToLink[rightFoot.id] = rightFoot
-                    legCount += 1
+                # create right foot
+                footId = self.spineCount + legCount
+                rightFoot = Leg(rightLeg, footId,
+                                self.sensor_list[footId], "right-down")
+                self.idToLink[rightFoot.id] = rightFoot
+                legCount += 1
 
         self.legCount = legCount - 1
 
@@ -150,76 +148,6 @@ class SOLUTION():
         column = random.randint(0, self.totalLinks - 1)
         self.sensor_to_motor_weights[row][column] = random.random()*2-1
 
-        # mutate body
-        # change the shape of existing limbs
-        for link in self.idToLink.values():
-            if random.random() < mutation_rate:
-                if isinstance(link, Leg):
-                    # change the type of the leg (left/right)
-                    link.side = "left" if link.side == "right" else "right"
-                elif isinstance(link, LINK):
-                    # convert the link to a leg
-                    link_id = link.id
-                    parent = link.parent
-                    sensor_id = link.sensor_id
-                    side = "left" if random.random() < 0.5 else "right"
-                    leg = Leg(parent, link_id, sensor_id, side)
-                    self.idToLink[link_id] = leg
-                    self.legCount += 1
-
-        # add new limbs
-        for id in range(self.spineCount):
-            if random.random() < mutation_rate:
-                if self.left_legs[id] == 0:
-                    # add a left leg
-                    self.left_legs[id] = 1
-                    legId = self.spineCount + self.legCount
-                    leg = Leg(self.idToLink[id], legId,
-                              self.sensor_list[legId], "left")
-                    self.idToLink[legId] = leg
-                    self.legCount += 1
-                elif self.left_legs[id] == 1 and random.random() < 0.5:
-                    # add a left foot
-                    self.left_legs[id] = 2
-                    footId = self.spineCount + self.legCount
-                    foot = Leg(self.idToLink[legId], footId,
-                               self.sensor_list[footId], "left-down")
-                    self.idToLink[footId] = foot
-                    self.legCount += 1
-                elif self.right_legs[id] == 0:
-                    # add a right leg
-                    self.right_legs[id] = 1
-                    legId = self.spineCount + self.legCount
-                    leg = Leg(self.idToLink[id], legId,
-                              self.sensor_list[legId], "right")
-                    self.idToLink[legId] = leg
-                    self.legCount += 1
-                elif self.right_legs[id] == 1 and random.random() < 0.5:
-                    # add a right foot
-                    self.right_legs[id] = 2
-                    footId = self.spineCount + self.legCount
-                    foot = Leg(self.idToLink[legId], footId,
-                               self.sensor_list[footId], "right-down")
-                    self.idToLink[footId] = foot
-                    self.legCount += 1
-
-        # remove existing limbs
-        for id in range(self.spineCount):
-            if random.random() < mutation_rate:
-                if self.left_legs[id] == 1:
-                    # remove the left leg
-                    self.left_legs[id] = 0
-                    legId = self.spineCount + id
-                    del self.idToLink[legId]
-                    self.legCount -= 1
-                elif self.left_legs[id] == 2:
-                    # remove the left foot
-                    self.left_legs[id] = 1
-                    footId = self.spineCount + id + 1
-                    del self.idToLink[footId]
-                    self.legCount -= 1
-                elif self.right_legs[id] == 1:
-
     def Create_World(self):
         # use pyrosim to Create a link
         # tells pyrosim the name of the file where information about the world should be stored
@@ -272,7 +200,6 @@ class SOLUTION():
                 if self.left_legs[cLink.id] > 0:
                     legId = self.spineCount + legCount
                     leftLeg = self.idToLink[legId]
-                    legCount += 1
                     pyrosim.Send_Joint(name=f"{cLink.parent}_{leftLeg.name}",
                                        parent=cLink.parent, child=leftLeg.name,
                                        type=leftLeg.jointType,
@@ -286,33 +213,31 @@ class SOLUTION():
                                       size=[
                                           leftLeg.Size.length, leftLeg.Size.width, leftLeg.Size.height],
                                       colorString=leftLeg.colorString, colorName=leftLeg.colorName)
+                legCount += 1
+                # Left Side - Foot
+                if self.left_legs[cLink.id] == 2:
+                    footId = self.spineCount + legCount
+                    leftFoot = self.idToLink[footId]
 
-                    # Left Side - Foot
-                    if self.left_legs[cLink.id] == 2:
-                        footId = self.spineCount + legCount
-                        leftFoot = self.idToLink[footId]
-                        legCount += 1
+                    pyrosim.Send_Joint(name=f"{leftLeg.name}_{leftFoot.name}",
+                                       parent=leftLeg.name, child=leftFoot.name,
+                                            type=leftFoot.jointType,
+                                            position=[
+                                                leftFoot.jointPos.x, leftFoot.jointPos.y, leftFoot.jointPos.z],
+                                            jointAxis=cLink.jointAxis)
 
-                        pyrosim.Send_Joint(name=f"{leftLeg.name}_{leftFoot.name}",
-                                           parent=leftLeg.name, child=leftFoot.name,
-                                                type=leftFoot.jointType,
-                                                position=[
-                                                    leftFoot.jointPos.x, leftFoot.jointPos.y, leftFoot.jointPos.z],
-                                                jointAxis=cLink.jointAxis)
-
-                        pyrosim.Send_Cube(name=leftFoot.name,
-                                          pos=[
-                                              leftFoot.linkPos.x, leftFoot.linkPos.y, leftFoot.linkPos.z],
-                                          size=[
-                                              leftFoot.Size.length, leftFoot.Size.width, leftFoot.Size.height],
-                                          colorString=leftFoot.colorString, colorName=leftFoot.colorName)
-
+                    pyrosim.Send_Cube(name=leftFoot.name,
+                                      pos=[
+                                          leftFoot.linkPos.x, leftFoot.linkPos.y, leftFoot.linkPos.z],
+                                      size=[
+                                          leftFoot.Size.length, leftFoot.Size.width, leftFoot.Size.height],
+                                      colorString=leftFoot.colorString, colorName=leftFoot.colorName)
+                legCount += 1
                 # --------------------------------- Right Leg -------------------------------- #
                 # Right Side - Leg
                 if self.right_legs[cLink.id] > 0:
                     legId = self.spineCount + legCount
                     rightLeg = self.idToLink[legId]
-                    legCount += 1
 
                     pyrosim.Send_Joint(name=f"{cLink.parent}_{rightLeg.name}",
                                        parent=cLink.parent,
@@ -333,27 +258,28 @@ class SOLUTION():
                                           rightLeg.Size.height],
                                       colorString=rightLeg.colorString,
                                       colorName=rightLeg.colorName)
+                legCount += 1
 
-                    # Right Side - Foot
-                    if self.right_legs[cLink.id] == 2:
-                        footId = self.spineCount + legCount
-                        rightFoot = self.idToLink[footId]
-                        legCount += 1
+                # Right Side - Foot
+                if self.right_legs[cLink.id] == 2:
+                    footId = self.spineCount + legCount
+                    rightFoot = self.idToLink[footId]
 
-                        pyrosim.Send_Joint(name=f"{rightLeg.name}_{rightFoot.name}",
-                                           parent=rightLeg.name, child=rightFoot.name,
-                                                type=rightFoot.jointType,
-                                                position=[
-                                                    rightFoot.jointPos.x, rightFoot.jointPos.y, rightFoot.jointPos.z],
-                                                jointAxis=rightFoot.jointAxis)
+                    pyrosim.Send_Joint(name=f"{rightLeg.name}_{rightFoot.name}",
+                                       parent=rightLeg.name, child=rightFoot.name,
+                                            type=rightFoot.jointType,
+                                            position=[
+                                                rightFoot.jointPos.x, rightFoot.jointPos.y, rightFoot.jointPos.z],
+                                            jointAxis=rightFoot.jointAxis)
 
-                        pyrosim.Send_Cube(name=rightFoot.name,
-                                          pos=[
-                                              rightFoot.linkPos.x, rightFoot.linkPos.y, rightFoot.linkPos.z],
-                                          size=[
-                                              rightFoot.Size.length, rightFoot.Size.width, rightFoot.Size.height],
-                                          colorString=rightFoot.colorString,
-                                          colorName=rightFoot.colorName)
+                    pyrosim.Send_Cube(name=rightFoot.name,
+                                      pos=[
+                                          rightFoot.linkPos.x, rightFoot.linkPos.y, rightFoot.linkPos.z],
+                                      size=[
+                                          rightFoot.Size.length, rightFoot.Size.width, rightFoot.Size.height],
+                                      colorString=rightFoot.colorString,
+                                      colorName=rightFoot.colorName)
+                legCount += 1
 
             self.legCount = legCount - 1
         pyrosim.End()
@@ -361,38 +287,38 @@ class SOLUTION():
     def Create_Brain(self):
         pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")\
 
-        # Plumbing to test body shape
-        sensor_count = 0
-        for link in range(0, self.totalLinks):
-            if self.sensor_list[link]:
-                pyrosim.Send_Sensor_Neuron(
-                    name=sensor_count, linkName="Body" + str(link))
-                sensor_count += 1
+        # # Plumbing to test body shape
+        # sensor_count = 0
+        # for link in range(0, self.totalLinks):
+        #     if self.sensor_list[link]:
+        #         pyrosim.Send_Sensor_Neuron(
+        #             name=sensor_count, linkName="Body" + str(link))
+        #         sensor_count += 1
 
-        motor_count = 0
-        # start by connecting body
-        for link in range(0, self.spineCount):
-            if link < self.spineCount - 1:
-                pyrosim.Send_Motor_Neuron(
-                    name=sensor_count + motor_count, jointName="Body" + str(link) + "_Body" + str(link+1))
-                motor_count += 1
+        # motor_count = 0
+        # # start by connecting body
+        # for link in range(0, self.spineCount):
+        #     if link < self.spineCount - 1:
+        #         pyrosim.Send_Motor_Neuron(
+        #             name=sensor_count + motor_count, jointName="Body" + str(link) + "_Body" + str(link+1))
+        #         motor_count += 1
 
-        # then go for the legs
-        for link in range(self.spineCount, self.totalLinks):
-            currLink = self.idToLink[link]
-            if isinstance(currLink.parent.parent, str):
-                parent = currLink.parent.parent
-            else:
-                parent = currLink.parent.name
+        # # then go for the legs
+        # for link in range(self.spineCount, self.totalLinks):
+        #     currLink = self.idToLink[link]
+        #     if isinstance(currLink.parent.parent, str):
+        #         parent = currLink.parent.parent
+        #     else:
+        #         parent = currLink.parent.name
 
-            pyrosim.Send_Motor_Neuron(
-                name=sensor_count+motor_count, jointName=f"{parent}_{currLink.name}")
+        #     pyrosim.Send_Motor_Neuron(
+        #         name=sensor_count+motor_count, jointName=f"{parent}_{currLink.name}")
 
-            motor_count += 1
+        #     motor_count += 1
 
-        # connect sensors to motors
-        for sensor in range(0, sensor_count):
-            for motor in range(0, motor_count):
-                pyrosim.Send_Synapse(
-                    sourceNeuronName=sensor, targetNeuronName=motor + sensor_count, weight=self.sensor_to_motor_weights[sensor][motor])
+        # # connect sensors to motors
+        # for sensor in range(0, sensor_count):
+        #     for motor in range(0, motor_count):
+        #         pyrosim.Send_Synapse(
+        #             sourceNeuronName=sensor, targetNeuronName=motor + sensor_count, weight=self.sensor_to_motor_weights[sensor][motor])
         pyrosim.End()
