@@ -23,6 +23,8 @@ class Leg():
         self.id = id
         self.name = f"Body{str(id)}"
         self.display_position = 0
+        self.side = side
+        self.child = None
 
         # Joint Type
         jointTypes = ["revolute", "floating", "planar"]

@@ -146,7 +146,7 @@ class SOLUTION():
             # self.links_to_build.append(self.idToLink[i])
             if cLink.sensorExists:
                 self.sensors_to_build.append(cLink)
-            self.links_to_build.append(cLink.tempName)
+            self.links_to_build.append(cLink)
             self.items_to_build_in_order.append(self.idToLink[i])
 
             if cLink.id < self.spineCount - 1:
@@ -177,7 +177,7 @@ class SOLUTION():
                     # censors and link
                     if leftLeg.sensorExists:
                         self.sensors_to_build.append(leftLeg)
-                    self.links_to_build.append(leftLeg.tempName)
+                    self.links_to_build.append(leftLeg)
                     self.items_to_build_in_order.append(leftLeg)
                 legCount += 1
 
@@ -197,7 +197,7 @@ class SOLUTION():
                     # censors and link
                     if leftFoot.sensorExists:
                         self.sensors_to_build.append(leftFoot)
-                    self.links_to_build.append(leftFoot.tempName)
+                    self.links_to_build.append(leftFoot)
                     self.items_to_build_in_order.append(leftFoot)
                 legCount += 1
 
@@ -218,7 +218,7 @@ class SOLUTION():
                     # sensors and link
                     if rightLeg.sensorExists:
                         self.sensors_to_build.append(rightLeg)
-                    self.links_to_build.append(rightLeg.tempName)
+                    self.links_to_build.append(rightLeg)
                     self.items_to_build_in_order.append(rightLeg)
                 legCount += 1
 
@@ -239,7 +239,7 @@ class SOLUTION():
                     # sensors and link
                     if rightFoot.sensorExists:
                         self.sensors_to_build.append(rightFoot)
-                    self.links_to_build.append(rightFoot.tempName)
+                    self.links_to_build.append(rightFoot)
                     self.items_to_build_in_order.append(rightFoot)
                 legCount += 1
         if testing:
@@ -309,12 +309,28 @@ class SOLUTION():
         # update body (4 options) then update weights (always)
 
         # mutate body shape
+        # select link and change info
+        cLink = random.choice(self.links_to_build)
+        if cLink and cLink.id >= self.spineCount:
+            # update selected link
+            parent = cLink.parent
+            id = cLink.id
+            sensorExists = cLink.sensorExists
+            side = cLink.side
+            self.idToLink[cLink.id] = Leg(parent, id, sensorExists, side)
+
+            # update child if it exists
+            if cLink.child:
+                cLink = cLink.child
+                parent = cLink.parent
+                id = cLink.id
+                sensorExists = cLink.sensorExists
+                side = cLink.side
+                self.idToLink[cLink.id] = Leg(parent, id, sensorExists, side)
 
         # swap sensors
 
-        # add link
-
-        # remove link
+        # change number of legs
 
         try:
             # choose a random sensor
