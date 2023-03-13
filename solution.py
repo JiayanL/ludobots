@@ -360,39 +360,4 @@ class SOLUTION():
             for motor in range(0, numMotors):
                 pyrosim.Send_Synapse(
                     sourceNeuronName=sensor, targetNeuronName=motor + numSensors, weight=self.sensor_to_motor_weights[sensor][motor])
-
-        # # Plumbing to test body shape
-        # sensor_count = 0
-        # for link in range(0, self.totalLinks):
-        #     if self.sensor_list[link]:
-        #         pyrosim.Send_Sensor_Neuron(
-        #             name=sensor_count, linkName="Body" + str(link))
-        #         sensor_count += 1
-
-        # motor_count = 0
-        # # start by connecting body
-        # for link in range(0, self.spineCount):
-        #     if link < self.spineCount - 1:
-        #         pyrosim.Send_Motor_Neuron(
-        #             name=sensor_count + motor_count, jointName="Body" + str(link) + "_Body" + str(link+1))
-        #         motor_count += 1
-
-        # # then go for the legs
-        # for link in range(self.spineCount, self.totalLinks):
-        #     currLink = self.idToLink[link]
-        #     if isinstance(currLink.parent.parent, str):
-        #         parent = currLink.parent.parent
-        #     else:
-        #         parent = currLink.parent.name
-
-        #     pyrosim.Send_Motor_Neuron(
-        #         name=sensor_count+motor_count, jointName=f"{parent}_{currLink.name}")
-
-        #     motor_count += 1
-
-        # # connect sensors to motors
-        # for sensor in range(0, sensor_count):
-        #     for motor in range(0, motor_count):
-        #         pyrosim.Send_Synapse(
-        #             sourceNeuronName=sensor, targetNeuronName=motor + sensor_count, weight=self.sensor_to_motor_weights[sensor][motor])
         pyrosim.End()
