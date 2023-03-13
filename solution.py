@@ -110,67 +110,116 @@ class SOLUTION():
 
     def Select_Body(self):
         # choose the links and joints I'm going to build
+        testing = True
         self.links_to_build = []
         self.joints_to_build = []
         self.items_to_build_in_order = []
 
         # traverse along the spine, adding all necessary links and joints
+        linkCount = 0
         legCount = 0
-        print("all links I have stored: " + str(self.linksToJoint.keys()))
-        print("spineCount: " + str(self.spineCount))
-        print("all the links I have: " + str(self.idToLink.keys()))
+        tempLegCount = 0
+
+        if testing:
+            print("all links I have stored: " + str(self.linksToJoint.keys()))
+            print("spineCount: " + str(self.spineCount))
+            print("all the links I have: " + str(self.idToLink.keys()))
+
         for i in range(self.spineCount):
             cLink = self.idToLink[i]
-            self.links_to_build.append(self.idToLink[i])
+            cLink.SetTempId(linkCount)
+            linkCount += 1
+
+            # self.links_to_build.append(self.idToLink[i])
+            self.links_to_build.append(cLink.tempName)
             self.items_to_build_in_order.append(self.idToLink[i])
 
             if cLink.id < self.spineCount - 1:
                 jointName = f"{cLink.parent}_{cLink.child}"
-                self.joints_to_build.append(self.linksToJoint[jointName])
-                self.items_to_build_in_order.append(
-                    self.linksToJoint[jointName])
+                cJoint = self.linksToJoint[jointName]
+                cJoint.SetTempId(cLink.tempId, cLink.tempChildId)
+
+                # self.joints_to_build.append(cJoint)
+                self.joints_to_build.append(cJoint.tempJointName)
+                self.items_to_build_in_order.append(cJoint)
 
             if cLink.id > 0:
                 # left legs
                 if self.left_legs[i] > 1:
                     leftLeg = self.idToLink[self.spineCount + legCount]
+                    leftLeg.SetTempId(
+                        cLink.tempId, self.spineCount + tempLegCount)
+                    tempLegCount += 1
+
                     jointName = f"{cLink.name}_{leftLeg.name}"
-                    self.joints_to_build.append(self.linksToJoint[jointName])
+                    cJoint = self.linksToJoint[jointName]
+                    cJoint.SetTempId(cLink.tempId, leftLeg.tempId)
+
+                    self.joints_to_build.append(cJoint.tempJointName)
                     self.items_to_build_in_order.append(
                         self.linksToJoint[jointName])
-                    self.links_to_build.append(leftLeg)
+
+                    self.links_to_build.append(leftLeg.tempName)
                     self.items_to_build_in_order.append(leftLeg)
                 legCount += 1
 
                 if self.left_legs[i] == 2:
                     leftFoot = self.idToLink[self.spineCount + legCount]
+                    leftFoot.SetTempId(
+                        leftLeg.tempId, self.spineCount + tempLegCount)
+                    tempLegCount += 1
+
                     jointName = f"{leftLeg.name}_{leftFoot.name}"
-                    self.joints_to_build.append(self.linksToJoint[jointName])
-                    self.items_to_build_in_order.append(
-                        self.linksToJoint[jointName])
-                    self.links_to_build.append(leftFoot)
+                    cJoint = self.linksToJoint[jointName]
+                    cJoint.SetTempId(leftLeg.tempId, leftFoot.tempId)
+
+                    self.joints_to_build.append(cJoint.tempJointName)
+                    self.items_to_build_in_order.append(cJoint)
+
+                    self.links_to_build.append(leftFoot.tempName)
                     self.items_to_build_in_order.append(leftFoot)
                 legCount += 1
 
                 if self.right_legs[i] > 1:
                     rightLeg = self.idToLink[self.spineCount + legCount]
                     jointName = f"{cLink.name}_{rightLeg.name}"
-                    self.joints_to_build.append(self.linksToJoint[jointName])
+                    rightLeg.SetTempId(
+                        cLink.tempId, self.spineCount + tempLegCount)
+
+                    tempLegCount += 1
+
+                    cJoint = self.linksToJoint[jointName]
+                    cJoint.SetTempId(cLink.tempId, rightLeg.tempId)
+                    self.joints_to_build.append(cJoint.tempJointName)
                     self.items_to_build_in_order.append(
-                        self.linksToJoint[jointName])
-                    self.links_to_build.append(rightLeg)
+                        cJoint)
+
+                    self.links_to_build.append(rightLeg.tempName)
                     self.items_to_build_in_order.append(rightLeg)
                 legCount += 1
 
                 if self.right_legs[i] == 2:
                     rightFoot = self.idToLink[self.spineCount + legCount]
+                    rightFoot.SetTempId(
+                        rightLeg.tempId, self.spineCount + tempLegCount)
                     jointName = f"{rightLeg.name}_{rightFoot.name}"
-                    self.joints_to_build.append(self.linksToJoint[jointName])
+                    cJoint = self.linksToJoint[jointName]
+                    cJoint.SetTempId(rightLeg.tempId, rightFoot.tempId)
+
+                    tempLegCount += 1
+
+                    self.joints_to_build.append(cJoint.tempJointName)
                     self.items_to_build_in_order.append(
                         self.linksToJoint[jointName])
-                    self.links_to_build.append(rightFoot)
+
+                    self.links_to_build.append(rightFoot.tempName)
                     self.items_to_build_in_order.append(rightFoot)
                 legCount += 1
+        if testing:
+            print("left leg placement: " + str(self.left_legs))
+            print("right leg placement: " + str(self.right_legs))
+            print("links to build: " + str(self.links_to_build))
+            print("joints to build: " + str(self.joints_to_build))
 
     def Random_Placement(self, low, high, type):
         if type == "sensors":

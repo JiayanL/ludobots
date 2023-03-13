@@ -81,3 +81,9 @@ class LINK():
         self.legExists = random.choice([True, False])
         self.leftLimbs = random.randint(0, 2)
         self.rightLimbs = random.randint(0, 2)
+
+    def SetTempId(self, id):
+        self.tempId = id
+        self.tempChildId = id + 1
+        self.tempName = f"Body{str(self.tempId)}"
+        self.tempChildName = f"Body{str(self.tempChildId)}"

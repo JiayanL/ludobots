@@ -100,3 +100,8 @@ class Leg():
         self.jointPos = Position(
             0, -self.parent.Size.width, -self.parent.Size.height/2)
         self.linkPos = Position(0, 0, -self.Size.height / 2)
+
+    def SetTempId(self, parentId, tempId):
+        self.tempId = tempId
+        self.tempParentName = f"Body{str(parentId)}"
+        self.tempName = f"Body{str(tempId)}"
