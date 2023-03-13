@@ -82,6 +82,9 @@ class SOLUTION():
                 leftFoot = Leg(leftLeg, footId,
                                self.sensor_list[footId], "left-down")
                 self.idToLink[leftFoot.id] = leftFoot
+                cJoint = JOINT("left-down", leftLeg, leftFoot, leftFoot.Size.length,
+                               leftFoot.Size.width, leftFoot.Size.height)
+                self.linksToJoint[cJoint.jointName] = cJoint
                 legCount += 1
 
                 # create right leg
@@ -240,13 +243,15 @@ class SOLUTION():
                 if self.left_legs[cLink.id] == 2 or True:
                     footId = self.spineCount + legCount
                     leftFoot = self.idToLink[footId]
+                    jointName = f"{leftLeg.name}_{leftFoot.name}"
+                    cJoint = self.linksToJoint[jointName]
 
-                    pyrosim.Send_Joint(name=f"{leftLeg.name}_{leftFoot.name}",
-                                       parent=leftLeg.name, child=leftFoot.name,
-                                            type=leftFoot.jointType,
-                                            position=[
-                                                leftFoot.jointPos.x, leftFoot.jointPos.y, leftFoot.jointPos.z],
-                                            jointAxis=cLink.jointAxis)
+                    pyrosim.Send_Joint(name=cJoint.jointName,
+                                       parent=cJoint.parent.name, child=cJoint.child.name,
+                                       type=cJoint.jointType,
+                                       position=[
+                                           cJoint.x, cJoint.y, cJoint.z],
+                                       jointAxis=cJoint.jointAxis)
 
                     pyrosim.Send_Cube(name=leftFoot.name,
                                       pos=[
@@ -255,6 +260,7 @@ class SOLUTION():
                                           leftFoot.Size.length, leftFoot.Size.width, leftFoot.Size.height],
                                       colorString=leftFoot.colorString, colorName=leftFoot.colorName)
                 legCount += 1
+
                 # --------------------------------- Right Leg -------------------------------- #
                 # Right Side - Leg
                 if self.right_legs[cLink.id] > 0 or True:
