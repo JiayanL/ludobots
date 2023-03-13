@@ -21,6 +21,7 @@ class Leg():
         self.parent = currentLink
         self.id = id
         self.name = f"Body{str(id)}"
+        self.display_position = 0
 
         # Joint Type
         jointTypes = ["revolute", "floating", "planar"]

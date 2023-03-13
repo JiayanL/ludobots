@@ -34,6 +34,7 @@ class SOLUTION():
         self.left_legs[0] = 0
         self.right_legs = self.Random_Placement(0, self.spineCount, "legs")
         self.right_legs[0] = 0
+        self.links_to_build = []
 
         # self.totalLinks = self.spineCount + \
         #     sum(self.left_legs) + sum(self.right_legs)
@@ -52,6 +53,10 @@ class SOLUTION():
             # body
             cLink = LINK(id, self.sensor_list[id])
             self.idToLink[id] = cLink
+
+            # add to links to build
+            self.links_to_build.append(cLink)
+            self.display_position = 0
 
             # make sure I'm not building at the first one
             if cLink.id > 0:
@@ -175,29 +180,40 @@ class SOLUTION():
                               colorString=cLink.colorString,
                               colorName=cLink.colorName)
 
-            # First joint (Absolute)
-            if cLink.id == 0 and self.spineCount > 1:
+            if cLink.id < self.spineCount - 1:
                 pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
                                    parent=cLink.parent,
                                    child=cLink.child,
                                    type=cLink.jointType,
-                                   position=[cLink.Size["length"] / 2,
-                                             0, cLink.Size["height"] / 2 + 2],
+                                   position=[cLink.jointPosition.x,
+                                             cLink.jointPosition.y,
+                                             cLink.jointPosition.z],
                                    jointAxis=cLink.jointAxis)
 
-            # All other joints (Relative)
-            elif cLink.id < self.spineCount - 1:
-                pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
-                                   parent=cLink.parent, child=cLink.child,
-                                   type=cLink.jointType,
-                                   position=[cLink.Size["length"], 0, 0],
-                                   jointAxis=cLink.jointAxis)
+            # # First joint (Absolute)
+            # if cLink.id == 0 and self.spineCount > 1:
+            #     pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
+            #                        parent=cLink.parent,
+            #                        child=cLink.child,
+            #                        type=cLink.jointType,
+            #                        position=[cLink.Size["length"] / 2,
+            #                                  0, cLink.Size["height"] / 2 + 2],
+            #                        jointAxis=cLink.jointAxis)
+
+            # # All other joints (Relative)
+            # elif cLink.id < self.spineCount - 1:
+            #     pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
+            #                        parent=cLink.parent,
+            #                        child=cLink.child,
+            #                        type=cLink.jointType,
+            #                        position=[cLink.Size["length"], 0, 0],
+            #                        jointAxis=cLink.jointAxis)
 
             # ----------------------------------- Legs ----------------------------------- #
             if (cLink.id != 0):
 
                 # Left Side - Leg
-                if self.left_legs[cLink.id] > 0:
+                if self.left_legs[cLink.id] > 0 or True:
                     legId = self.spineCount + legCount
                     leftLeg = self.idToLink[legId]
                     pyrosim.Send_Joint(name=f"{cLink.parent}_{leftLeg.name}",
@@ -215,7 +231,7 @@ class SOLUTION():
                                       colorString=leftLeg.colorString, colorName=leftLeg.colorName)
                 legCount += 1
                 # Left Side - Foot
-                if self.left_legs[cLink.id] == 2:
+                if self.left_legs[cLink.id] == 2 or True:
                     footId = self.spineCount + legCount
                     leftFoot = self.idToLink[footId]
 
@@ -235,7 +251,7 @@ class SOLUTION():
                 legCount += 1
                 # --------------------------------- Right Leg -------------------------------- #
                 # Right Side - Leg
-                if self.right_legs[cLink.id] > 0:
+                if self.right_legs[cLink.id] > 0 or True:
                     legId = self.spineCount + legCount
                     rightLeg = self.idToLink[legId]
 
@@ -261,7 +277,7 @@ class SOLUTION():
                 legCount += 1
 
                 # Right Side - Foot
-                if self.right_legs[cLink.id] == 2:
+                if self.right_legs[cLink.id] == 2 or True:
                     footId = self.spineCount + legCount
                     rightFoot = self.idToLink[footId]
 
@@ -285,8 +301,7 @@ class SOLUTION():
         pyrosim.End()
 
     def Create_Brain(self):
-        pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")\
-
+        pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
         # # Plumbing to test body shape
         # sensor_count = 0
         # for link in range(0, self.totalLinks):

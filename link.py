@@ -2,10 +2,23 @@ import random
 from leg import Leg
 
 
+class Joint():
+    def __init__(self, length, height, first=False):
+        if first:
+            self.x = length / 2
+            self.y = 0
+            self.z = height / 2 + 2
+        else:
+            self.x = length
+            self.y = 0
+            self.z = 0
+
+
 class LINK():
     def __init__(self, id, sensorExists):
         self.type = "spine"
         self.id = id
+        self.display_position = 0
         # Link Info
 
         self.Size = {
@@ -38,6 +51,14 @@ class LINK():
                       "planar"]
         self.jointType = jointTypes[random.randint(0, 2)]
         self.jointType = "revolute"
+
+        # Joint Position
+        if self.id == 0:
+            self.jointPosition = Joint(
+                self.Size["length"], self.Size["height"], first=True)
+        else:
+            self.jointPosition = Joint(
+                self.Size["length"], self.Size["height"])
 
         # Create children
         self.legs = []
