@@ -114,6 +114,7 @@ class SOLUTION():
         self.links_to_build = []
         self.joints_to_build = []
         self.items_to_build_in_order = []
+        self.sensors_to_build = []
 
         # traverse along the spine, adding all necessary links and joints
         linkCount = 0
@@ -131,6 +132,8 @@ class SOLUTION():
             linkCount += 1
 
             # self.links_to_build.append(self.idToLink[i])
+            if cLink.sensorExists:
+                self.sensors_to_build.append(cLink)
             self.links_to_build.append(cLink.tempName)
             self.items_to_build_in_order.append(self.idToLink[i])
 
@@ -159,6 +162,9 @@ class SOLUTION():
                     self.items_to_build_in_order.append(
                         self.linksToJoint[jointName])
 
+                    # censors and link
+                    if leftLeg.sensorExists:
+                        self.sensors_to_build.append(leftLeg)
                     self.links_to_build.append(leftLeg.tempName)
                     self.items_to_build_in_order.append(leftLeg)
                 legCount += 1
@@ -176,6 +182,9 @@ class SOLUTION():
                     self.joints_to_build.append(cJoint.tempJointName)
                     self.items_to_build_in_order.append(cJoint)
 
+                    # censors and link
+                    if leftFoot.sensorExists:
+                        self.sensors_to_build.append(leftFoot)
                     self.links_to_build.append(leftFoot.tempName)
                     self.items_to_build_in_order.append(leftFoot)
                 legCount += 1
@@ -194,6 +203,9 @@ class SOLUTION():
                     self.items_to_build_in_order.append(
                         cJoint)
 
+                    # sensors and link
+                    if rightLeg.sensorExists:
+                        self.sensors_to_build.append(rightLeg)
                     self.links_to_build.append(rightLeg.tempName)
                     self.items_to_build_in_order.append(rightLeg)
                 legCount += 1
@@ -212,6 +224,9 @@ class SOLUTION():
                     self.items_to_build_in_order.append(
                         self.linksToJoint[jointName])
 
+                    # sensors and link
+                    if rightFoot.sensorExists:
+                        self.sensors_to_build.append(rightFoot)
                     self.links_to_build.append(rightFoot.tempName)
                     self.items_to_build_in_order.append(rightFoot)
                 legCount += 1
@@ -331,6 +346,21 @@ class SOLUTION():
 
     def Create_Brain(self):
         pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
+        numSensors = len(self.sensors_to_build)
+        numMotors = len(self.joints_to_build)
+
+        for i, link in enumerate(self.sensors_to_build):
+            pyrosim.Send_Sensor_Neuron(name=i, linkName=link.tempName)
+
+        for i, joint in enumerate(self.joints_to_build):
+            pyrosim.Send_Motor_Neuron(
+                name=numSensors + i, jointName=joint)
+
+        for sensor in range(0, numSensors):
+            for motor in range(0, numMotors):
+                pyrosim.Send_Synapse(
+                    sourceNeuronName=sensor, targetNeuronName=motor + numSensors, weight=self.sensor_to_motor_weights[sensor][motor])
+
         # # Plumbing to test body shape
         # sensor_count = 0
         # for link in range(0, self.totalLinks):
