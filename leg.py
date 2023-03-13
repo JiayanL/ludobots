@@ -19,6 +19,7 @@ class Leg():
     def __init__(self, currentLink, id, sensorExists, side):
         self.type = "leg"
         self.parent = currentLink
+        self.parentName = currentLink.name
         self.id = id
         self.name = f"Body{str(id)}"
         self.display_position = 0

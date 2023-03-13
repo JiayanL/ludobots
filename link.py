@@ -36,6 +36,7 @@ class LINK():
         # Generate Names for Joints
         self.parent = f"Body{str(id)}"
         self.child = f"Body{str(id+1)}"
+        self.name = self.parent
 
         # Joint Axis
         jointAxisType = random.randint(1, 2)
