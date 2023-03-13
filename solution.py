@@ -42,7 +42,7 @@ class SOLUTION():
         # ----------------------------- Establish Sensors ---------------------------- #
         self.sensor_list = self.Random_Placement(1, self.totalLinks, "sensors")
         self.sensorCount = sum(self.sensor_list)
-
+        self.jointIds = []
         # ---------------------- Design Body (Links and Joints) ---------------------- #
         legCount = 0
         jointCount = 0
@@ -58,11 +58,12 @@ class SOLUTION():
             else:
                 first = False
 
-            cJoint = JOINT(jointCount, "spine", cLink.parent, cLink.child,
-                           cLink.Size["length"], cLink.Size["width"], cLink.Size["height"], first=first,)
-            jointCount += 1
-            self.linksToJoint[cJoint.jointName] = cJoint
-
+            if cLink.id < self.spineCount - 1:
+                cJoint = JOINT(jointCount, "spine", cLink.parent, cLink.child,
+                               cLink.Size["length"], cLink.Size["width"], cLink.Size["height"], first=first,)
+                jointCount += 1
+                self.linksToJoint[cJoint.jointName] = cJoint
+                self.jointIds.append(cJoint.id)
             # make sure I'm not building at the first one
             if cLink.id > 0:
                 # create left leg
@@ -73,6 +74,7 @@ class SOLUTION():
                                leftLeg.Size.length, leftLeg.Size.width, leftLeg.Size.height)
                 jointCount += 1
                 self.linksToJoint[cJoint.jointName] = cJoint
+                self.jointIds.append(cJoint.id)
                 legCount += 1
 
                 # create left foot
@@ -84,6 +86,7 @@ class SOLUTION():
                                leftFoot.Size.width, leftFoot.Size.height)
                 jointCount += 1
                 self.linksToJoint[cJoint.jointName] = cJoint
+                self.jointIds.append(cJoint.id)
                 legCount += 1
 
                 # create right leg
@@ -94,6 +97,7 @@ class SOLUTION():
                                rightLeg.Size.length, rightLeg.Size.width, rightLeg.Size.height)
                 jointCount += 1
                 self.linksToJoint[cJoint.jointName] = cJoint
+                self.jointIds.append(cJoint.id)
                 legCount += 1
 
                 # create right foot
@@ -105,6 +109,7 @@ class SOLUTION():
                                rightFoot.Size.width, rightFoot.Size.height)
                 jointCount += 1
                 self.linksToJoint[cJoint.jointName] = cJoint
+                self.jointIds.append(cJoint.id)
                 legCount += 1
 
         self.legCount = legCount - 1
@@ -379,7 +384,18 @@ class SOLUTION():
 
         for sensor_count, sensor in enumerate(self.sensors_to_build):
             for motor_count, motor in enumerate(self.joints_to_build):
-                pyrosim.Send_Synapse(
-                    sourceNeuronName=sensor_count, targetNeuronName=motor_count + numSensors, weight=self.sensor_to_motor_weights[sensor.id][motor.id])
+                try:
+                    pyrosim.Send_Synapse(
+                        sourceNeuronName=sensor_count, targetNeuronName=motor_count + numSensors, weight=self.sensor_to_motor_weights[sensor.id][motor.id])
+                except:
+                    # debugging code
+                    print("failed")
+                    print(sensor.id)
+                    print(self.jointIds)
+                    print(f"numJoints: {len(self.linksToJoint)}")
+                    print(motor.id)
+                    print(f"joints to build: {self.joints_to_build}")
+                    print(f"weights: {self.sensor_to_motor_weights}")
+                    exit()
 
         pyrosim.End()
