@@ -303,7 +303,7 @@ class SOLUTION():
         for entity in self.items_to_build_in_order:
             if isinstance(entity, LINK):
                 cLink = entity
-                pyrosim.Send_Cube(name=cLink.parent,
+                pyrosim.Send_Cube(name=cLink.tempName,
                                   pos=[cLink.Pos["x"],
                                        cLink.Pos["y"], cLink.Pos["z"]],
                                   size=[cLink.Size["length"],
@@ -312,7 +312,7 @@ class SOLUTION():
                                   colorName=cLink.colorName)
             elif isinstance(entity, Leg):
                 cLink = entity
-                pyrosim.Send_Cube(name=cLink.name,
+                pyrosim.Send_Cube(name=cLink.tempName,
                                   pos=[cLink.linkPos.x,
                                        cLink.linkPos.y, cLink.linkPos.z],
                                   size=[
@@ -320,8 +320,8 @@ class SOLUTION():
                                   colorString=cLink.colorString, colorName=cLink.colorName)
             elif isinstance(entity, JOINT):
                 cJoint = entity
-                pyrosim.Send_Joint(name=cJoint.jointName,
-                                   parent=cJoint.parentName, child=cJoint.childName,
+                pyrosim.Send_Joint(name=cJoint.tempJointName,
+                                   parent=cJoint.tempParentName, child=cJoint.tempChildName,
                                    type=cJoint.jointType,
                                    position=[
                                        cJoint.x, cJoint.y, cJoint.z],
