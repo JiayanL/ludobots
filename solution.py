@@ -6,12 +6,15 @@ import time
 import constants as c
 from link import LINK
 from leg import Leg
+from collections import defaultdict
+from linkjoint import JOINT
 
 
 class SOLUTION():
     def __init__(self, nextAvailableID):
         self.myID = nextAvailableID
         self.idToLink = {}
+        self.linksToJoint = {}
 
         # -------------------------- Generate Creature Body -------------------------- #
         self.Create_Body_Plan()
@@ -34,14 +37,12 @@ class SOLUTION():
         self.left_legs[0] = 0
         self.right_legs = self.Random_Placement(0, self.spineCount, "legs")
         self.right_legs[0] = 0
-        self.links_to_build = []
 
-        # self.totalLinks = self.spineCount + \
-        #     sum(self.left_legs) + sum(self.right_legs)
         self.totalLinks = 5 * self.spineCount
         # ----------------------------- Establish Sensors ---------------------------- #
         self.sensor_list = self.Random_Placement(1, self.totalLinks, "sensors")
         self.sensorCount = sum(self.sensor_list)
+
         # create random weights
         self.sensor_to_motor_weights = np.random.rand(
             self.sensorCount, self.totalLinks)
@@ -50,13 +51,18 @@ class SOLUTION():
         # ---------------------- Design Body (Links and Joints) ---------------------- #
         legCount = 0
         for id in range(self.spineCount):
-            # body
+            # Spine link
             cLink = LINK(id, self.sensor_list[id])
             self.idToLink[id] = cLink
 
-            # add to links to build
-            self.links_to_build.append(cLink)
-            self.display_position = 0
+            # Create link to next spine
+            if cLink.id == 0:
+                first = True
+            else:
+                first = False
+            cJoint = JOINT("spine", cLink.parent, cLink.child,
+                           cLink.Size["length"], cLink.Size["height"], first=first)
+            self.linksToJoint[cJoint.jointName] = cJoint
 
             # make sure I'm not building at the first one
             if cLink.id > 0:
@@ -87,6 +93,15 @@ class SOLUTION():
                 legCount += 1
 
         self.legCount = legCount - 1
+
+    def Select_Body(self):
+        # choose the links and joints I'm going to build
+        self.links_to_build = []
+        self.joints_to_build = []
+
+        # traverse along the spine, adding all necessary links and joints
+        for i in range(self.spineCount):
+            pass
 
     def Random_Placement(self, low, high, type):
         if type == "sensors":
@@ -166,6 +181,7 @@ class SOLUTION():
 
     def Create_Body(self):
         pyrosim.Start_URDF("body" + str(self.myID) + ".urdf")
+        # self.Select_Body(self)
 
         legCount = 0
         for link in range(0, self.spineCount):
@@ -181,33 +197,16 @@ class SOLUTION():
                               colorName=cLink.colorName)
 
             if cLink.id < self.spineCount - 1:
-                pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
-                                   parent=cLink.parent,
-                                   child=cLink.child,
-                                   type=cLink.jointType,
-                                   position=[cLink.jointPosition.x,
-                                             cLink.jointPosition.y,
-                                             cLink.jointPosition.z],
-                                   jointAxis=cLink.jointAxis)
-
-            # # First joint (Absolute)
-            # if cLink.id == 0 and self.spineCount > 1:
-            #     pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
-            #                        parent=cLink.parent,
-            #                        child=cLink.child,
-            #                        type=cLink.jointType,
-            #                        position=[cLink.Size["length"] / 2,
-            #                                  0, cLink.Size["height"] / 2 + 2],
-            #                        jointAxis=cLink.jointAxis)
-
-            # # All other joints (Relative)
-            # elif cLink.id < self.spineCount - 1:
-            #     pyrosim.Send_Joint(name=f"{cLink.parent}_{cLink.child}",
-            #                        parent=cLink.parent,
-            #                        child=cLink.child,
-            #                        type=cLink.jointType,
-            #                        position=[cLink.Size["length"], 0, 0],
-            #                        jointAxis=cLink.jointAxis)
+                jointName = f"{cLink.parent}_{cLink.child}"
+                cJoint = self.linksToJoint[jointName]
+                pyrosim.Send_Joint(name=cJoint.jointName,
+                                   parent=cJoint.parent,
+                                   child=cJoint.child,
+                                   type=cJoint.jointType,
+                                   position=[cJoint.x,
+                                             cJoint.y,
+                                             cJoint.z],
+                                   jointAxis=cJoint.jointAxis)
 
             # ----------------------------------- Legs ----------------------------------- #
             if (cLink.id != 0):
