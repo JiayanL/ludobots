@@ -101,6 +101,9 @@ class SOLUTION():
                 rightFoot = Leg(rightLeg, footId,
                                 self.sensor_list[footId], "right-down")
                 self.idToLink[rightFoot.id] = rightFoot
+                cJoint = JOINT("right-down", rightLeg, rightFoot, rightFoot.Size.length,
+                               rightFoot.Size.width, rightFoot.Size.height)
+                self.linksToJoint[cJoint.jointName] = cJoint
                 legCount += 1
 
         self.legCount = legCount - 1
@@ -278,15 +281,6 @@ class SOLUTION():
                                            cJoint.x, cJoint.y, cJoint.z],
                                        jointAxis=cJoint.jointAxis)
 
-                    # pyrosim.Send_Joint(name=f"{cLink.parent}_{rightLeg.name}",
-                    #                    parent=cLink.parent,
-                    #                    child=rightLeg.name,
-                    #                    type=rightLeg.jointType,
-                    #                    position=[rightLeg.jointPos.x,
-                    #                              rightLeg.jointPos.y,
-                    #                              rightLeg.jointPos.z],
-                    #                    jointAxis=rightLeg.jointAxis)
-
                     pyrosim.Send_Cube(name=rightLeg.name,
                                       pos=[rightLeg.linkPos.x,
                                            rightLeg.linkPos.y,
@@ -303,13 +297,15 @@ class SOLUTION():
                 if self.right_legs[cLink.id] == 2 or True:
                     footId = self.spineCount + legCount
                     rightFoot = self.idToLink[footId]
+                    jointName = f"{rightLeg.name}_{rightFoot.name}"
+                    cJoint = self.linksToJoint[jointName]
 
-                    pyrosim.Send_Joint(name=f"{rightLeg.name}_{rightFoot.name}",
-                                       parent=rightLeg.name, child=rightFoot.name,
-                                            type=rightFoot.jointType,
-                                            position=[
-                                                rightFoot.jointPos.x, rightFoot.jointPos.y, rightFoot.jointPos.z],
-                                            jointAxis=rightFoot.jointAxis)
+                    pyrosim.Send_Joint(name=cJoint.jointName,
+                                       parent=cJoint.parent.name, child=cJoint.child.name,
+                                       type=cJoint.jointType,
+                                       position=[
+                                           cJoint.x, cJoint.y, cJoint.z],
+                                       jointAxis=cJoint.jointAxis)
 
                     pyrosim.Send_Cube(name=rightFoot.name,
                                       pos=[
