@@ -251,128 +251,33 @@ class SOLUTION():
     def Create_Body(self):
         pyrosim.Start_URDF("body" + str(self.myID) + ".urdf")
         self.Select_Body()
-
-        legCount = 0
-        for link in range(0, self.spineCount):
-            cLink = self.idToLink[link]
-
-            # ----------------------------------- Body ----------------------------------- #
-            # Link
-            pyrosim.Send_Cube(name=cLink.parent,
-                              pos=[cLink.Pos["x"],
-                                   cLink.Pos["y"], cLink.Pos["z"]],
-                              size=[cLink.Size["length"],
-                                    cLink.Size["width"], cLink.Size["height"]],
-                              colorString=cLink.colorString,
-                              colorName=cLink.colorName)
-
-            if cLink.id < self.spineCount - 1:
-                jointName = f"{cLink.parent}_{cLink.child}"
-                cJoint = self.linksToJoint[jointName]
+        for entity in self.items_to_build_in_order:
+            if isinstance(entity, LINK):
+                cLink = entity
+                pyrosim.Send_Cube(name=cLink.parent,
+                                  pos=[cLink.Pos["x"],
+                                       cLink.Pos["y"], cLink.Pos["z"]],
+                                  size=[cLink.Size["length"],
+                                        cLink.Size["width"], cLink.Size["height"]],
+                                  colorString=cLink.colorString,
+                                  colorName=cLink.colorName)
+            elif isinstance(entity, Leg):
+                cLink = entity
+                pyrosim.Send_Cube(name=cLink.name,
+                                  pos=[cLink.linkPos.x,
+                                       cLink.linkPos.y, cLink.linkPos.z],
+                                  size=[
+                                      cLink.Size.length, cLink.Size.width, cLink.Size.height],
+                                  colorString=cLink.colorString, colorName=cLink.colorName)
+            elif isinstance(entity, JOINT):
+                cJoint = entity
                 pyrosim.Send_Joint(name=cJoint.jointName,
-                                   parent=cJoint.parent,
-                                   child=cJoint.child,
+                                   parent=cJoint.parentName, child=cJoint.childName,
                                    type=cJoint.jointType,
-                                   position=[cJoint.x,
-                                             cJoint.y,
-                                             cJoint.z],
+                                   position=[
+                                       cJoint.x, cJoint.y, cJoint.z],
                                    jointAxis=cJoint.jointAxis)
 
-            # ----------------------------------- Legs ----------------------------------- #
-            if (cLink.id != 0):
-
-                # Left Side - Leg
-                if self.left_legs[cLink.id] > 0 or True:
-                    legId = self.spineCount + legCount
-                    leftLeg = self.idToLink[legId]
-                    jointName = f"{cLink.parent}_{leftLeg.name}"
-                    cJoint = self.linksToJoint[jointName]
-                    pyrosim.Send_Joint(name=jointName,
-                                       parent=cJoint.parent.name, child=cJoint.child.name,
-                                       type=cJoint.jointType,
-                                       position=[
-                                           cJoint.x, cJoint.y, cJoint.z],
-                                       jointAxis=cJoint.jointAxis)
-
-                    pyrosim.Send_Cube(name=leftLeg.name,
-                                      pos=[leftLeg.linkPos.x,
-                                           leftLeg.linkPos.y, leftLeg.linkPos.z],
-                                      size=[
-                                          leftLeg.Size.length, leftLeg.Size.width, leftLeg.Size.height],
-                                      colorString=leftLeg.colorString, colorName=leftLeg.colorName)
-                legCount += 1
-                # Left Side - Foot
-                if self.left_legs[cLink.id] == 2 or True:
-                    footId = self.spineCount + legCount
-                    leftFoot = self.idToLink[footId]
-                    jointName = f"{leftLeg.name}_{leftFoot.name}"
-                    cJoint = self.linksToJoint[jointName]
-
-                    pyrosim.Send_Joint(name=cJoint.jointName,
-                                       parent=cJoint.parent.name, child=cJoint.child.name,
-                                       type=cJoint.jointType,
-                                       position=[
-                                           cJoint.x, cJoint.y, cJoint.z],
-                                       jointAxis=cJoint.jointAxis)
-
-                    pyrosim.Send_Cube(name=leftFoot.name,
-                                      pos=[
-                                          leftFoot.linkPos.x, leftFoot.linkPos.y, leftFoot.linkPos.z],
-                                      size=[
-                                          leftFoot.Size.length, leftFoot.Size.width, leftFoot.Size.height],
-                                      colorString=leftFoot.colorString, colorName=leftFoot.colorName)
-                legCount += 1
-
-                # --------------------------------- Right Leg -------------------------------- #
-                # Right Side - Leg
-                if self.right_legs[cLink.id] > 0 or True:
-                    legId = self.spineCount + legCount
-                    rightLeg = self.idToLink[legId]
-                    jointName = f"{cLink.parent}_{rightLeg.name}"
-                    cJoint = self.linksToJoint[jointName]
-                    pyrosim.Send_Joint(name=jointName,
-                                       parent=cJoint.parent.name, child=cJoint.child.name,
-                                       type=cJoint.jointType,
-                                       position=[
-                                           cJoint.x, cJoint.y, cJoint.z],
-                                       jointAxis=cJoint.jointAxis)
-
-                    pyrosim.Send_Cube(name=rightLeg.name,
-                                      pos=[rightLeg.linkPos.x,
-                                           rightLeg.linkPos.y,
-                                           rightLeg.linkPos.z],
-                                      size=[
-                                          rightLeg.Size.length,
-                                          rightLeg.Size.width,
-                                          rightLeg.Size.height],
-                                      colorString=rightLeg.colorString,
-                                      colorName=rightLeg.colorName)
-                legCount += 1
-
-                # Right Side - Foot
-                if self.right_legs[cLink.id] == 2 or True:
-                    footId = self.spineCount + legCount
-                    rightFoot = self.idToLink[footId]
-                    jointName = f"{rightLeg.name}_{rightFoot.name}"
-                    cJoint = self.linksToJoint[jointName]
-
-                    pyrosim.Send_Joint(name=cJoint.jointName,
-                                       parent=cJoint.parent.name, child=cJoint.child.name,
-                                       type=cJoint.jointType,
-                                       position=[
-                                           cJoint.x, cJoint.y, cJoint.z],
-                                       jointAxis=cJoint.jointAxis)
-
-                    pyrosim.Send_Cube(name=rightFoot.name,
-                                      pos=[
-                                          rightFoot.linkPos.x, rightFoot.linkPos.y, rightFoot.linkPos.z],
-                                      size=[
-                                          rightFoot.Size.length, rightFoot.Size.width, rightFoot.Size.height],
-                                      colorString=rightFoot.colorString,
-                                      colorName=rightFoot.colorName)
-                legCount += 1
-
-            self.legCount = legCount - 1
         pyrosim.End()
 
     def Create_Brain(self):
