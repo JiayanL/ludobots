@@ -77,7 +77,7 @@ class SOLUTION():
                 self.linksToJoint[cJoint.jointName] = cJoint
                 legCount += 1
 
-                # create right leg
+                # create left foot
                 footId = self.spineCount + legCount
                 leftFoot = Leg(leftLeg, footId,
                                self.sensor_list[footId], "left-down")
@@ -112,10 +112,65 @@ class SOLUTION():
         # choose the links and joints I'm going to build
         self.links_to_build = []
         self.joints_to_build = []
+        self.items_to_build_in_order = []
 
         # traverse along the spine, adding all necessary links and joints
+        legCount = 0
+        print("all links I have stored: " + str(self.linksToJoint.keys()))
+        print("spineCount: " + str(self.spineCount))
+        print("all the links I have: " + str(self.idToLink.keys()))
         for i in range(self.spineCount):
-            pass
+            cLink = self.idToLink[i]
+            self.links_to_build.append(self.idToLink[i])
+            self.items_to_build_in_order.append(self.idToLink[i])
+
+            if cLink.id < self.spineCount - 1:
+                jointName = f"{cLink.parent}_{cLink.child}"
+                self.joints_to_build.append(self.linksToJoint[jointName])
+                self.items_to_build_in_order.append(
+                    self.linksToJoint[jointName])
+
+            if cLink.id > 0:
+                # left legs
+                if self.left_legs[i] > 1:
+                    leftLeg = self.idToLink[self.spineCount + legCount]
+                    jointName = f"{cLink.name}_{leftLeg.name}"
+                    self.joints_to_build.append(self.linksToJoint[jointName])
+                    self.items_to_build_in_order.append(
+                        self.linksToJoint[jointName])
+                    self.links_to_build.append(leftLeg)
+                    self.items_to_build_in_order.append(leftLeg)
+                legCount += 1
+
+                if self.left_legs[i] == 2:
+                    leftFoot = self.idToLink[self.spineCount + legCount]
+                    jointName = f"{leftLeg.name}_{leftFoot.name}"
+                    self.joints_to_build.append(self.linksToJoint[jointName])
+                    self.items_to_build_in_order.append(
+                        self.linksToJoint[jointName])
+                    self.links_to_build.append(leftFoot)
+                    self.items_to_build_in_order.append(leftFoot)
+                legCount += 1
+
+                if self.right_legs[i] > 1:
+                    rightLeg = self.idToLink[self.spineCount + legCount]
+                    jointName = f"{cLink.name}_{rightLeg.name}"
+                    self.joints_to_build.append(self.linksToJoint[jointName])
+                    self.items_to_build_in_order.append(
+                        self.linksToJoint[jointName])
+                    self.links_to_build.append(rightLeg)
+                    self.items_to_build_in_order.append(rightLeg)
+                legCount += 1
+
+                if self.right_legs[i] == 2:
+                    rightFoot = self.idToLink[self.spineCount + legCount]
+                    jointName = f"{rightLeg.name}_{rightFoot.name}"
+                    self.joints_to_build.append(self.linksToJoint[jointName])
+                    self.items_to_build_in_order.append(
+                        self.linksToJoint[jointName])
+                    self.links_to_build.append(rightFoot)
+                    self.items_to_build_in_order.append(rightFoot)
+                legCount += 1
 
     def Random_Placement(self, low, high, type):
         if type == "sensors":
@@ -195,7 +250,7 @@ class SOLUTION():
 
     def Create_Body(self):
         pyrosim.Start_URDF("body" + str(self.myID) + ".urdf")
-        # self.Select_Body(self)
+        self.Select_Body()
 
         legCount = 0
         for link in range(0, self.spineCount):
@@ -204,7 +259,8 @@ class SOLUTION():
             # ----------------------------------- Body ----------------------------------- #
             # Link
             pyrosim.Send_Cube(name=cLink.parent,
-                              pos=[cLink.Pos["x"], cLink.Pos["y"], cLink.Pos["z"]],
+                              pos=[cLink.Pos["x"],
+                                   cLink.Pos["y"], cLink.Pos["z"]],
                               size=[cLink.Size["length"],
                                     cLink.Size["width"], cLink.Size["height"]],
                               colorString=cLink.colorString,

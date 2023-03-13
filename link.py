@@ -7,7 +7,7 @@ class Joint():
         if first:
             self.x = length / 2
             self.y = 0
-            self.z = height / 2 + 2
+            self.z = height / 2 + 3
         else:
             self.x = length
             self.y = 0
@@ -29,7 +29,7 @@ class LINK():
 
         self.Pos = {
             "y": 0,
-            "z": 0 if id > 0 else self.Size["height"] / 2 + 2,
+            "z": 0 if id > 0 else self.Size["height"] / 2 + 3,
             "x": 0 if id == 0 else self.Size["length"] / 2,
         }
 
