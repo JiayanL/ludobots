@@ -43,13 +43,9 @@ class SOLUTION():
         self.sensor_list = self.Random_Placement(1, self.totalLinks, "sensors")
         self.sensorCount = sum(self.sensor_list)
 
-        # create random weights
-        self.sensor_to_motor_weights = np.random.rand(
-            self.sensorCount, self.totalLinks)
-        self.sensor_to_motor_weights = self.sensor_to_motor_weights * 2 - 1
-
         # ---------------------- Design Body (Links and Joints) ---------------------- #
         legCount = 0
+        jointCount = 0
 
         for id in range(self.spineCount):
             # Spine link
@@ -62,8 +58,9 @@ class SOLUTION():
             else:
                 first = False
 
-            cJoint = JOINT("spine", cLink.parent, cLink.child,
-                           cLink.Size["length"], cLink.Size["width"], cLink.Size["height"], first=first)
+            cJoint = JOINT(jointCount, "spine", cLink.parent, cLink.child,
+                           cLink.Size["length"], cLink.Size["width"], cLink.Size["height"], first=first,)
+            jointCount += 1
             self.linksToJoint[cJoint.jointName] = cJoint
 
             # make sure I'm not building at the first one
@@ -72,8 +69,9 @@ class SOLUTION():
                 legId = self.spineCount + legCount
                 leftLeg = Leg(cLink, legId, self.sensor_list[legId], "left")
                 self.idToLink[leftLeg.id] = leftLeg
-                cJoint = JOINT("left", cLink, leftLeg,
+                cJoint = JOINT(jointCount, "left", cLink, leftLeg,
                                leftLeg.Size.length, leftLeg.Size.width, leftLeg.Size.height)
+                jointCount += 1
                 self.linksToJoint[cJoint.jointName] = cJoint
                 legCount += 1
 
@@ -82,8 +80,9 @@ class SOLUTION():
                 leftFoot = Leg(leftLeg, footId,
                                self.sensor_list[footId], "left-down")
                 self.idToLink[leftFoot.id] = leftFoot
-                cJoint = JOINT("left-down", leftLeg, leftFoot, leftFoot.Size.length,
+                cJoint = JOINT(jointCount, "left-down", leftLeg, leftFoot, leftFoot.Size.length,
                                leftFoot.Size.width, leftFoot.Size.height)
+                jointCount += 1
                 self.linksToJoint[cJoint.jointName] = cJoint
                 legCount += 1
 
@@ -91,8 +90,9 @@ class SOLUTION():
                 legId = self.spineCount + legCount
                 rightLeg = Leg(cLink, legId, self.sensor_list[legId], "right")
                 self.idToLink[rightLeg.id] = rightLeg
-                cJoint = JOINT("right", cLink, rightLeg,
+                cJoint = JOINT(jointCount, "right", cLink, rightLeg,
                                rightLeg.Size.length, rightLeg.Size.width, rightLeg.Size.height)
+                jointCount += 1
                 self.linksToJoint[cJoint.jointName] = cJoint
                 legCount += 1
 
@@ -101,16 +101,23 @@ class SOLUTION():
                 rightFoot = Leg(rightLeg, footId,
                                 self.sensor_list[footId], "right-down")
                 self.idToLink[rightFoot.id] = rightFoot
-                cJoint = JOINT("right-down", rightLeg, rightFoot, rightFoot.Size.length,
+                cJoint = JOINT(jointCount, "right-down", rightLeg, rightFoot, rightFoot.Size.length,
                                rightFoot.Size.width, rightFoot.Size.height)
+                jointCount += 1
                 self.linksToJoint[cJoint.jointName] = cJoint
                 legCount += 1
 
         self.legCount = legCount - 1
 
+        # ------------------------------ Create weights ------------------------------ #
+        # links (potential sensors) --> joints (potential motors)
+        self.sensor_to_motor_weights = np.random.rand(
+            self.totalLinks, len(self.linksToJoint))
+        self.sensor_to_motor_weights = self.sensor_to_motor_weights * 2 - 1
+
     def Select_Body(self):
         # choose the links and joints I'm going to build
-        testing = True
+        testing = False
         self.links_to_build = []
         self.joints_to_build = []
         self.items_to_build_in_order = []
@@ -143,7 +150,7 @@ class SOLUTION():
                 cJoint.SetTempId(cLink.tempId, cLink.tempChildId)
 
                 # self.joints_to_build.append(cJoint)
-                self.joints_to_build.append(cJoint.tempJointName)
+                self.joints_to_build.append(cJoint)
                 self.items_to_build_in_order.append(cJoint)
 
             if cLink.id > 0:
@@ -158,7 +165,7 @@ class SOLUTION():
                     cJoint = self.linksToJoint[jointName]
                     cJoint.SetTempId(cLink.tempId, leftLeg.tempId)
 
-                    self.joints_to_build.append(cJoint.tempJointName)
+                    self.joints_to_build.append(cJoint)
                     self.items_to_build_in_order.append(
                         self.linksToJoint[jointName])
 
@@ -179,7 +186,7 @@ class SOLUTION():
                     cJoint = self.linksToJoint[jointName]
                     cJoint.SetTempId(leftLeg.tempId, leftFoot.tempId)
 
-                    self.joints_to_build.append(cJoint.tempJointName)
+                    self.joints_to_build.append(cJoint)
                     self.items_to_build_in_order.append(cJoint)
 
                     # censors and link
@@ -199,7 +206,7 @@ class SOLUTION():
 
                     cJoint = self.linksToJoint[jointName]
                     cJoint.SetTempId(cLink.tempId, rightLeg.tempId)
-                    self.joints_to_build.append(cJoint.tempJointName)
+                    self.joints_to_build.append(cJoint)
                     self.items_to_build_in_order.append(
                         cJoint)
 
@@ -220,7 +227,7 @@ class SOLUTION():
 
                     tempLegCount += 1
 
-                    self.joints_to_build.append(cJoint.tempJointName)
+                    self.joints_to_build.append(cJoint)
                     self.items_to_build_in_order.append(
                         self.linksToJoint[jointName])
 
@@ -293,13 +300,27 @@ class SOLUTION():
         os.system(f"rm {fitnessFileName}")
 
     def Mutate(self):
-        mutation_rate = 0.5
-        # 3 options -> weight, mutate, or sensor
 
-        # update weights
-        row = random.randint(0, self.sensorCount - 1)
-        column = random.randint(0, self.totalLinks - 1)
-        self.sensor_to_motor_weights[row][column] = random.random()*2-1
+        # update body (4 options) then update weights (always)
+
+        # mutate body shape
+
+        # swap sensors
+
+        # add link
+
+        # remove link
+
+        try:
+            # choose a random sensor
+            sensor = random.choice(self.sensors_to_build).id
+            # choose a random motor
+            motor = random.choice(self.joints_to_build).id
+
+            # and update
+            self.sensor_to_motor_weights[sensor][motor] = random.random()*2-1
+        except:
+            print("update weights invalid")
 
     def Create_World(self):
         # use pyrosim to Create a link
@@ -354,10 +375,11 @@ class SOLUTION():
 
         for i, joint in enumerate(self.joints_to_build):
             pyrosim.Send_Motor_Neuron(
-                name=numSensors + i, jointName=joint)
+                name=numSensors + i, jointName=joint.tempJointName)
 
-        for sensor in range(0, numSensors):
-            for motor in range(0, numMotors):
+        for sensor_count, sensor in enumerate(self.sensors_to_build):
+            for motor_count, motor in enumerate(self.joints_to_build):
                 pyrosim.Send_Synapse(
-                    sourceNeuronName=sensor, targetNeuronName=motor + numSensors, weight=self.sensor_to_motor_weights[sensor][motor])
+                    sourceNeuronName=sensor_count, targetNeuronName=motor_count + numSensors, weight=self.sensor_to_motor_weights[sensor.id][motor.id])
+
         pyrosim.End()
