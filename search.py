@@ -10,20 +10,16 @@ import matplotlib.pyplot as plt
 
 if len(sys.argv) > 1:
     random.seed(int(sys.argv[1]))
-else:
-    random.seed(c.seed)
 
 fitness_curves = defaultdict(list)
 
 for i in range(10):
     random.seed(i)
-    phc = PARALLEL_HILL_ClIMBER()
+    phc = PARALLEL_HILL_ClIMBER(i)
     phc.Evolve()
-    # phc.Show_Best()
 
-    with open(f"phc{i}.pickle", "wb") as f:
+    with open(f"phc_seed{i}.pickle", "wb") as f:
         pickle.dump(phc, f)
-
     fitness_curves[f"Random Seed {i}"] = phc.fitnessCurves
 
 phc.Show_Best()
@@ -35,8 +31,8 @@ for key, value in fitness_curves.items():
 
 ax.legend()
 ax.set_title("Fitness Curves of Ludobots with Different Random Seeds")
-ax.set_xlabel("Best Fitness")
-ax.set_ylabel("Generation")
+ax.set_xlabel("Generation")
+ax.set_ylabel("Best Fitness")
 
 plt.show()
 

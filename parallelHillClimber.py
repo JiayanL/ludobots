@@ -4,10 +4,12 @@ import copy
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
 
 
 class PARALLEL_HILL_ClIMBER():
-    def __init__(self):
+    def __init__(self, seed):
+        self.seed = seed
         # remove files we no longer need
         os.system("rm body*.urdf")
         os.system("rm brain*.nndf")
@@ -27,6 +29,10 @@ class PARALLEL_HILL_ClIMBER():
             parent = self.parents[key]
             if (parent.fitness > best_fitness):
                 best_fitness = parent.fitness
+
+        if currentGeneration in [0, c.numberOfGenerations / 2 - 1, c.numberOfGenerations - 1]:
+            with open(f"seed{self.seed}_gen{currentGeneration}.pickle", "wb") as f:
+                pickle.dump(parent, f)
 
         self.fitnessCurves[currentGeneration] = best_fitness
 
