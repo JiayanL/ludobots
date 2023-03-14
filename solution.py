@@ -38,7 +38,7 @@ class SOLUTION():
         self.right_legs = self.Random_Placement(0, self.spineCount, "legs")
         self.right_legs[0] = 0
 
-        self.totalLinks = 5 * self.spineCount
+        self.totalLinks = 1 + 5 * (self.spineCount - 1)
         # ----------------------------- Establish Sensors ---------------------------- #
         self.sensor_list = self.Random_Placement(1, self.totalLinks, "sensors")
         self.sensorCount = sum(self.sensor_list)
@@ -309,34 +309,56 @@ class SOLUTION():
         # update body (4 options) then update weights (always)
 
         # mutate body shape
-        # select link and change info
-        cLink = random.choice(self.links_to_build)
-        if cLink and cLink.id >= self.spineCount:
-            # update selected link
-            parent = cLink.parent
-            id = cLink.id
-            sensorExists = cLink.sensorExists
-            side = cLink.side
-            self.idToLink[cLink.id] = Leg(parent, id, sensorExists, side)
+        mutation = random.randint(0, 3)
 
-            # update child if it exists
-            if cLink.child:
-                cLink = cLink.child
+        if mutation == 0:
+            # select link and change info
+            cLink = random.choice(self.links_to_build)
+            if cLink and cLink.id >= self.spineCount:
+                # update selected link
                 parent = cLink.parent
                 id = cLink.id
                 sensorExists = cLink.sensorExists
                 side = cLink.side
                 self.idToLink[cLink.id] = Leg(parent, id, sensorExists, side)
 
-        # swap sensors
+                # update child if it exists
+                if cLink.child:
+                    cLink = cLink.child
+                    parent = cLink.parent
+                    id = cLink.id
+                    sensorExists = cLink.sensorExists
+                    side = cLink.side
+                    self.idToLink[cLink.id] = Leg(
+                        parent, id, sensorExists, side)
 
-        # change number of legs
-        spine = random.randint(0, self.spineCount - 1)
-        left_or_right = random.randint(0, 1)
-        if left_or_right == 0:
-            self.left_legs[spine] = random.randint(0, 2)
-        else:
-            self.right_legs[spine] = random.randint(0, 2)
+        elif mutation == 1:
+            # flip sensor
+            try:
+                sensor = random.randint(0, len(self.sensor_list) - 1)
+                if self.sensor_list[sensor] == 0:
+                    self.sensor_list[sensor] = 1
+                    self.idToLink[sensor].sensorExists = True
+                    self.idToLink[sensor].colorString = "0 1.0 0 1.0"
+                    self.colorName = "Green"
+                else:
+                    self.sensor_list[sensor] = 0
+                    self.idToLink[sensor].sensorExists = True
+                    self.idToLink[sensor].colorString = "0 0 1.0 1.0"
+                    self.colorName = "Blue"
+            except:
+                print(sensor)
+                print(len(self.sensor_list))
+                print(self.idToLink)
+                exit()
+
+        elif mutation == 2:
+            spine = random.randint(0, self.spineCount - 1)
+            left_or_right = random.randint(0, 1)
+            if left_or_right == 0:
+                self.left_legs[spine] = random.randint(0, 2)
+            else:
+                self.right_legs[spine] = random.randint(0, 2)
 
         try:
             # choose a random sensor
