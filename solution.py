@@ -331,6 +331,12 @@ class SOLUTION():
         # swap sensors
 
         # change number of legs
+        spine = random.randint(0, self.spineCount - 1)
+        left_or_right = random.randint(0, 1)
+        if left_or_right == 0:
+            self.left_legs[spine] = random.randint(0, 2)
+        else:
+            self.right_legs[spine] = random.randint(0, 2)
 
         try:
             # choose a random sensor
