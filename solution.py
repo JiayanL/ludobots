@@ -38,7 +38,7 @@ class SOLUTION():
         self.right_legs = self.Random_Placement(0, self.spineCount, "legs")
         self.right_legs[0] = 0
 
-        self.totalLinks = 5 * self.spineCount
+        self.totalLinks = 1 + 5 * (self.spineCount - 1)
         # ----------------------------- Establish Sensors ---------------------------- #
         self.sensor_list = self.Random_Placement(1, self.totalLinks, "sensors")
         self.sensorCount = sum(self.sensor_list)
@@ -146,7 +146,7 @@ class SOLUTION():
             # self.links_to_build.append(self.idToLink[i])
             if cLink.sensorExists:
                 self.sensors_to_build.append(cLink)
-            self.links_to_build.append(cLink.tempName)
+            self.links_to_build.append(cLink)
             self.items_to_build_in_order.append(self.idToLink[i])
 
             if cLink.id < self.spineCount - 1:
@@ -177,7 +177,7 @@ class SOLUTION():
                     # censors and link
                     if leftLeg.sensorExists:
                         self.sensors_to_build.append(leftLeg)
-                    self.links_to_build.append(leftLeg.tempName)
+                    self.links_to_build.append(leftLeg)
                     self.items_to_build_in_order.append(leftLeg)
                 legCount += 1
 
@@ -197,7 +197,7 @@ class SOLUTION():
                     # censors and link
                     if leftFoot.sensorExists:
                         self.sensors_to_build.append(leftFoot)
-                    self.links_to_build.append(leftFoot.tempName)
+                    self.links_to_build.append(leftFoot)
                     self.items_to_build_in_order.append(leftFoot)
                 legCount += 1
 
@@ -218,7 +218,7 @@ class SOLUTION():
                     # sensors and link
                     if rightLeg.sensorExists:
                         self.sensors_to_build.append(rightLeg)
-                    self.links_to_build.append(rightLeg.tempName)
+                    self.links_to_build.append(rightLeg)
                     self.items_to_build_in_order.append(rightLeg)
                 legCount += 1
 
@@ -239,7 +239,7 @@ class SOLUTION():
                     # sensors and link
                     if rightFoot.sensorExists:
                         self.sensors_to_build.append(rightFoot)
-                    self.links_to_build.append(rightFoot.tempName)
+                    self.links_to_build.append(rightFoot)
                     self.items_to_build_in_order.append(rightFoot)
                 legCount += 1
         if testing:
@@ -309,12 +309,56 @@ class SOLUTION():
         # update body (4 options) then update weights (always)
 
         # mutate body shape
+        mutation = random.randint(0, 3)
 
-        # swap sensors
+        if mutation == 0:
+            # select link and change info
+            cLink = random.choice(self.links_to_build)
+            if cLink and cLink.id >= self.spineCount:
+                # update selected link
+                parent = cLink.parent
+                id = cLink.id
+                sensorExists = cLink.sensorExists
+                side = cLink.side
+                self.idToLink[cLink.id] = Leg(parent, id, sensorExists, side)
 
-        # add link
+                # update child if it exists
+                if cLink.child:
+                    cLink = cLink.child
+                    parent = cLink.parent
+                    id = cLink.id
+                    sensorExists = cLink.sensorExists
+                    side = cLink.side
+                    self.idToLink[cLink.id] = Leg(
+                        parent, id, sensorExists, side)
 
-        # remove link
+        elif mutation == 1:
+            # flip sensor
+            try:
+                sensor = random.randint(0, len(self.sensor_list) - 1)
+                if self.sensor_list[sensor] == 0:
+                    self.sensor_list[sensor] = 1
+                    self.idToLink[sensor].sensorExists = True
+                    self.idToLink[sensor].colorString = "0 1.0 0 1.0"
+                    self.colorName = "Green"
+                else:
+                    self.sensor_list[sensor] = 0
+                    self.idToLink[sensor].sensorExists = True
+                    self.idToLink[sensor].colorString = "0 0 1.0 1.0"
+                    self.colorName = "Blue"
+            except:
+                print(sensor)
+                print(len(self.sensor_list))
+                print(self.idToLink)
+                exit()
+
+        elif mutation == 2:
+            spine = random.randint(0, self.spineCount - 1)
+            left_or_right = random.randint(0, 1)
+            if left_or_right == 0:
+                self.left_legs[spine] = random.randint(0, 2)
+            else:
+                self.right_legs[spine] = random.randint(0, 2)
 
         try:
             # choose a random sensor
