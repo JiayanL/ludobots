@@ -89,7 +89,7 @@ Link modification triggers a recalculation of a link's size and joint positionin
 Evolving the brain is done the same way it was done in previous assignments. The mutate function chooses a random row and a random column and assigns a random value to the corresponding entry in the sensor to motor neuron weights.        
 
 ## Citations
-This project was built on top of information from [r/ludobots](https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) (https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) and the python [pyrosim library](https://github.com/jbongard/pyrosim).
+This project was built on top of information from [r/ludobots](https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) and the python [pyrosim library](https://github.com/jbongard/pyrosim).
 
 ## Acknowledgements
 Thank you to this course's instructor, Professor Sam Kriegman for his guidance and instruction. Additionally, thank you to TA Donna Hooshmand and PM Jack Burkhardt for all of the help throughout the course!
