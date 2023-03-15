@@ -7,10 +7,10 @@
 [Citation and Acknowledgements](#Citations)\
 
 <a name="Deliverables"></a>
-## Deliverables\
-:white_check_mark:2 Minute Summary: https://youtu.be/1s791bJ2wTg
+## Non-README Deliverables
+:white_check_mark: 2 Minute Summary: https://youtu.be/1s791bJ2wTg
 
-:white_check_mark:10 Second Gif: https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGY2MDdjZGUwMzQzYzI0YTcyOGNmMTk1NzZlMzcyYzkxZWFiMjE1MCZjdD1n/EO7LZZK1KMqWHy7Hav/giphy.gif
+:white_check_mark: 10 Second Gif: https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGY2MDdjZGUwMzQzYzI0YTcyOGNmMTk1NzZlMzcyYzkxZWFiMjE1MCZjdD1n/EO7LZZK1KMqWHy7Hav/giphy.gif
 
 
 <a name="Executable"></a>
@@ -90,6 +90,9 @@ Link modification triggers a recalculation of a link's size and joint positionin
 **4.  Update Weights (Brain Evolution)**
 
 Evolving the brain is done the same way it was done in previous assignments. The mutate function chooses a random row and a random column and assigns a random value to the corresponding entry in the sensor to motor neuron weights.        
+
+
+## Results and Findings
 
 <a name="Citations"></a>
 ## Citations and Acknowledgements
