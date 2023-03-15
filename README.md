@@ -102,6 +102,9 @@ Evolving the brain is done the same way it was done in previous assignments. The
 
 
 ## Results and Findings
+<p align="center">
+<img src="https://user-images.githubusercontent.com/76187440/225204649-761bea9e-6768-434f-8d07-1136d42c0a3f.png" />
+</p>
 
 <a name="Citations"></a>
 ## Citations and Acknowledgements
