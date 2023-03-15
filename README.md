@@ -1,5 +1,5 @@
 <a name="Top"></a>
-# Jiayan's Evolving Ludobots (Artist)
+# Evolving Ludobots (Artist): CS 396 Final Project
 
 This project implements the Artist option (16 points). On a high level, I create and evolve randomly generated creatures made up rectangular links, joints, sensor neurons, and motor neurons. At each generation, I evolve each creature with one of five random mutations, replacing parents with better performing children. The fitness of each creature is measured by the distance that creatures travel along the x axis within a given time frame.
 
@@ -19,7 +19,7 @@ This project implements the Artist option (16 points). On a high level, I create
 * [Instructions to Run Your Own Experiments, Saved Experiments, and Engineer (50,000 Sims)](#Executable)
 * [Saved Seeds (Run on 500 Generations, 10 Population Size)](https://github.com/JiayanL/ludobots/tree/main/Saved%20Seeds)
 * [Saved Lineages (Run on 500 Generations, 10 Population Size)](https://github.com/JiayanL/ludobots/tree/main/lineages)
-* [2 Minute Summary](https://youtu.be/1s791bJ2wTg)
+* [2 Minute Summary](https://youtu.be/DuORAq1ZVxA)
 * [10-Second Teaser Gif](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGY2MDdjZGUwMzQzYzI0YTcyOGNmMTk1NzZlMzcyYzkxZWFiMjE1MCZjdD1n/EO7LZZK1KMqWHy7Hav/giphy.gif)
 
 
