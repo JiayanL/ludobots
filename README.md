@@ -5,7 +5,8 @@ Citation: This project was built on top of information from r/ludobots (https://
 
 **Plots:** https://docs.google.com/document/d/1a9HIz8jEoTmE7Z87z2EdnzLbEKmcnTYJZ8AMKB75wyM/edit
 
-## Button
+## Running the Code
+There are three ways to 
 
 **Seeding the Robot:** The robot can be seeded to reproduce random results. To do so, run ```python3 search.py seed.``` The seed argument is optional and will be set to a default seed if not included.
 
