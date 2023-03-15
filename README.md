@@ -8,8 +8,8 @@
 
 <a name="Deliverables"></a>
 ## Deliverables\
-2 Minute Summary:\
-10 Second Gif: \
+2 Minute Summary: https://youtu.be/1s791bJ2wTg\
+10 Second Gif: https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGY2MDdjZGUwMzQzYzI0YTcyOGNmMTk1NzZlMzcyYzkxZWFiMjE1MCZjdD1n/EO7LZZK1KMqWHy7Hav/giphy.gif\
 
 <a name="Executable"></a>
 ## Running the Code as an Executable
