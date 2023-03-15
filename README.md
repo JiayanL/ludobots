@@ -6,11 +6,17 @@ Citation: This project was built on top of information from r/ludobots (https://
 **Plots:** https://docs.google.com/document/d/1a9HIz8jEoTmE7Z87z2EdnzLbEKmcnTYJZ8AMKB75wyM/edit
 
 ## Table of Contents
-Deliverables
-Citation
 
-## Deliverables
+[Deliverables](#Deliverables)\
+[Executable Code](#Executable)\
+[Citation and Acknowledgements](#Citations)\
 
+<a name="Deliverables"></a>
+## Deliverables\
+2 Minute Summary:\
+10 Second Gif: \
+
+<a name="Executable"></a>
 ## Running the Code as an Executable
 There are four ways to execute the code depending on your goals.
 
@@ -88,6 +94,7 @@ Link modification triggers a recalculation of a link's size and joint positionin
 
 Evolving the brain is done the same way it was done in previous assignments. The mutate function chooses a random row and a random column and assigns a random value to the corresponding entry in the sensor to motor neuron weights.        
 
+<a name="Citations"></a>
 ## Citations and Acknowledgements
 This project was built on top of information from [r/ludobots](https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) and the python [pyrosim library](https://github.com/jbongard/pyrosim).
 
