@@ -131,7 +131,7 @@ Link modification triggers a recalculation of a link's size and joint positionin
 
 **3.  Update Weights (Brain Evolution)**
 <p align="center">
- <img src="https://user-images.githubusercontent.com/76187440/225353489-07a16d60-5785-448d-accc-29d13b743d75.jpg"> height=50% width=50%</img>
+ <img src="https://user-images.githubusercontent.com/76187440/225353489-07a16d60-5785-448d-accc-29d13b743d75.jpg" height=50% width=50% />
  </p>
 
 Evolving the brain is done the same way it was done in previous assignments. The mutate function chooses a random row and a random column and assigns a random value to the corresponding entry in the sensor to motor neuron weights.     
@@ -156,6 +156,16 @@ This project uses parallel hill climbing to evolve and select new iterations of 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/76187440/225204649-761bea9e-6768-434f-8d07-1136d42c0a3f.png" width="800" height="600" />
 </p>
+
+• The best performing creatures often evolved to have fewer links. To see an example of this try running sample 0, 3, and 4. The worse performing creatures tended to evolve more complex designs with more links and contrive behavior (i.e. flipping around) To see an example of this try running sample 5.
+
+• Creatures improved quickly for the first 200 generations, but after that improvements stalled. After tracing lineages, I found that creatures quickly converged to a body/brain plan by generation 250 and largely followed that genotype up until generation 500.
+
+• Successful Archetypes often included bipedal running (central link with two legs), galloping (multiple hinge joints creating locomotion), and rotating.
+
+• Since I mutated weights everytime, but only had a 1/4 chance of every other mutation, my hypothesis is that my robot focused on maintaining the same body shape and learning weights to improve fitness. This is because new evolutions were likely to perform poorly due to mistrained weights.
+
+• Although the best creatures had less links, the best performs often had links that seemed to have no purpose. This is analogous to our own evolution useless appendages.
 
 <a name="Citations"></a>
 ## Citations and Acknowledgements
