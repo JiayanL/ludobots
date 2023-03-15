@@ -108,24 +108,40 @@ This diagram indicates how the genotype of the robot translates into the physica
 Evolution of each creature during the mutate stage can be occur in 4 distinct ways. The workaround to make calculation of morphology mutations during each evolution easier the introduction of a new field to the Spine, Leg, and Foot classes called ```isActive```. In Assignment 7, I generated limbs randomly on the spot - making spontaneous decisions to generate 0-4 limbs at each spine link while after generating the respective spine link. In Assignment 8, to better keep track of my links and neurons, I generate the information for a creature of N spines with 4 limbs (2 legs, 2 feet) at each spine, but mark a certain proportion of the spines to be inactive, which means that they don't appear. This is a preset figure marked in a similar way to the array that stores whether or not a link contains a sensor. Each spine has corresponding information about whether or not it has legs, and how many. This makes the following mutations simpler to execute than doing spontaneous calculations to add, subtract, and modify links.
  
 <p align="center">
-<img src="https://user-images.githubusercontent.com/76187440/225350479-839524dd-659c-45c8-8a63-01d12a5ea986.jpg)" height=50% width=50%>
+<img src="https://user-images.githubusercontent.com/76187440/225350479-839524dd-659c-45c8-8a63-01d12a5ea986.jpg" height=50% width=50%>
 </p>
 
-**1.  Link Addition**
+**1.  Link Addition and Subtraction**
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/76187440/225352481-1506ec9b-d072-4b14-b9fd-611b1728bfe1.jpeg" height=50% width=50%</img>
+ </p>
 
 Link Addition is performed by taking a random link id from the number of total links (active and inactive), and marking it active if it is not active. If the current element I mark active is a foot link, I can also reference the parent field in the link to check whether or not the leg connecting it to the spine is active. If the leg is inactive, I also mark that link as active. Correspondingly, I add all the links I have active to a running array of active links so that I can render it in my Create_World function. I also add it to the tally of currently active links, so that my Create_Brain calculations can run smoothly. In this case, no new calculation has to be performed
 
-**2.  Link Subtraction**
-
 Similar to Link Addition, I perform link subtraction by finding a random link id from the number of total links (active and inactive) and marking it inactive if it is active. If the current element I mark is a leg link, I also mark the corresponding foot link inactive. I do not apply this mutation to spine link elements because I think it is unrealistic given what I know about biological evolution. Using information stored in the class, I remove it from the active links array, so that it does not get rendered and decrement the count of currently active links, adjusting the sensor array, so that the neurons are also properly adjusted for the loss of 0-2 links in the body.
 
-**3.  Link Modification**
+**2.  Link Modification**
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/76187440/225352794-06530c47-ef4f-4053-b8c7-9ee12f26d9c2.jpg" height=50% width="50%" </img>
+</p>
 
 Link modification triggers a recalculation of a link's size and joint positioning. However, this is only performed on legs and feet due to the difficulties associated with adjusting the size of a spinal link. The way this is done is by recalculating the joint and link positions through the Leg constructor. By taking the id of the current link and replacing the reference to it in my link dictionary with a new Leg element, I'm able to swap out a new size constructor, that may also have a different sensor/color value without difficulty because the relative position to the spinal joint as well of the position of the joint to connect the newly sized link are calculated based off of size in the Leg class. The benefit of using the class is that it sets an upper limit to the size of each element to ensure that it won't overlap with other elements (i.e. max length is less than the length of its parent element, and the height is calculated such that it isn't taller than the creature, causing it to shoot out of the ground).
 
-**4.  Update Weights (Brain Evolution)**
+**3.  Update Weights (Brain Evolution)**
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/76187440/225353489-07a16d60-5785-448d-accc-29d13b743d75.jpg"> height=50% width=50%</img>
+ </p>
 
-Evolving the brain is done the same way it was done in previous assignments. The mutate function chooses a random row and a random column and assigns a random value to the corresponding entry in the sensor to motor neuron weights.        
+Evolving the brain is done the same way it was done in previous assignments. The mutate function chooses a random row and a random column and assigns a random value to the corresponding entry in the sensor to motor neuron weights.     
+
+**4. Update Sensors (Brain Evolution)**
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/76187440/225353021-0f84fcad-dd5c-4219-b4e8-33add07f09f3.jpg" height=50% width=50%</img>
+ </p>
+
+Links can be selected to have their sensors swapped. The corresponding color of the block and sensor neuron would be updated as well as the connections between each sensor neuron and motor neuron.
 
 
 <a name="Evolution"></a>
