@@ -6,9 +6,11 @@ This project implements the Artist option (16 points). On a high level, I create
 
 ## Table of Contents
 
-1. [Deliverables](#Deliverables)\
-2. [Running My Code](#Executable)\
-3. [Citation and Acknowledgements](#Citations)\
+1. [Deliverables](#Deliverables)
+2. [Running My Code](#Executable)
+3. [Robot Structure](#Structure)
+4. [Genotype to Phenotype](#Genotype)
+5. [Citation and Acknowledgements](#Citations)
 
 <a name="Deliverables"></a>
 ## Non-README Deliverables
@@ -17,21 +19,19 @@ This project implements the Artist option (16 points). On a high level, I create
 * [Saved Seeds (Run on 500 Generations, 10 Population Size)](https://github.com/JiayanL/ludobots/tree/main/Saved%20Seeds)
 * [Saved Lineages (Run on 500 Generations, 10 Population Size)](https://github.com/JiayanL/ludobots/tree/main/lineages)
 * [2 Minute Summary](https://youtu.be/1s791bJ2wTg)
-* [10 Second Gif](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGY2MDdjZGUwMzQzYzI0YTcyOGNmMTk1NzZlMzcyYzkxZWFiMjE1MCZjdD1n/EO7LZZK1KMqWHy7Hav/giphy.gif)
+* [10-Second Teaser Gif](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGY2MDdjZGUwMzQzYzI0YTcyOGNmMTk1NzZlMzcyYzkxZWFiMjE1MCZjdD1n/EO7LZZK1KMqWHy7Hav/giphy.gif)
 
 
 <a name="Executable"></a>
 ## Running the Code as an Executable
 There are four ways to execute the code depending on your goals.
 
-**Seeding the Robot:** The robot can be seeded to reproduce random results. To do so, run ```python3 search.py seed desired_seed``` where desired_seed is the desired seed value you wish to see the robot with. This argument is optional and will be set to a default seed if not included.
+1. **Seeding the Robot:** The robot can be seeded to reproduce random results. To do so, run ```python3 search.py seed desired_seed``` where desired_seed is the desired seed value you wish to see the robot with. This argument is optional and will be set to a default seed if not included.
+2. **Running Engineer:** To run the engineer experiment (10 random seeds, 500 generations, 10 population size), run ```python3 search.py engineer```
+3. **Loading a Saved Seed:** To load and view one of the saved examples, run ```python3 load_and_run.py seed``` where seed is the seed number of the robot you wish to load. All saved robots have been trained for 500 generations with a population size of 10.
+4. **Tracking Lineage:** To track the evolution of a robot and view its performance at different stages of evolution, run ```python3 track_lineage.py seed generation``` where seed is the seed of the robot desired and generation is the generation you want to view the robot in. Currently, you can only run this code with generation values of ```0, 249, and 499```
 
-**Running Engineer:** To run the engineer experiment (10 random seeds, 500 generations, 10 population size), run ```python3 search.py engineer```
-
-**Loading a Saved Seed:** To load and view one of the saved examples, run ```python3 load_and_run.py seed``` where seed is the seed number of the robot you wish to load. All saved robots have been trained for 500 generations with a population size of 10.
-
-**Tracking Lineage:** To track the evolution of a robot and view its performance at different stages of evolution, run ```python3 track_lineage.py seed generation``` where seed is the seed of the robot desired and generation is the generation you want to view the robot in. Currently, you can only run this code with generation values of ```0, 249, and 499```
-
+<a name="Structure"></a>
 ## Robot Structure
 
 **Solution Class**
@@ -43,11 +43,9 @@ The logic of each creature is generated in the solution constructor. The constru
 <img src="https://user-images.githubusercontent.com/76187440/221807658-28a1eaeb-f486-44e8-bb2d-0402bcf89ad5.jpg" width="40%">
 </p>
 
-
 **Links and Joints**
 
 There are three kinds of links that extend the design of each creature from 1D to 2D and 3D. The core structure of each creature is a 1 dimensional chain of links called the spine. Each spine can have 0, 1, or 2 legs attached to its faces, extending its structure into 2D. Each leg, in turn can have an optional foot extended below it, which creates the option for the design to turn into 3D.
-
 
 **Spine.** Spines are rectangles connected in a 1D chain by revolute, floating, or planar joints through any of the 3 joint axes. Each **joint** is relatively positioned at the end of the previous block's x value, in the middle of the y value, and in the middle of each respect to height. The positions of each joint are also dynamically sized based on the length (in the x direction) of each spine piece to make sure that the blocks do not overlap. The positional, size, and joint logic for each joint is encapsulated in the ```link``` class.
 
@@ -73,6 +71,10 @@ As a result of the architectural decisions, this project can generate 1D, 2D, an
 In the constructor, I allocate a certain percentage of the total links generated to have synapses. This information is also encoded in the class containing the link information for each link and reflects in the color of each link. I add a sensor neuron to each of these sensor links and connect them to a motor neuron attached to every joint.
 
 **Every kind of brain is possible**. Sensors are fully connected with motors with the potential for hidden layers, so that every sensor can affect every motor. Introducing hidden layers down the line would be a trivial task and allow for the robot to learn even more complex behavior. The 
+
+<a name="Genotype"></a>
+## Genotype to Phenotype
+
 
 ## Evolution
 
