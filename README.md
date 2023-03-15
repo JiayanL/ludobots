@@ -10,10 +10,7 @@
 ## Deliverables\
 2 Minute Summary: https://youtu.be/1s791bJ2wTg
 
-10 Second Gif:\
-<iframe src="https://giphy.com/embed/EO7LZZK1KMqWHy7Hav" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/EO7LZZK1KMqWHy7Hav">via GIPHY</a></p>
-
-Link: https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGY2MDdjZGUwMzQzYzI0YTcyOGNmMTk1NzZlMzcyYzkxZWFiMjE1MCZjdD1n/EO7LZZK1KMqWHy7Hav/giphy.gif
+10 Second Gif: https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGY2MDdjZGUwMzQzYzI0YTcyOGNmMTk1NzZlMzcyYzkxZWFiMjE1MCZjdD1n/EO7LZZK1KMqWHy7Hav/giphy.gif
 
 
 <a name="Executable"></a>
