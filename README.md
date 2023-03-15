@@ -1,19 +1,24 @@
-# Jiayan's Evolving Ludobots
-Citation: This project was built on top of information from r/ludobots (https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) and pyrosim (https://github.com/jbongard/pyrosim). The aim of this assignment is to expand on the structure from Assignment 7 to create a parallel hill climbing robot that can evolve morphology and brain for locomotion.
+# Jiayan's Evolving Ludobots (Artist)
 
+Citation: This project was built on top of information from r/ludobots (https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) and pyrosim (https://github.com/jbongard/pyrosim). 
 **Video:** https://www.youtube.com/watch?v=SbsmmTvQ7VM
 
 **Plots:** https://docs.google.com/document/d/1a9HIz8jEoTmE7Z87z2EdnzLbEKmcnTYJZ8AMKB75wyM/edit
 
-## Running the Code
-There are three ways to 
+## Table of Contents
 
-**Seeding the Robot:** The robot can be seeded to reproduce random results. To do so, run ```python3 search.py seed.``` The seed argument is optional and will be set to a default seed if not included.
+## Deliverables
 
-**Running the Program:** Run search.py or button.py to run the evolutions and see the evolved robot. 
+## Running the Code as an Executable
+There are four ways to execute the code depending on your goals.
 
-Example: ```python3 search.py``` or ```python3 button.py ```
+**Seeding the Robot:** The robot can be seeded to reproduce random results. To do so, run ```python3 search.py seed desired_seed``` where desired_seed is the desired seed value you wish to see the robot with. This argument is optional and will be set to a default seed if not included.
 
+**Running Engineer:** To run the engineer experiment (10 random seeds, 500 generations, 10 population size), run ```python3 search.py engineer```
+
+**Loading a Saved Seed:** To load and view one of the saved examples, run ```python3 load_and_run.py seed``` where seed is the seed number of the robot you wish to load. All saved robots have been trained for 500 generations with a population size of 10.
+
+**Tracking Lineage:** To track the evolution of a robot and view its performance at different stages of evolution, run ```python3 track_lineage.py seed generation``` where seed is the seed of the robot desired and generation is the generation you want to view the robot in. Currently, you can only run this code with generation values of ```0, 249, and 499```
 
 ## Robot Structure
 
