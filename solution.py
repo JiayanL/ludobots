@@ -81,6 +81,7 @@ class SOLUTION():
                 footId = self.spineCount + legCount
                 leftFoot = Leg(leftLeg, footId,
                                self.sensor_list[footId], "left-down")
+                leftLeg.child = leftFoot
                 self.idToLink[leftFoot.id] = leftFoot
                 cJoint = JOINT(jointCount, "left-down", leftLeg, leftFoot, leftFoot.Size.length,
                                leftFoot.Size.width, leftFoot.Size.height)
@@ -104,6 +105,7 @@ class SOLUTION():
                 footId = self.spineCount + legCount
                 rightFoot = Leg(rightLeg, footId,
                                 self.sensor_list[footId], "right-down")
+                rightLeg.child = rightFoot
                 self.idToLink[rightFoot.id] = rightFoot
                 cJoint = JOINT(jointCount, "right-down", rightLeg, rightFoot, rightFoot.Size.length,
                                rightFoot.Size.width, rightFoot.Size.height)

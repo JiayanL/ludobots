@@ -4,21 +4,36 @@ from parallelHillClimber import PARALLEL_HILL_ClIMBER
 import random
 import constants as c
 import sys
-# for i in range(5):
-#     os.system("python3 generate.py")
-#     os.system("python3 simulate.py")
+import pickle
+from collections import defaultdict
+import matplotlib.pyplot as plt
 
-# os.system("python3 simulate.py")
-# hc = HILL_ClIMBER()
-# hc.Evolve()
-# hc.Show_Best()
+if len(sys.argv) > 1:
+    random.seed(int(sys.argv[1]))
 
-# if len(sys.argv) > 1:
-#     random.seed(int(sys.argv[1]))
-# else:
-#     random.seed(c.seed)
+fitness_curves = defaultdict(list)
 
-phc = PARALLEL_HILL_ClIMBER()
-phc.Evolve()
+for i in range(10):
+    random.seed(i)
+    phc = PARALLEL_HILL_ClIMBER(i)
+    phc.Evolve()
+
+    with open(f"phc_seed{i}.pickle", "wb") as f:
+        pickle.dump(phc, f)
+    fitness_curves[f"Random Seed {i}"] = phc.fitnessCurves
+
 phc.Show_Best()
+
+# Plot all 10 runs
+fig, ax = plt.subplots()
+for key, value in fitness_curves.items():
+    ax.plot(value, label=key)
+
+ax.legend()
+ax.set_title("Fitness Curves of Ludobots with Different Random Seeds")
+ax.set_xlabel("Generation")
+ax.set_ylabel("Best Fitness")
+
+plt.show()
+
 # phc.Plot()
