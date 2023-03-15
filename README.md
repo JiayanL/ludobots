@@ -11,7 +11,9 @@ This project implements the Artist option (16 points). On a high level, I create
 2. [Running My Code](#Executable)
 3. [Robot Structure](#Structure)
 4. [Genotype to Phenotype](#Genotype)
-5. [Citation and Acknowledgements](#Citations)
+5. [Mutation](#Mutation)
+6. [Selection and Evolution](#Evolution)
+7. [Citation and Acknowledgements](#Citations)
 
 <a name="Deliverables"></a>
 ## Non-README Deliverables
@@ -37,7 +39,11 @@ There are four ways to execute the code depending on your goals.
 
 **Solution Class**
 
-The logic of each creature is generated in the solution constructor. The constructor initializes the number of links in the creature, which links have sensors, and which links are connected to which links, and stores this information for future mutation. The constructor leverages the LINK and Leg classes to calculate the joint position, size, and link position of each link, along with additional helpful information for mutation. Each spine can connect to another spine. Each spine has the option of having up to two legs, and each leg can have one foot. Each section below dives into implementation on a deeper level.
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/76187440/225347922-ba55a6fd-cda4-4341-9677-58764eb13839.jpg" width = 30% /img>
+ </p>
+
+The logic of each creature is generated in the solution constructor. The constructor initializes the number of links in the creature, which links have sensors, and which links are connected to which links, and stores this information for future mutation. It stores an array of links to build, joints to build, sensors to build, as well as the hidden state of the robot (the logic for every possible joint and link). This way, it makes it easy for the robot to evolve while making it fast to build at generation time - just iterate through the relevant array to build the robot. The constructor leverages the LINK and Leg classes to calculate the joint position, size, and link position of each link, along with additional helpful information for mutation. Each spine can connect to another spine. Each spine has the option of having up to two legs, and each leg can have one foot. Each section below dives into implementation on a deeper level.
 
 <p float="left">
 <img src="https://user-images.githubusercontent.com/76187440/221807572-e296921e-c900-41d8-b32c-6372d44b0679.jpeg" width="50%">
@@ -46,7 +52,11 @@ The logic of each creature is generated in the solution constructor. The constru
 
 **Links and Joints**
 
-There are three kinds of links that extend the design of each creature from 1D to 2D and 3D. The core structure of each creature is a 1 dimensional chain of links called the spine. Each spine can have 0, 1, or 2 legs attached to its faces, extending its structure into 2D. Each leg, in turn can have an optional foot extended below it, which creates the option for the design to turn into 3D.
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/76187440/225349513-d75c8521-1aa2-409e-9f5e-9e419d887512.jpg" height=50% width=50%</img>
+ </p>
+
+The logic for every joint and link possible exists in the robot constructor. However, joints and links are selectively shown at generation time to create intersting robots and the chance for evolution. There are three kinds of links that extend the design of each creature from 1D to 2D and 3D. The core structure of each creature is a 1 dimensional chain of links called the spine. Each spine can have 0, 1, or 2 legs attached to its faces, extending its structure into 2D. Each leg, in turn can have an optional foot extended below it, which creates the option for the design to turn into 3D.
 
 **Spine.** Spines are rectangles connected in a 1D chain by revolute, floating, or planar joints through any of the 3 joint axes. Each **joint** is relatively positioned at the end of the previous block's x value, in the middle of the y value, and in the middle of each respect to height. The positions of each joint are also dynamically sized based on the length (in the x direction) of each spine piece to make sure that the blocks do not overlap. The positional, size, and joint logic for each joint is encapsulated in the ```link``` class.
 
@@ -70,28 +80,35 @@ As a result of the architectural decisions, this project can generate 1D, 2D, an
 
 **Synapses**
 <p align="center">
- <img src="https://user-images.githubusercontent.com/76187440/225347072-ab208768-7b16-455e-80d2-338621ad5ccb.jpg"/img>
+ <img src="https://user-images.githubusercontent.com/76187440/225347072-ab208768-7b16-455e-80d2-338621ad5ccb.jpg" height=50% width=50% /img>
  </p>
 
 In the constructor, I allocate a certain percentage of the total links generated to have synapses. This information is also encoded in the class containing the link information for each link and reflects in the color of each link. I add a sensor neuron to each of these sensor links and connect them to a motor neuron attached to every joint.
 
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/76187440/225347532-013a60e0-0183-442d-abf0-d9a85ac51c83.jpeg" height=50% width=50% /img>
+</p>
 **Every kind of brain is possible**. Sensors are fully connected with motors with the potential for hidden layers, so that every sensor can affect every motor. Introducing hidden layers down the line would be a trivial task and allow for the robot to learn even more complex behavior. The 
 
 <a name="Genotype"></a>
 ## Genotype to Phenotype
 <p align="center">
- <img src="https://user-images.githubusercontent.com/76187440/225346165-22949965-1773-4a9b-bf3f-c467957a1dbf.jpg"/>
+ <img src="https://user-images.githubusercontent.com/76187440/225346165-22949965-1773-4a9b-bf3f-c467957a1dbf.jpg" height=50% width=50%/>
 </p>
 
 This diagram indicates how the genotype of the robot translates into the physical phenotype. The head of the robot is connected to a body segment that can be connected to up to two leg segments and one additional body segment. Each leg segment can be in turn connected to one other leg segment. Each of the links in the genotype can be in turn activated as a sensor and fully connected with all other links in the robot. This enabls morphologies such as snakes, lizards, horses, and every hybrid combination of the three models.
 
+<a name="Mutation"></a>
+## Mutation
 
-## Evolution
+<p align="center">
+<img src="https://user-images.githubusercontent.com/76187440/225350093-31af1c56-f018-45b3-852c-0fde09bcf718.jpg" height=50% width=50%>
+</p>
 
 Evolution of each creature during the mutate stage can be occur in 4 distinct ways. The workaround to make calculation of morphology mutations during each evolution easier the introduction of a new field to the Spine, Leg, and Foot classes called ```isActive```. In Assignment 7, I generated limbs randomly on the spot - making spontaneous decisions to generate 0-4 limbs at each spine link while after generating the respective spine link. In Assignment 8, to better keep track of my links and neurons, I generate the information for a creature of N spines with 4 limbs (2 legs, 2 feet) at each spine, but mark a certain proportion of the spines to be inactive, which means that they don't appear. This is a preset figure marked in a similar way to the array that stores whether or not a link contains a sensor. Each spine has corresponding information about whether or not it has legs, and how many. This makes the following mutations simpler to execute than doing spontaneous calculations to add, subtract, and modify links.
  
 <p align="center">
-<img src="https://user-images.githubusercontent.com/76187440/221823900-08381c8a-323d-46ea-82ad-28d1628f541f.jpeg" height="400" width="800">
+<img src="https://user-images.githubusercontent.com/76187440/225350479-839524dd-659c-45c8-8a63-01d12a5ea986.jpg)" height=50% width=50%>
 </p>
 
 **1.  Link Addition**
@@ -110,6 +127,14 @@ Link modification triggers a recalculation of a link's size and joint positionin
 
 Evolving the brain is done the same way it was done in previous assignments. The mutate function chooses a random row and a random column and assigns a random value to the corresponding entry in the sensor to motor neuron weights.        
 
+
+<a name="Evolution"></a>
+## Evolution and Selection (Parallel Hill Climbing)
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/76187440/225350623-01529cdd-2065-47ff-a9b9-5efc4dab2876.jpg" height=50% width = 50%</img>
+</p>
+
+This project uses parallel hill climbing to evolve and select new iterations of the robot. Each generation will have a population size of ```x``` different robots. Each parent robot will go through a mutation to create a child robot. If the child robot travels further along the x axis than the parent robot, it has higher fitness and is selected to replace the robot. This is done across all members in the population. At the end, the parent with the highest fitness is chosen.
 
 ## Results and Findings
 <p align="center">
