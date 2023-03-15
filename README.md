@@ -167,6 +167,15 @@ This project uses parallel hill climbing to evolve and select new iterations of 
 
 • Although the best creatures had less links, the best performs often had links that seemed to have no purpose. This is analogous to our own evolution useless appendages.
 
+**Example Simulation**
+<div class="row" align="center">
+ <img src="https://user-images.githubusercontent.com/76187440/225358716-2b7f8729-be8d-4ec0-9e5a-709f58cb7a0a.png" width="300">
+ <img src="https://user-images.githubusercontent.com/76187440/225358722-702bb19c-0ef7-4b44-9f79-d4c239c7dcbc.png" width="300">
+ <img src="https://user-images.githubusercontent.com/76187440/225358725-fbce861d-5e62-4d82-9737-129c4869d49c.png" width="300">
+</div>
+
+This is the evolution of ```Robot 1.``` The creature evolved sophistically be generation 250 and followed the same body plan. The main evolution after generation 250 was weights based as the creature learned to evolve more efficiently.
+
 <a name="Citations"></a>
 ## Citations and Acknowledgements
 This project was built on top of information from [r/ludobots](https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) and the python [pyrosim library](https://github.com/jbongard/pyrosim).
