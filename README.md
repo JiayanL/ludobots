@@ -6,6 +6,8 @@ Citation: This project was built on top of information from r/ludobots (https://
 **Plots:** https://docs.google.com/document/d/1a9HIz8jEoTmE7Z87z2EdnzLbEKmcnTYJZ8AMKB75wyM/edit
 
 ## Table of Contents
+Deliverables
+Citation
 
 ## Deliverables
 
@@ -84,4 +86,10 @@ Link modification triggers a recalculation of a link's size and joint positionin
 
 **4.  Update Weights (Brain Evolution)**
 
-Evolving the brain is done the same way it was done in previous assignments. The mutate function chooses a random row and a random column and assigns a random value to the corresponding entry in the sensor to motor neuron weights.                                 
+Evolving the brain is done the same way it was done in previous assignments. The mutate function chooses a random row and a random column and assigns a random value to the corresponding entry in the sensor to motor neuron weights.        
+
+## Citations
+This project was built on top of information from r/ludobots (https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) and the python pyrosim (https://github.com/jbongard/pyrosim) library.
+
+## Acknowledgements
+Thank you to this course's instructor, Professor Sam Kriegman for his guidance and instruction. Additionally, thank you to TA Donna Hooshmand and PM Jack Burkhardt for all of the help throughout the course!
