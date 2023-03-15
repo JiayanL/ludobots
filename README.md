@@ -1,5 +1,9 @@
 # Jiayan's Evolving Ludobots (Artist)
 
+This project implements the Artist option (16 points). On a high level, I create and evolve randomly generated creatures made up rectangular links, joints, sensor neurons, and motor neurons. At each generation, I evolve each creature with one of five random mutations, replacing parents with better performing children. The fitness of each creature is measured by the distance that creatures travel along the x axis within a given time frame.
+
+Although this project implements criteria laid out by the Artist assignment, I also incorporated aspects from the engineer assignment to push my abilities. Namely, I ran 50,000 simulations of my robots (10 random seeds, 500 generations, 10 population size) in pursuit of the most interesting ludobots.
+
 ## Table of Contents
 
 [Deliverables](#Deliverables)\
