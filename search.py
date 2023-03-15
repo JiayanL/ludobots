@@ -11,8 +11,13 @@ import matplotlib.pyplot as plt
 type = str(sys.argv[1])
 
 if type == "seed":
-    random.seed(int(sys.argv[2]))
-    phc = PARALLEL_HILL_ClIMBER(int(sys.argv[2]))
+    if len(sys.argv) < 3:
+        seed = c.seed
+    else:
+        seed = int(sys.argv[2])
+
+    random.seed(seed)
+    phc = PARALLEL_HILL_ClIMBER(seed)
     phc.Evolve()
     phc.Show_Best()
     phc.Plot()

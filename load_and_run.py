@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 # unpickle
 seed = int(sys.argv[1])
-fileName = f"Saved Seeds/Seed{seed}.pickle"
+fileName = f"Saved Seeds/phc_seed{seed}.pickle"
 with open(fileName, 'rb') as f:
     phc = pickle.load(f)
 
