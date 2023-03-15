@@ -1,10 +1,5 @@
 # Jiayan's Evolving Ludobots (Artist)
 
-Citation: This project was built on top of information from r/ludobots (https://www.reddit.com/r/ludobots/comments/l86j8r/start_here/) and pyrosim (https://github.com/jbongard/pyrosim). 
-**Video:** https://www.youtube.com/watch?v=SbsmmTvQ7VM
-
-**Plots:** https://docs.google.com/document/d/1a9HIz8jEoTmE7Z87z2EdnzLbEKmcnTYJZ8AMKB75wyM/edit
-
 ## Table of Contents
 
 [Deliverables](#Deliverables)\
