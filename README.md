@@ -2,19 +2,22 @@
 
 This project implements the Artist option (16 points). On a high level, I create and evolve randomly generated creatures made up rectangular links, joints, sensor neurons, and motor neurons. At each generation, I evolve each creature with one of five random mutations, replacing parents with better performing children. The fitness of each creature is measured by the distance that creatures travel along the x axis within a given time frame.
 
-Although this project implements criteria laid out by the Artist assignment, I also incorporated aspects from the engineer assignment to push my abilities. Namely, I ran 50,000 simulations of my robots (10 random seeds, 500 generations, 10 population size) in pursuit of the most interesting ludobots.
+**Although this project implements criteria laid out by the Artist assignment, I also incorporated aspects from the engineer assignment to push my abilities.** Namely, I ran 50,000 simulations of my robots (10 random seeds, 500 generations, 10 population size) in pursuit of the most interesting ludobots.
 
 ## Table of Contents
 
-[Deliverables](#Deliverables)\
-[Executable Code](#Executable)\
-[Citation and Acknowledgements](#Citations)\
+1. [Deliverables](#Deliverables)\
+2. [Running My Code](#Executable)\
+3. [Citation and Acknowledgements](#Citations)\
 
 <a name="Deliverables"></a>
 ## Non-README Deliverables
-:white_check_mark: 2 Minute Summary: https://youtu.be/1s791bJ2wTg
 
-:white_check_mark: 10 Second Gif: https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGY2MDdjZGUwMzQzYzI0YTcyOGNmMTk1NzZlMzcyYzkxZWFiMjE1MCZjdD1n/EO7LZZK1KMqWHy7Hav/giphy.gif
+* [Instructions to Run Your Own Experiments, Saved Experiments, and Engineer (50,000 Sims)](#Executable)
+* [Saved Seeds (Run on 500 Generations, 10 Population Size)](https://github.com/JiayanL/ludobots/tree/main/Saved%20Seeds)
+* [Saved Lineages (Run on 500 Generations, 10 Population Size)](https://github.com/JiayanL/ludobots/tree/main/lineages)
+* [2 Minute Summary](https://youtu.be/1s791bJ2wTg)
+* [10 Second Gif](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGY2MDdjZGUwMzQzYzI0YTcyOGNmMTk1NzZlMzcyYzkxZWFiMjE1MCZjdD1n/EO7LZZK1KMqWHy7Hav/giphy.gif)
 
 
 <a name="Executable"></a>
