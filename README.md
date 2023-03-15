@@ -69,12 +69,21 @@ There are three kinds of links that extend the design of each creature from 1D t
 As a result of the architectural decisions, this project can generate 1D, 2D, and 3D structures that can move in all dimensions due to the variability of joint types and joint axes.
 
 **Synapses**
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/76187440/225347072-ab208768-7b16-455e-80d2-338621ad5ccb.jpg"/img>
+ </p>
+
 In the constructor, I allocate a certain percentage of the total links generated to have synapses. This information is also encoded in the class containing the link information for each link and reflects in the color of each link. I add a sensor neuron to each of these sensor links and connect them to a motor neuron attached to every joint.
 
 **Every kind of brain is possible**. Sensors are fully connected with motors with the potential for hidden layers, so that every sensor can affect every motor. Introducing hidden layers down the line would be a trivial task and allow for the robot to learn even more complex behavior. The 
 
 <a name="Genotype"></a>
 ## Genotype to Phenotype
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/76187440/225346165-22949965-1773-4a9b-bf3f-c467957a1dbf.jpg"/>
+</p>
+
+This diagram indicates how the genotype of the robot translates into the physical phenotype. The head of the robot is connected to a body segment that can be connected to up to two leg segments and one additional body segment. Each leg segment can be in turn connected to one other leg segment. Each of the links in the genotype can be in turn activated as a sensor and fully connected with all other links in the robot. This enabls morphologies such as snakes, lizards, horses, and every hybrid combination of the three models.
 
 
 ## Evolution
